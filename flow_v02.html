@@ -277,8 +277,7 @@
                     <div class="sg-cell lane-m"></div>
                     <div class="sg-cell lane-m"><div class="tc mina" id="t-m1"><strong>データ受領</strong>店舗から受領<br>→ 丹下に渡す</div></div>
                     <div class="sg-cell lane-m">
-                        <div class="tc mina" id="t-m2"><strong>特殊計算</strong>役職者・入店3ヶ月以内等</div>
-                        <div class="tc mina" id="t-m3"><strong>丹下チェック</strong>丹下の計算結果を確認</div>
+                        <div class="tc mina" id="t-m2"><strong>レビュー+特殊計算</strong>丹下の計算結果を確認<br>＋ 役職者・入店3ヶ月以内等の複雑な計算</div>
                     </div>
                     <div class="sg-cell lane-m">
                         <div class="tc mina" id="t-m4"><strong>田中へ送付</strong>チェック済みデータ送付</div>
@@ -287,7 +286,6 @@
                     <div class="sg-cell lane-m"><div class="tc mina" id="t-m6"><strong>ダブルチェック</strong>守屋の振込予約を確認</div></div>
                     <div class="sg-cell lane-m"></div>
                     <div class="sg-cell lane-m">
-                        <div class="tc mina" id="t-m7"><strong>etax入力</strong>etaxへのデータ入力</div>
                     </div>
                     <div class="sg-cell lane-m"></div>
                     <div class="sg-cell lane-m"><div class="tc mina issue" id="t-m8"><strong>質疑応答</strong>税理士からの質問対応<br>(半年前の質問も来る)</div></div>
@@ -438,8 +436,8 @@
             <table>
                 <thead><tr><th>担当者</th><th>対象業務</th></tr></thead>
                 <tbody>
-                    <tr><td><strong>丹下</strong></td><td>300名全員分の計算表を作成。レギュラーパターン+集計。銀行出納帳入力</td></tr>
-                    <tr><td><strong>南村</strong></td><td>役員報酬・入店3ヶ月以内等の特殊計算。丹下の計算の最終確認。税理士質問対応。etax入力</td></tr>
+                    <tr><td><strong>丹下</strong></td><td>300名全員分の計算表をまとめて作成。レギュラーパターン+集計。銀行出納帳入力</td></tr>
+                    <tr><td><strong>南村</strong></td><td>丹下の計算結果をレビュー + 役職者・入店3ヶ月以内等の複雑な計算を担当。税理士質問対応</td></tr>
                     <tr><td><strong>田中氏</strong></td><td>役員。承認者。全従業員の給与明細を確認</td></tr>
                 </tbody>
             </table>
@@ -606,7 +604,7 @@
             <table>
                 <thead><tr><th>人物</th><th>所属</th><th>主な担当</th></tr></thead>
                 <tbody>
-                    <tr><td><strong>南村</strong></td><td>M&A</td><td>給与計算（特殊）、最終確認、税理士質問対応、etax入力</td></tr>
+                    <tr><td><strong>南村</strong></td><td>M&A</td><td>給与計算（特殊）、最終確認、税理士質問対応</td></tr>
                     <tr><td><strong>丹下</strong></td><td>M&A</td><td>給与計算（レギュラー）、税務資料作成、銀行出納帳入力</td></tr>
                     <tr><td><strong>守屋</strong></td><td>M&A</td><td>振込実行、ファム給与計算。田山さんに引き継ぎ可能</td></tr>
                     <tr><td><strong>田山</strong></td><td>UNプロジェクト+ファム（兼任）</td><td>守屋からの引き継ぎ候補</td></tr>
@@ -682,8 +680,8 @@ const arrows = [
     { from: 't-s1', to: 't-s2', color: '#6b7280', label: '勤怠データ', marker: 'ah-gray', fromName: '店舗', toName: '店舗', note: '勤怠締め → データ送付' },
     { from: 't-s2', to: 't-m1', color: '#2563eb', label: '勤怠表+売上台帳 (Excel)', marker: 'ah-blue', fromName: '店舗', toName: '南村', note: '毎月1日 AM10:00' },
     { from: 't-m1', to: 't-g1', color: '#059669', label: 'データ渡し', marker: 'ah-green', fromName: '南村', toName: '丹下', note: '受領データを丹下に渡す' },
-    { from: 't-g1', to: 't-m3', color: '#2563eb', label: '計算結果', marker: 'ah-blue', fromName: '丹下', toName: '南村', note: '300名分の計算完了' },
-    { from: 't-m3', to: 't-m4', color: '#2563eb', label: 'チェック済み', marker: 'ah-blue', fromName: '南村', toName: '南村', note: 'チェック後 → 田中へ' },
+    { from: 't-g1', to: 't-m2', color: '#2563eb', label: '計算結果（300名分）', marker: 'ah-blue', fromName: '丹下', toName: '南村', note: '丹下の計算完了 → 南村がレビュー+特殊計算' },
+    { from: 't-m2', to: 't-m4', color: '#2563eb', label: 'レビュー済み', marker: 'ah-blue', fromName: '南村', toName: '南村', note: 'レビュー+特殊計算完了 → 田中へ' },
     { from: 't-m4', to: 't-k1', color: '#d97706', label: '給与明細データ', marker: 'ah-orange', fromName: '南村', toName: '田中', note: '全従業員の明細送付' },
     { from: 't-k2', to: 't-m5', color: '#d97706', label: 'フィードバック', marker: 'ah-orange', fromName: '田中', toName: '南村', note: '承認 or 差し戻し（1-2日）' },
     { from: 't-m5', to: 't-y1', color: '#7c3aed', label: '承認済み給与データ', marker: 'ah-purple', fromName: '南村', toName: '守屋', note: '承認完了 → 振込へ' },
