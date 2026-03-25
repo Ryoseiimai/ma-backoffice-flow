@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>LINEグループ → Google Chat 移行設計書 | M&A バックオフィス改革</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Segoe UI', 'Hiragino Kaku Gothic ProN', sans-serif; background: #f8fafc; color: #1f2937; line-height: 1.8; }
+.header { background: linear-gradient(135deg, #0f3a8e, #1a56db); color: white; padding: 36px 0 28px; text-align: center; }
+.header h1 { font-size: 1.5rem; font-weight: 700; }
+.header .sub { font-size: 0.9rem; opacity: 0.85; margin-top: 4px; }
+.header .badge { display: inline-block; margin-top: 10px; background: rgba(255,255,255,0.2); padding: 3px 14px; border-radius: 16px; font-size: 0.75rem; }
+.nav-back { max-width: 900px; margin: 16px auto 0; padding: 0 24px; }
+.nav-back a { color: #1a56db; text-decoration: none; font-size: 0.85rem; }
+.container { max-width: 900px; margin: 24px auto; padding: 0 24px; }
+.card { background: white; border-radius: 12px; box-shadow: 0 4px 14px rgba(0,0,0,0.08); padding: 32px; margin-bottom: 24px; }
+h2 { font-size: 1.2rem; color: #1a56db; margin-bottom: 16px; padding-left: 12px; border-left: 4px solid #1a56db; }
+h3 { font-size: 1rem; color: #374151; margin: 20px 0 8px; }
+p, .text { margin-bottom: 12px; font-size: 0.9rem; }
+ul, ol { margin: 8px 0 16px 24px; font-size: 0.9rem; }
+li { margin-bottom: 6px; }
+table { width: 100%; border-collapse: collapse; font-size: 0.85rem; margin: 12px 0 20px; }
+thead th { background: #e8eefb; color: #0f3a8e; font-weight: 600; text-align: left; padding: 10px 14px; border-bottom: 2px solid #1a56db; }
+tbody td { padding: 8px 14px; border-bottom: 1px solid #e5e7eb; vertical-align: top; }
+tbody tr:hover { background: #f9fafb; }
+.alert { background: #fee2e2; border-left: 4px solid #dc2626; border-radius: 6px; padding: 14px 18px; margin: 12px 0; font-size: 0.85rem; }
+.alert strong { color: #dc2626; }
+.info { background: #e8eefb; border-left: 4px solid #1a56db; border-radius: 6px; padding: 14px 18px; margin: 12px 0; font-size: 0.85rem; }
+.info strong { color: #1a56db; }
+.warn { background: #fef3c7; border-left: 4px solid #d97706; border-radius: 6px; padding: 14px 18px; margin: 12px 0; font-size: 0.85rem; }
+.warn strong { color: #d97706; }
+.tree { font-family: 'Consolas', 'Courier New', monospace; font-size: 0.85rem; line-height: 1.6; background: #f9fafb; padding: 16px 20px; border-radius: 8px; border: 1px solid #e5e7eb; margin: 12px 0; }
+.tree .folder { color: #1a56db; font-weight: 600; }
+.tree .file { color: #6b7280; }
+.step { display: flex; gap: 12px; align-items: flex-start; margin: 10px 0; padding: 12px 16px; background: #f9fafb; border-radius: 8px; border: 1px solid #e5e7eb; }
+.step-num { background: #1a56db; color: white; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem; flex-shrink: 0; }
+.step-content { flex: 1; }
+.footer { text-align: center; padding: 24px; color: #6b7280; font-size: 0.76rem; border-top: 1px solid #e5e7eb; margin-top: 32px; background: white; }
+@media print { body { background: white; } .card { box-shadow: none; border: 1px solid #ddd; } .nav-back { display: none; } }
+.input-cell { background: #fffde7; border: 1px dashed #d97706; min-height: 28px; }
+.tag { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 600; margin-right: 4px; }
+.tag-all { background: #dbeafe; color: #1e40af; }
+.tag-mgmt { background: #fce7f3; color: #9d174d; }
+.tag-store { background: #d1fae5; color: #065f46; }
+.tag-exec { background: #fef3c7; color: #92400e; }
+.tag-team { background: #ede9fe; color: #5b21b6; }
+.phase-label { display: inline-block; background: #1a56db; color: white; padding: 4px 12px; border-radius: 6px; font-size: 0.8rem; font-weight: 600; margin-bottom: 8px; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>LINEグループ → Google Chat 移行設計書</h1>
+  <div class="sub">株式会社M&A バックオフィス改革プロジェクト</div>
+  <div class="badge">No.1 + No.11 チャット移行</div>
+</div>
+
+<div class="nav-back"><a href="index.html">&larr; トップに戻る</a></div>
+
+<div class="container">
+
+  <!-- 概要 -->
+  <div class="card">
+    <h2>1. 本書の目的</h2>
+    <p>現在、社内コミュニケーションに利用しているLINEグループを、Google Chat（Google Workspace）へ段階的に移行するための設計書です。</p>
+    <div class="info">
+      <strong>移行のメリット:</strong> セキュリティ向上・情報の検索性向上・Google Drive / Sheets との連携・退職者アカウント管理の容易化・業務とプライベートの分離
+    </div>
+    <div class="alert">
+      <strong>注意:</strong> LINEは即日廃止ではなく、Google Chatへの移行完了を確認してから段階的に縮小します。
+    </div>
+  </div>
+
+  <!-- 現状洗い出し -->
+  <div class="card">
+    <h2>2. 現状LINEグループ 洗い出しテンプレート</h2>
+    <p>移行対象を整理するため、現在使用中のLINEグループを記入してください。</p>
+    <table>
+      <thead>
+        <tr>
+          <th style="width:5%">No.</th>
+          <th style="width:22%">グループ名</th>
+          <th style="width:10%">メンバー数</th>
+          <th style="width:18%">主な用途</th>
+          <th style="width:15%">投稿頻度</th>
+          <th style="width:15%">移行先候補</th>
+          <th style="width:15%">備考</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>1</td><td class="input-cell">（例）全体連絡</td><td class="input-cell">約300名</td><td class="input-cell">全社アナウンス</td><td class="input-cell">週2〜3回</td><td class="input-cell">全社連絡スペース</td><td class="input-cell"></td></tr>
+        <tr><td>2</td><td class="input-cell">（例）ハーレム店</td><td class="input-cell">約80名</td><td class="input-cell">店舗内連絡</td><td class="input-cell">毎日</td><td class="input-cell">店舗別スペース</td><td class="input-cell"></td></tr>
+        <tr><td>3</td><td class="input-cell">（例）幹部グループ</td><td class="input-cell">約10名</td><td class="input-cell">経営判断・共有</td><td class="input-cell">毎日</td><td class="input-cell">経営・役員スペース</td><td class="input-cell"></td></tr>
+        <tr><td>4</td><td class="input-cell"></td><td class="input-cell"></td><td class="input-cell"></td><td class="input-cell"></td><td class="input-cell"></td><td class="input-cell"></td></tr>
+        <tr><td>5</td><td class="input-cell"></td><td class="input-cell"></td><td class="input-cell"></td><td class="input-cell"></td><td class="input-cell"></td><td class="input-cell"></td></tr>
+        <tr><td>6</td><td class="input-cell"></td><td class="input-cell"></td><td class="input-cell"></td><td class="input-cell"></td><td class="input-cell"></td><td class="input-cell"></td></tr>
+        <tr><td>7</td><td class="input-cell"></td><td class="input-cell"></td><td class="input-cell"></td><td class="input-cell"></td><td class="input-cell"></td><td class="input-cell"></td></tr>
+        <tr><td>8</td><td class="input-cell"></td><td class="input-cell"></td><td class="input-cell"></td><td class="input-cell"></td><td class="input-cell"></td><td class="input-cell"></td></tr>
+        <tr><td>9</td><td class="input-cell"></td><td class="input-cell"></td><td class="input-cell"></td><td class="input-cell"></td><td class="input-cell"></td><td class="input-cell"></td></tr>
+        <tr><td>10</td><td class="input-cell"></td><td class="input-cell"></td><td class="input-cell"></td><td class="input-cell"></td><td class="input-cell"></td><td class="input-cell"></td></tr>
+      </tbody>
+    </table>
+    <div class="warn">
+      <strong>確認ポイント:</strong> LINEのノート・アルバム・ファイル共有機能を利用しているグループがあれば、データ移行が必要です。備考欄に記載してください。
+    </div>
+  </div>
+
+  <!-- Google Chat スペース設計 -->
+  <div class="card">
+    <h2>3. Google Chat スペース設計案</h2>
+    <p>以下の7つのスペースを作成し、用途・メンバーを明確に分離します。</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th style="width:5%">No.</th>
+          <th style="width:20%">スペース名</th>
+          <th style="width:8%">種別</th>
+          <th style="width:27%">参加メンバー</th>
+          <th style="width:25%">主な用途</th>
+          <th style="width:15%">投稿権限</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td><strong>全社連絡</strong></td>
+          <td><span class="tag tag-all">全社</span></td>
+          <td>全従業員（約300名 + 社員・役員）</td>
+          <td>全社アナウンス、制度変更通知、イベント告知</td>
+          <td>管理者・役員のみ投稿可 / 全員閲覧可</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td><strong>管理部門</strong></td>
+          <td><span class="tag tag-mgmt">管理</span></td>
+          <td>南村・丹下・守屋・田山・宮下</td>
+          <td>バックオフィス業務の連絡・相談、給与関連の横断連絡</td>
+          <td>メンバー全員投稿可</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td><strong>店舗_ハーレム</strong><br><strong>店舗_セブンエイト</strong><br><strong>店舗_プリンス</strong><br><strong>店舗_オス</strong><br><strong>店舗_福岡</strong></td>
+          <td><span class="tag tag-store">店舗</span></td>
+          <td>各店舗所属ホスト + 店舗責任者 + 管理部門</td>
+          <td>店舗別のシフト・売上報告・連絡事項</td>
+          <td>メンバー全員投稿可</td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td><strong>経営・役員</strong></td>
+          <td><span class="tag tag-exec">役員</span></td>
+          <td>阿曽代表・田中・その他役員</td>
+          <td>経営判断・戦略会議・重要承認事項</td>
+          <td>メンバー全員投稿可</td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td><strong>給与計算チーム</strong></td>
+          <td><span class="tag tag-team">チーム</span></td>
+          <td>南村・丹下</td>
+          <td>給与計算の進捗共有・確認・質問</td>
+          <td>メンバー全員投稿可</td>
+        </tr>
+        <tr>
+          <td>6</td>
+          <td><strong>振込・経理チーム</strong></td>
+          <td><span class="tag tag-team">チーム</span></td>
+          <td>守屋・田山</td>
+          <td>振込データの確認・経理処理の連絡</td>
+          <td>メンバー全員投稿可</td>
+        </tr>
+        <tr>
+          <td>7</td>
+          <td><strong>税務チーム</strong></td>
+          <td><span class="tag tag-team">チーム</span></td>
+          <td>丹下・南村・守屋 + A-TAX（税理士法人）</td>
+          <td>税務申告・年末調整・税務相談</td>
+          <td>メンバー全員投稿可（外部ゲスト含む）</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="info">
+      <strong>スペース命名規則:</strong> 「カテゴリ_名称」の形式で統一（例: 店舗_ハーレム）。検索・ソートがしやすくなります。
+    </div>
+
+    <h3>スペース構成のポイント</h3>
+    <ul>
+      <li><strong>全社連絡</strong>は投稿権限を制限し、重要な情報が流れないようにします</li>
+      <li><strong>店舗別スペース</strong>は5店舗分を個別に作成。店舗固有の連絡が混在しないようにします</li>
+      <li><strong>管理部門</strong>は横断的な業務連絡用。給与・振込・税務の3チームの上位スペースとして機能します</li>
+      <li><strong>税務チーム</strong>にはA-TAX（税理士法人）を外部ゲストとして招待可能です</li>
+    </ul>
+  </div>
+
+  <!-- スペース別 詳細設定 -->
+  <div class="card">
+    <h2>4. 各スペースの詳細設定</h2>
+
+    <h3>4-1. 通知設定の推奨</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>スペース</th>
+          <th>推奨通知設定</th>
+          <th>理由</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>全社連絡</td><td>@メンションのみ通知</td><td>投稿頻度が低いため、全通知でも可</td></tr>
+        <tr><td>管理部門</td><td>すべて通知</td><td>少人数で重要な連絡が多い</td></tr>
+        <tr><td>店舗別</td><td>@メンションのみ通知</td><td>投稿数が多いため全通知は負担</td></tr>
+        <tr><td>経営・役員</td><td>すべて通知</td><td>少人数で意思決定に関わる</td></tr>
+        <tr><td>給与計算チーム</td><td>すべて通知</td><td>2名のみ。見落とし防止</td></tr>
+        <tr><td>振込・経理チーム</td><td>すべて通知</td><td>2名のみ。見落とし防止</td></tr>
+        <tr><td>税務チーム</td><td>すべて通知</td><td>少人数。税務期限があるため</td></tr>
+      </tbody>
+    </table>
+
+    <h3>4-2. スレッド利用ルール</h3>
+    <ul>
+      <li>話題ごとにスレッドを作成する（1メッセージ1話題）</li>
+      <li>返信はスレッド内で行う（メインの流れを汚さない）</li>
+      <li>緊急の場合は @all メンションを使用する</li>
+    </ul>
+  </div>
+
+  <!-- 移行スケジュール -->
+  <div class="card">
+    <h2>5. 移行スケジュール</h2>
+
+    <div style="margin-bottom: 20px;">
+      <div class="phase-label">フェーズ1: 準備期間（1〜2週目）</div>
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <strong>現状LINEグループの棚卸し</strong><br>
+          上記テンプレートを使い、全LINEグループの用途・メンバーを整理する
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <strong>Google Workspaceアカウント配布</strong><br>
+          全従業員にGoogleアカウントを配布し、ログイン確認を行う（→ <a href="doc_account_guide.html">アカウント配布ガイド</a>参照）
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <strong>Google Chatスペースの作成</strong><br>
+          上記7カテゴリのスペースを作成し、メンバーを招待する
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-bottom: 20px;">
+      <div class="phase-label">フェーズ2: 並行運用期間（3〜4週目）</div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <strong>管理部門から先行移行</strong><br>
+          管理部門・給与計算チーム・振込チーム・税務チームの業務連絡をGoogle Chatに移行。LINEとの並行運用。
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-content">
+          <strong>店舗別スペースの運用開始</strong><br>
+          各店舗責任者を通じて、Google Chat利用を開始。LINEにも同じ内容を投稿（二重投稿期間）。
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">6</div>
+        <div class="step-content">
+          <strong>問い合わせ対応・FAQ整備</strong><br>
+          「使い方がわからない」への問い合わせ窓口を設置。よくある質問をまとめる。
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-bottom: 20px;">
+      <div class="phase-label">フェーズ3: 完全移行（5〜6週目）</div>
+      <div class="step">
+        <div class="step-num">7</div>
+        <div class="step-content">
+          <strong>LINE投稿の停止</strong><br>
+          Google Chatでの運用が安定したことを確認後、LINEグループへの投稿を停止。
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">8</div>
+        <div class="step-content">
+          <strong>LINEグループのアーカイブ</strong><br>
+          必要なデータ（ノート・画像等）をGoogle Driveに保存し、LINEグループを閉鎖。
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">9</div>
+        <div class="step-content">
+          <strong>運用定着の確認</strong><br>
+          移行後1ヶ月時点で利用状況を確認。課題があれば改善する。
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 移行時の注意事項 -->
+  <div class="card">
+    <h2>6. 移行時の注意事項</h2>
+
+    <h3>6-1. データ移行</h3>
+    <ul>
+      <li>LINEのトーク履歴はエクスポート機能でバックアップ可能（テキスト形式）</li>
+      <li>LINEのノート・アルバム内の画像やファイルは手動でGoogle Driveに移行する</li>
+      <li>重要な過去のやり取りはPDFに変換して保存しておく</li>
+    </ul>
+
+    <h3>6-2. 従業員への配慮</h3>
+    <div class="warn">
+      <strong>重要:</strong> ホストの方は個人事業主であり、業務用のスマートフォンを持っていない場合があります。Google Chatアプリのインストール方法を丁寧に案内してください。
+    </div>
+    <ul>
+      <li>「LINEを奪われる」という不安を持つ方がいる可能性 → プライベートLINEには影響なしと説明</li>
+      <li>Google Chatアプリのインストール案内を用意（iOS / Android）</li>
+      <li>慣れるまでLINEも残すことを明示し、安心感を持たせる</li>
+      <li>操作に不安がある方には個別サポートを行う</li>
+    </ul>
+
+    <h3>6-3. セキュリティ</h3>
+    <ul>
+      <li>Google Workspace管理コンソールで退職者アカウントを速やかに無効化できる体制を整える</li>
+      <li>外部ゲスト（A-TAX等）のアクセス権限は必要最小限に設定する</li>
+      <li>個人情報・給与情報はGoogle Chatではなく、Google Drive上のファイルで共有する（チャットにベタ貼りしない）</li>
+    </ul>
+
+    <h3>6-4. 運用ルール</h3>
+    <ul>
+      <li>業務連絡はGoogle Chat、プライベートはLINE — と明確に線引きする</li>
+      <li>Google Chatの利用時間帯を定める（例: 深夜の投稿は翌朝扱い）</li>
+      <li>スペースへの投稿マナー（件名をつける、長文はドキュメントにする等）を策定する</li>
+    </ul>
+
+    <div class="alert">
+      <strong>絶対に守ること:</strong> 給与明細・個人情報・振込データなどの機密情報は、Google Chat上にテキストで投稿しないでください。必ずGoogle Drive上のファイルリンクで共有してください。
+    </div>
+  </div>
+
+  <!-- 関連ドキュメント -->
+  <div class="card">
+    <h2>7. 関連ドキュメント</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>ドキュメント</th>
+          <th>内容</th>
+          <th>リンク</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Google共有ドライブ フォルダ構成設計書</td>
+          <td>ファイル管理のフォルダ構成・命名規則</td>
+          <td><a href="doc_drive_structure.html">No.2 設計書</a></td>
+        </tr>
+        <tr>
+          <td>Googleアカウント配布ガイド</td>
+          <td>従業員向けログイン・初期設定の案内</td>
+          <td><a href="doc_account_guide.html">No.9 ガイド</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+<div class="footer">
+  作成: RYOSEI / 2026-03-26｜株式会社M&A バックオフィス改革プロジェクト
+</div>
+
+</body>
+</html>

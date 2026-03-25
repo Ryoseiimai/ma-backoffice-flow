@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>No.10 Google Workspace 操作マニュアル | 株式会社M&A</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Segoe UI', 'Hiragino Kaku Gothic ProN', sans-serif; background: #f8fafc; color: #1f2937; line-height: 1.8; }
+.header { background: linear-gradient(135deg, #0f3a8e, #1a56db); color: white; padding: 36px 0 28px; text-align: center; }
+.header h1 { font-size: 1.5rem; font-weight: 700; }
+.header .sub { font-size: 0.9rem; opacity: 0.85; margin-top: 4px; }
+.header .badge { display: inline-block; margin-top: 10px; background: rgba(255,255,255,0.2); padding: 3px 14px; border-radius: 16px; font-size: 0.75rem; }
+.nav-back { max-width: 900px; margin: 16px auto 0; padding: 0 24px; }
+.nav-back a { color: #1a56db; text-decoration: none; font-size: 0.85rem; }
+.container { max-width: 900px; margin: 24px auto; padding: 0 24px; }
+.card { background: white; border-radius: 12px; box-shadow: 0 4px 14px rgba(0,0,0,0.08); padding: 32px; margin-bottom: 24px; }
+h2 { font-size: 1.2rem; color: #1a56db; margin-bottom: 16px; padding-left: 12px; border-left: 4px solid #1a56db; }
+h3 { font-size: 1rem; color: #374151; margin: 20px 0 8px; }
+p, .text { margin-bottom: 12px; font-size: 0.9rem; }
+ul, ol { margin: 8px 0 16px 24px; font-size: 0.9rem; }
+li { margin-bottom: 6px; }
+table { width: 100%; border-collapse: collapse; font-size: 0.85rem; margin: 12px 0 20px; }
+thead th { background: #e8eefb; color: #0f3a8e; font-weight: 600; text-align: left; padding: 10px 14px; border-bottom: 2px solid #1a56db; white-space: nowrap; }
+tbody td { padding: 8px 14px; border-bottom: 1px solid #e5e7eb; vertical-align: top; }
+tbody tr:hover { background: #f9fafb; }
+.alert { background: #fee2e2; border-left: 4px solid #dc2626; border-radius: 6px; padding: 14px 18px; margin: 12px 0; font-size: 0.85rem; }
+.alert strong { color: #dc2626; }
+.info { background: #e8eefb; border-left: 4px solid #1a56db; border-radius: 6px; padding: 14px 18px; margin: 12px 0; font-size: 0.85rem; }
+.info strong { color: #1a56db; }
+.warn { background: #fef3c7; border-left: 4px solid #d97706; border-radius: 6px; padding: 14px 18px; margin: 12px 0; font-size: 0.85rem; }
+.warn strong { color: #d97706; }
+.step { display: flex; gap: 12px; align-items: flex-start; margin: 10px 0; padding: 12px 16px; background: #f9fafb; border-radius: 8px; border: 1px solid #e5e7eb; }
+.step-num { background: #1a56db; color: white; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem; flex-shrink: 0; }
+.step-content { flex: 1; }
+.footer { text-align: center; padding: 24px; color: #6b7280; font-size: 0.76rem; border-top: 1px solid #e5e7eb; margin-top: 32px; background: white; }
+@media print { body { background: white; } .card { box-shadow: none; border: 1px solid #ddd; } .nav-back { display: none; } }
+
+.toc { background: #f0f4ff; border-radius: 8px; padding: 20px 28px; margin-bottom: 24px; }
+.toc h3 { margin-top: 0; color: #1a56db; }
+.toc ol { margin-bottom: 0; }
+.toc a { color: #1a56db; text-decoration: none; }
+.toc a:hover { text-decoration: underline; }
+.section-icon { font-size: 1.5rem; margin-right: 8px; vertical-align: middle; }
+.kbd { display: inline-block; background: #e5e7eb; border: 1px solid #d1d5db; border-radius: 4px; padding: 1px 6px; font-family: monospace; font-size: 0.8rem; }
+.tip { background: #ecfdf5; border-left: 4px solid #059669; border-radius: 6px; padding: 14px 18px; margin: 12px 0; font-size: 0.85rem; }
+.tip strong { color: #059669; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Google Workspace 操作マニュアル</h1>
+  <div class="sub">株式会社M&A バックオフィス改革プロジェクト</div>
+  <div class="badge">No.10 &#x2014; 図解風HTML版</div>
+</div>
+
+<div class="nav-back"><a href="index.html">&larr; トップに戻る</a></div>
+
+<div class="container">
+
+  <!-- 目次 -->
+  <div class="card toc">
+    <h3>&#x1F4D6; 目次</h3>
+    <ol>
+      <li><a href="#chat">Google Chat の使い方</a></li>
+      <li><a href="#drive">Google Drive の使い方</a></li>
+      <li><a href="#meet">Google Meet の使い方</a></li>
+      <li><a href="#gmail">Gmail の基本操作</a></li>
+      <li><a href="#security">セキュリティ（パスワード・2段階認証）</a></li>
+      <li><a href="#faq">困ったときは（FAQ）</a></li>
+    </ol>
+  </div>
+
+  <!-- ===== Google Chat ===== -->
+  <div class="card" id="chat">
+    <h2><span class="section-icon">&#x1F4AC;</span> 1. Google Chat の使い方</h2>
+    <p>Google Chat は社内の連絡ツールです。LINEのように使えますが、仕事専用で安全にやりとりできます。</p>
+
+    <h3>&#x1F4CC; Chat を開く</h3>
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content">ブラウザで <strong>chat.google.com</strong> にアクセスするか、Gmail の左サイドバーにある「Chat」をクリックします。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">会社の Google アカウント（@team-ryu.com など）でログインしてください。</div>
+    </div>
+
+    <h3>&#x1F4CC; スペースの作成</h3>
+    <p>「スペース」はグループチャットの部屋です。プロジェクトやチームごとに作成します。</p>
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content">左メニューの「スペース」の横にある <strong>「＋」ボタン</strong> をクリックします。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">「スペースを作成」を選択します。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-content">スペース名を入力します（例:「給与計算チーム」「ハーレム店連絡」）。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-content">メンバーのメールアドレスを入力して追加し、「作成」をクリックします。</div>
+    </div>
+    <div class="info">
+      <strong>&#x1F4A1; ポイント:</strong> スペース名は後から変更できます。わかりやすい名前をつけましょう。
+    </div>
+
+    <h3>&#x1F4CC; メッセージの送信</h3>
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content">スペースまたはダイレクトメッセージを開きます。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">画面下部の入力欄にメッセージを入力します。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-content"><span class="kbd">Enter</span> キーで送信します。改行したい場合は <span class="kbd">Shift</span> + <span class="kbd">Enter</span> です。</div>
+    </div>
+
+    <h3>&#x1F4CC; メンション（特定の人に通知する）</h3>
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content">メッセージ入力欄で <strong>@（アットマーク）</strong> を入力します。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">通知したい相手の名前を選択します。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-content">メンションされた相手には通知が届くので、見落としを防げます。</div>
+    </div>
+    <div class="warn">
+      <strong>&#x26A0; 注意:</strong> 「@全員」を使うとスペース全員に通知が届きます。緊急時のみ使用してください。
+    </div>
+
+    <h3>&#x1F4CC; スレッド返信</h3>
+    <p>話題ごとに会話をまとめる機能です。チャットが見やすくなります。</p>
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content">返信したいメッセージにカーソルを合わせます。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">表示されるアイコンの中から <strong>「スレッドで返信」</strong>（吹き出しアイコン）をクリックします。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-content">右側にスレッドが開くので、そこにメッセージを入力して送信します。</div>
+    </div>
+    <div class="tip">
+      <strong>&#x2705; おすすめ:</strong> 質問や依頼にはスレッドで返信すると、話題が混ざらず後から見返しやすくなります。
+    </div>
+
+    <h3>&#x1F4CC; ファイルの共有</h3>
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content">メッセージ入力欄の下にある <strong>「クリップ」アイコン（&#x1F4CE;）</strong> をクリックします。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">「パソコンからアップロード」でファイルを選ぶか、「ドライブ」でGoogle Drive上のファイルを選択します。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-content">ファイルを選んだら、必要に応じてコメントを添えて送信します。</div>
+    </div>
+  </div>
+
+  <!-- ===== Google Drive ===== -->
+  <div class="card" id="drive">
+    <h2><span class="section-icon">&#x1F4C1;</span> 2. Google Drive の使い方</h2>
+    <p>Google Drive は会社のファイルを保存・共有するクラウドストレージです。パソコンが壊れてもデータが消えません。</p>
+
+    <h3>&#x1F4CC; Drive を開く</h3>
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content">ブラウザで <strong>drive.google.com</strong> にアクセスします。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">左メニューに「マイドライブ」「共有ドライブ」などが表示されます。</div>
+    </div>
+    <div class="info">
+      <strong>&#x1F4A1; マイドライブ vs 共有ドライブ:</strong><br>
+      ・マイドライブ = 自分専用の保管場所<br>
+      ・共有ドライブ = チーム共用の保管場所（会社のファイルはこちらに保存）
+    </div>
+
+    <h3>&#x1F4CC; ファイルのアップロード</h3>
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content">アップロード先のフォルダを開きます。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">左上の <strong>「＋ 新規」ボタン</strong> をクリックします。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-content">「ファイルのアップロード」を選択し、パソコンからファイルを選びます。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-content">アップロードが完了すると右下に通知が表示されます。</div>
+    </div>
+    <div class="tip">
+      <strong>&#x2705; 簡単な方法:</strong> ファイルをブラウザのDrive画面に直接ドラッグ＆ドロップしてもアップロードできます。
+    </div>
+
+    <h3>&#x1F4CC; フォルダの作成</h3>
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content">フォルダを作りたい場所で <strong>「＋ 新規」→「新しいフォルダ」</strong> をクリックします。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">フォルダ名を入力して「作成」をクリックします。</div>
+    </div>
+    <div class="warn">
+      <strong>&#x26A0; 命名ルール:</strong> 共有ドライブのフォルダは番号付き（例: 01_顧客個人情報、02_売上管理）で統一しています。勝手にフォルダを追加しないでください。
+    </div>
+
+    <h3>&#x1F4CC; ファイルの共有設定</h3>
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content">共有したいファイルを <strong>右クリック</strong> →「共有」を選択します。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">共有相手のメールアドレスを入力します。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-content">権限を選択します:<br>
+        ・<strong>閲覧者</strong>: 見るだけ（変更不可）<br>
+        ・<strong>閲覧者（コメント可）</strong>: コメントだけできる<br>
+        ・<strong>編集者</strong>: 内容を変更できる
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-content">「送信」をクリックすると、相手に通知メールが届きます。</div>
+    </div>
+    <div class="alert">
+      <strong>&#x1F6A8; 重要:</strong> 給与データや個人情報は「リンクを知っている全員」で共有しないでください。必ず個別のメールアドレスで共有設定を行ってください。
+    </div>
+
+    <h3>&#x1F4CC; ファイルの検索</h3>
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content">Drive画面上部の <strong>検索バー</strong> にキーワードを入力します。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">検索バー右端の「&#x25BC;」をクリックすると、ファイル種類・更新日・オーナーなどで絞り込めます。</div>
+    </div>
+  </div>
+
+  <!-- ===== Google Meet ===== -->
+  <div class="card" id="meet">
+    <h2><span class="section-icon">&#x1F3A5;</span> 3. Google Meet の使い方</h2>
+    <p>Google Meet はビデオ会議ツールです。離れた場所にいても顔を見て打ち合わせができます。</p>
+
+    <h3>&#x1F4CC; 会議の作成</h3>
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content">ブラウザで <strong>meet.google.com</strong> にアクセスします。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">「新しい会議を作成」をクリックします。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-content">3つの選択肢があります:<br>
+        ・<strong>次回以降の会議を作成</strong>: 会議リンクだけ先に作成<br>
+        ・<strong>会議を今すぐ開始</strong>: すぐにビデオ通話を開始<br>
+        ・<strong>Google カレンダーでスケジュール</strong>: 日時指定して予約
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-content">会議リンク（例: meet.google.com/xxx-xxxx-xxx）をChat等で共有します。</div>
+    </div>
+    <div class="tip">
+      <strong>&#x2705; おすすめ:</strong> Google カレンダーから予定を作成すると、自動で Meet リンクが付きます。参加者にも自動通知されるので便利です。
+    </div>
+
+    <h3>&#x1F4CC; 会議への参加</h3>
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content">共有された <strong>会議リンクをクリック</strong> します。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">カメラとマイクの許可を求められたら「許可」をクリックします。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-content">プレビュー画面で映像を確認し、「今すぐ参加」をクリックします。</div>
+    </div>
+
+    <h3>&#x1F4CC; 画面共有</h3>
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content">会議中に画面下部の <strong>「&#x2B06; 画面を共有」ボタン</strong> をクリックします。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">共有方法を選びます:<br>
+        ・<strong>画面全体</strong>: デスクトップ全体を共有<br>
+        ・<strong>ウィンドウ</strong>: 特定のアプリだけ共有（おすすめ）<br>
+        ・<strong>タブ</strong>: ブラウザの特定タブだけ共有
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-content">「共有」をクリックすると開始、「共有を停止」で終了します。</div>
+    </div>
+    <div class="warn">
+      <strong>&#x26A0; 注意:</strong> 画面全体を共有すると、通知やプライベートなウィンドウも見えてしまいます。「ウィンドウ」共有を推奨します。
+    </div>
+
+    <h3>&#x1F4CC; 会議中の便利機能</h3>
+    <table>
+      <thead>
+        <tr><th>機能</th><th>操作</th><th>説明</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>&#x1F507; ミュート</td><td>下部バーのマイクアイコン</td><td>自分の音声をオフにする</td></tr>
+        <tr><td>&#x1F4F7; カメラOFF</td><td>下部バーのカメラアイコン</td><td>映像をオフにする</td></tr>
+        <tr><td>&#x1F4AC; チャット</td><td>右下のチャットアイコン</td><td>会議中にテキストでやりとり</td></tr>
+        <tr><td>&#x270B; 挙手</td><td>下部バーの手のアイコン</td><td>発言したいときに使う</td></tr>
+        <tr><td>&#x1F4DD; 文字起こし</td><td>右下のアクティビティ</td><td>会議の内容を自動文字起こし</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ===== Gmail ===== -->
+  <div class="card" id="gmail">
+    <h2><span class="section-icon">&#x2709;&#xFE0F;</span> 4. Gmail の基本操作</h2>
+    <p>Gmail は会社のメールサービスです。外部とのやりとりや重要な通知はメールで届きます。</p>
+
+    <h3>&#x1F4CC; メールの送信</h3>
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content"><strong>mail.google.com</strong> にアクセスし、会社アカウントでログインします。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">左上の <strong>「&#x270F;&#xFE0F; 作成」ボタン</strong> をクリックします。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-content">新規メール画面が開くので、以下を入力します:<br>
+        ・<strong>宛先</strong>: 送り先のメールアドレス<br>
+        ・<strong>件名</strong>: メールのタイトル（わかりやすく簡潔に）<br>
+        ・<strong>本文</strong>: メッセージ内容
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-content">「送信」ボタンをクリックします。</div>
+    </div>
+
+    <h3>&#x1F4CC; ファイルの添付</h3>
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content">メール作成画面の下部にある <strong>クリップアイコン（&#x1F4CE;）</strong> をクリックします。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">パソコンからファイルを選択します。25MBを超える場合は自動でGoogle Driveリンクになります。</div>
+    </div>
+
+    <h3>&#x1F4CC; ラベルで整理する</h3>
+    <p>ラベルはフォルダのようなものです。メールを分類して探しやすくします。</p>
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content">整理したいメールにチェックを入れます。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">上部の <strong>「ラベル」アイコン（&#x1F3F7;&#xFE0F;）</strong> をクリックします。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-content">既存のラベルを選択するか、「新規作成」でラベルを作ります。</div>
+    </div>
+    <div class="tip">
+      <strong>&#x2705; おすすめラベル例:</strong> 「給与関連」「税務」「店舗連絡」「A-TAX」など、業務カテゴリごとに作ると便利です。
+    </div>
+
+    <h3>&#x1F4CC; メールの検索</h3>
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content">画面上部の <strong>検索バー</strong> にキーワードを入力します。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">便利な検索コマンド:<br>
+        ・<strong>from:tanaka</strong> → 田中さんからのメール<br>
+        ・<strong>has:attachment</strong> → 添付ファイル付きメール<br>
+        ・<strong>is:unread</strong> → 未読メール<br>
+        ・<strong>after:2026/03/01</strong> → 3月1日以降のメール
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== セキュリティ ===== -->
+  <div class="card" id="security">
+    <h2><span class="section-icon">&#x1F512;</span> 5. セキュリティ</h2>
+    <p>お客様の個人情報や給与データを扱うため、セキュリティは最も重要です。</p>
+
+    <h3>&#x1F4CC; パスワードの管理</h3>
+    <div class="alert">
+      <strong>&#x1F6A8; 絶対にやってはいけないこと:</strong>
+      <ul style="margin-top: 8px;">
+        <li>パスワードを付箋に書いてパソコンに貼る</li>
+        <li>他人にパスワードを教える（上司でも）</li>
+        <li>複数のサービスで同じパスワードを使い回す</li>
+        <li>「123456」「password」など簡単なパスワードを使う</li>
+      </ul>
+    </div>
+
+    <h3>安全なパスワードの作り方</h3>
+    <table>
+      <thead>
+        <tr><th>条件</th><th>例</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>12文字以上</td><td>短いパスワードは簡単に破られます</td></tr>
+        <tr><td>英大文字・小文字・数字・記号を混ぜる</td><td>Manda2026!Gws</td></tr>
+        <tr><td>意味のある単語を組み合わせる</td><td>覚えやすく推測されにくいもの</td></tr>
+      </tbody>
+    </table>
+
+    <h3>&#x1F4CC; パスワードの変更方法</h3>
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content">ブラウザで <strong>myaccount.google.com</strong> にアクセスします。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">左メニューの「セキュリティ」をクリックします。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-content">「Google へのログイン」セクションの「パスワード」をクリックします。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-content">現在のパスワードを入力後、新しいパスワードを2回入力して「パスワードを変更」をクリックします。</div>
+    </div>
+
+    <h3>&#x1F4CC; 2段階認証の設定（必須）</h3>
+    <p>2段階認証を設定すると、パスワードが漏れても不正ログインを防げます。<strong>全員必ず設定してください。</strong></p>
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content"><strong>myaccount.google.com</strong> → 「セキュリティ」を開きます。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">「2段階認証プロセス」をクリックし、「開始」を選択します。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-content">認証方法を選びます（スマートフォンでの通知がおすすめ）:<br>
+        ・<strong>Google からのメッセージ</strong>（最も簡単 / おすすめ）<br>
+        ・<strong>認証アプリ</strong>（Google Authenticator）<br>
+        ・<strong>SMS</strong>（電話番号に確認コード送信）
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-content">画面の指示に従って設定を完了します。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">5</div>
+      <div class="step-content"><strong>バックアップコード</strong>を必ず保存してください（スマホを紛失した時に必要です）。</div>
+    </div>
+    <div class="warn">
+      <strong>&#x26A0; 重要:</strong> バックアップコードは印刷して安全な場所に保管するか、パスワードマネージャーに保存してください。スクリーンショットをスマホに保存するのはNGです。
+    </div>
+  </div>
+
+  <!-- ===== FAQ ===== -->
+  <div class="card" id="faq">
+    <h2><span class="section-icon">&#x2753;</span> 6. 困ったときは（FAQ）</h2>
+
+    <h3>Q. パスワードを忘れてログインできません</h3>
+    <div class="info">
+      <strong>A.</strong> ログイン画面の「パスワードをお忘れの場合」をクリックして、再設定手続きを行ってください。それでもダメな場合は管理者（南村さん）に連絡してください。
+    </div>
+
+    <h3>Q. Google Chat の通知が来ません</h3>
+    <div class="info">
+      <strong>A.</strong> 以下を確認してください:<br>
+      1. ブラウザの通知が「許可」になっているか（アドレスバー左の鍵マーク → 通知 → 許可）<br>
+      2. Chat の設定（歯車アイコン）→ 通知がONになっているか<br>
+      3. パソコンの「集中モード」がOFFになっているか
+    </div>
+
+    <h3>Q. ファイルを間違えて削除してしまいました</h3>
+    <div class="info">
+      <strong>A.</strong> Google Drive の左メニュー「ゴミ箱」を開き、ファイルを右クリック →「復元」してください。ゴミ箱は30日間保存されます。共有ドライブのファイルは管理者が復元できます。
+    </div>
+
+    <h3>Q. 共有ドライブが見つかりません</h3>
+    <div class="info">
+      <strong>A.</strong> Google Drive の左メニューで「共有ドライブ」をクリックしてください。表示されない場合は、アクセス権限が付与されていない可能性があります。管理者に確認してください。
+    </div>
+
+    <h3>Q. Google Meet の音声が聞こえません</h3>
+    <div class="info">
+      <strong>A.</strong> 以下を確認してください:<br>
+      1. パソコンの音量がミュートになっていないか<br>
+      2. Meet 画面右下の「&#x22EE;」→「設定」→ スピーカーが正しく選択されているか<br>
+      3. 他のアプリ（Zoom等）がマイクを使用中でないか
+    </div>
+
+    <h3>Q. スマホからも使えますか？</h3>
+    <div class="info">
+      <strong>A.</strong> はい。Google Chat / Gmail / Drive / Meet それぞれスマホアプリがあります。App Store（iPhone）またはGoogle Play（Android）からインストールしてください。
+    </div>
+
+    <h3>Q. 誰に聞けばいいかわかりません</h3>
+    <div class="info">
+      <strong>A.</strong> Google Workspace に関する質問は以下の順で相談してください:<br>
+      1. まずこのマニュアルを確認<br>
+      2. Google Chat の「ヘルプデスク」スペースに質問を投稿<br>
+      3. 管理者（南村さん）に直接連絡
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  作成: RYOSEI / 2026-03-26 &nbsp;|&nbsp; 株式会社M&A バックオフィス改革プロジェクト &nbsp;|&nbsp; No.10 Google Workspace 操作マニュアル
+</div>
+
+</body>
+</html>

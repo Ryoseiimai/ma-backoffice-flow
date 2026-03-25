@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>No.13 共有ドライブ アクセス権限設計書 | 株式会社M&A</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Segoe UI', 'Hiragino Kaku Gothic ProN', sans-serif; background: #f8fafc; color: #1f2937; line-height: 1.8; }
+.header { background: linear-gradient(135deg, #0f3a8e, #1a56db); color: white; padding: 36px 0 28px; text-align: center; }
+.header h1 { font-size: 1.5rem; font-weight: 700; }
+.header .sub { font-size: 0.9rem; opacity: 0.85; margin-top: 4px; }
+.header .badge { display: inline-block; margin-top: 10px; background: rgba(255,255,255,0.2); padding: 3px 14px; border-radius: 16px; font-size: 0.75rem; }
+.nav-back { max-width: 900px; margin: 16px auto 0; padding: 0 24px; }
+.nav-back a { color: #1a56db; text-decoration: none; font-size: 0.85rem; }
+.container { max-width: 900px; margin: 24px auto; padding: 0 24px; }
+.card { background: white; border-radius: 12px; box-shadow: 0 4px 14px rgba(0,0,0,0.08); padding: 32px; margin-bottom: 24px; }
+h2 { font-size: 1.2rem; color: #1a56db; margin-bottom: 16px; padding-left: 12px; border-left: 4px solid #1a56db; }
+h3 { font-size: 1rem; color: #374151; margin: 20px 0 8px; }
+p, .text { margin-bottom: 12px; font-size: 0.9rem; }
+ul, ol { margin: 8px 0 16px 24px; font-size: 0.9rem; }
+li { margin-bottom: 6px; }
+table { width: 100%; border-collapse: collapse; font-size: 0.85rem; margin: 12px 0 20px; }
+thead th { background: #e8eefb; color: #0f3a8e; font-weight: 600; text-align: left; padding: 10px 14px; border-bottom: 2px solid #1a56db; white-space: nowrap; }
+tbody td { padding: 8px 14px; border-bottom: 1px solid #e5e7eb; vertical-align: top; }
+tbody tr:hover { background: #f9fafb; }
+.alert { background: #fee2e2; border-left: 4px solid #dc2626; border-radius: 6px; padding: 14px 18px; margin: 12px 0; font-size: 0.85rem; }
+.alert strong { color: #dc2626; }
+.info { background: #e8eefb; border-left: 4px solid #1a56db; border-radius: 6px; padding: 14px 18px; margin: 12px 0; font-size: 0.85rem; }
+.info strong { color: #1a56db; }
+.warn { background: #fef3c7; border-left: 4px solid #d97706; border-radius: 6px; padding: 14px 18px; margin: 12px 0; font-size: 0.85rem; }
+.warn strong { color: #d97706; }
+.step { display: flex; gap: 12px; align-items: flex-start; margin: 10px 0; padding: 12px 16px; background: #f9fafb; border-radius: 8px; border: 1px solid #e5e7eb; }
+.step-num { background: #1a56db; color: white; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem; flex-shrink: 0; }
+.step-content { flex: 1; }
+.permission-full { background: #dcfce7; color: #166534; padding: 2px 8px; border-radius: 4px; font-weight: 600; font-size: 0.8rem; }
+.permission-edit { background: #e8eefb; color: #1a56db; padding: 2px 8px; border-radius: 4px; font-weight: 600; font-size: 0.8rem; }
+.permission-view { background: #fef3c7; color: #92400e; padding: 2px 8px; border-radius: 4px; font-weight: 600; font-size: 0.8rem; }
+.permission-none { background: #fee2e2; color: #991b1b; padding: 2px 8px; border-radius: 4px; font-weight: 600; font-size: 0.8rem; }
+.footer { text-align: center; padding: 24px; color: #6b7280; font-size: 0.76rem; border-top: 1px solid #e5e7eb; margin-top: 32px; background: white; }
+@media print { body { background: white; } .card { box-shadow: none; border: 1px solid #ddd; } .nav-back { display: none; } }
+
+.toc { background: #f0f4ff; border-radius: 8px; padding: 20px 28px; margin-bottom: 24px; }
+.toc h3 { margin-top: 0; color: #1a56db; }
+.toc ol { margin-bottom: 0; }
+.toc a { color: #1a56db; text-decoration: none; }
+.toc a:hover { text-decoration: underline; }
+.section-icon { font-size: 1.5rem; margin-right: 8px; vertical-align: middle; }
+.matrix-table { overflow-x: auto; }
+.matrix-table table { min-width: 800px; }
+.matrix-table thead th { text-align: center; font-size: 0.78rem; padding: 8px 6px; }
+.matrix-table thead th:first-child { text-align: left; min-width: 140px; }
+.matrix-table tbody td { text-align: center; padding: 8px 6px; }
+.matrix-table tbody td:first-child { text-align: left; font-weight: 600; }
+.legend { display: flex; flex-wrap: wrap; gap: 16px; margin: 16px 0; }
+.legend-item { display: flex; align-items: center; gap: 6px; font-size: 0.85rem; }
+.flow-arrow { text-align: center; font-size: 1.5rem; color: #1a56db; margin: 4px 0; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>共有ドライブ アクセス権限設計書</h1>
+  <div class="sub">株式会社M&A バックオフィス改革プロジェクト</div>
+  <div class="badge">No.13 &#x2014; 権限マトリクス &amp; 運用ルール</div>
+</div>
+
+<div class="nav-back"><a href="index.html">&larr; トップに戻る</a></div>
+
+<div class="container">
+
+  <!-- 目次 -->
+  <div class="card toc">
+    <h3>&#x1F4D6; 目次</h3>
+    <ol>
+      <li><a href="#overview">設計概要・基本方針</a></li>
+      <li><a href="#levels">権限レベルの定義</a></li>
+      <li><a href="#folders">フォルダ構成と格納データ</a></li>
+      <li><a href="#matrix">役職別 権限マトリクス</a></li>
+      <li><a href="#flow">権限変更の申請フロー</a></li>
+      <li><a href="#review">定期レビュー・運用ルール</a></li>
+    </ol>
+  </div>
+
+  <!-- ===== 設計概要 ===== -->
+  <div class="card" id="overview">
+    <h2><span class="section-icon">&#x1F3AF;</span> 1. 設計概要・基本方針</h2>
+    <p>本設計書は、株式会社M&Aグループ（SPJ、M&A、ロカ、ファム、ユニラボ）の共有ドライブにおけるアクセス権限を定義します。</p>
+
+    <h3>基本方針</h3>
+    <ul>
+      <li><strong>最小権限の原則</strong>: 業務に必要な最低限の権限のみを付与する</li>
+      <li><strong>Need-to-Know</strong>: 知る必要がある人だけがアクセスできる</li>
+      <li><strong>職務分離</strong>: 給与計算と振込承認は別の担当者が行う</li>
+      <li><strong>監査可能性</strong>: 誰がいつアクセスしたか追跡できる</li>
+    </ul>
+
+    <h3>対象範囲</h3>
+    <table>
+      <thead>
+        <tr><th>項目</th><th>内容</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>対象組織</td><td>株式会社M&A / SPJ / ロカ / ファム / ユニラボ</td></tr>
+        <tr><td>拠点</td><td>名古屋4店舗（ハーレム・セブンエイト・プリンス・オス）+ 福岡1店舗</td></tr>
+        <tr><td>対象者</td><td>代表、役員、管理部門、店舗リーダー、一般従業員（約300名）、外部（税理士）</td></tr>
+        <tr><td>ストレージ</td><td>Google Workspace 共有ドライブ</td></tr>
+      </tbody>
+    </table>
+
+    <div class="alert">
+      <strong>&#x1F6A8; 重要:</strong> 個人情報・給与データ・税務資料は機密情報です。権限設定を誤ると情報漏洩につながり、法的責任が発生します。本設計書に従って厳密に運用してください。
+    </div>
+  </div>
+
+  <!-- ===== 権限レベル ===== -->
+  <div class="card" id="levels">
+    <h2><span class="section-icon">&#x1F511;</span> 2. 権限レベルの定義</h2>
+    <p>Google 共有ドライブで使用する4段階の権限レベルを定義します。</p>
+
+    <table>
+      <thead>
+        <tr><th>権限レベル</th><th>バッジ</th><th>できること</th><th>できないこと</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>管理者</strong></td>
+          <td><span class="permission-full">&#x1F7E2; 管理者</span></td>
+          <td>すべての操作（閲覧・編集・削除・権限変更・メンバー管理）</td>
+          <td>-</td>
+        </tr>
+        <tr>
+          <td><strong>編集者</strong></td>
+          <td><span class="permission-edit">&#x1F535; 編集者</span></td>
+          <td>ファイルの閲覧・作成・編集・アップロード</td>
+          <td>ファイルの削除、権限変更、メンバー管理</td>
+        </tr>
+        <tr>
+          <td><strong>閲覧者</strong></td>
+          <td><span class="permission-view">&#x1F7E1; 閲覧者</span></td>
+          <td>ファイルの閲覧・ダウンロードのみ</td>
+          <td>編集・削除・アップロード・権限変更</td>
+        </tr>
+        <tr>
+          <td><strong>アクセス不可</strong></td>
+          <td><span class="permission-none">&#x1F534; 不可</span></td>
+          <td>-</td>
+          <td>フォルダの存在すら見えない</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="info">
+      <strong>&#x1F4A1; 補足:</strong> Google 共有ドライブの「コンテンツ管理者」は本設計では「編集者」に含めています。「管理者」は共有ドライブ全体の設定変更が可能な最上位権限です。
+    </div>
+  </div>
+
+  <!-- ===== フォルダ構成 ===== -->
+  <div class="card" id="folders">
+    <h2><span class="section-icon">&#x1F4C2;</span> 3. フォルダ構成と格納データ</h2>
+    <p>共有ドライブ内のフォルダ構成と、各フォルダに格納すべきデータの一覧です。</p>
+
+    <table>
+      <thead>
+        <tr><th>フォルダ名</th><th>機密度</th><th>格納するデータ</th><th>備考</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>01_顧客個人情報</strong></td>
+          <td><span class="permission-none">&#x1F534; 極秘</span></td>
+          <td>
+            ・顧客名簿（氏名・連絡先・来店履歴）<br>
+            ・本人確認書類のコピー<br>
+            ・顧客アンケート・個人データ
+          </td>
+          <td>個人情報保護法の対象。漏洩時は行政報告義務あり</td>
+        </tr>
+        <tr>
+          <td><strong>02_売上管理</strong></td>
+          <td><span class="permission-view">&#x1F7E1; 機密</span></td>
+          <td>
+            ・店舗別日次/月次売上レポート<br>
+            ・指名・ボトル売上データ<br>
+            ・売上集計シート（法人別）
+          </td>
+          <td>店舗リーダーは自店舗分のみ閲覧可</td>
+        </tr>
+        <tr>
+          <td><strong>03_給与データ</strong></td>
+          <td><span class="permission-none">&#x1F534; 極秘</span></td>
+          <td>
+            ・個人別給与明細<br>
+            ・報酬計算シート（業務委託報酬含む）<br>
+            ・振込データ・振込履歴<br>
+            ・源泉徴収関連データ
+          </td>
+          <td>南村・丹下が計算、守屋が振込、田中が承認</td>
+        </tr>
+        <tr>
+          <td><strong>04_税務資料</strong></td>
+          <td><span class="permission-none">&#x1F534; 極秘</span></td>
+          <td>
+            ・確定申告関連書類<br>
+            ・税務署提出書類<br>
+            ・A-TAX（税理士）とのやりとり資料<br>
+            ・法人税・消費税関連
+          </td>
+          <td>外部税理士（A-TAX）にも限定共有</td>
+        </tr>
+        <tr>
+          <td><strong>05_契約書類</strong></td>
+          <td><span class="permission-view">&#x1F7E1; 機密</span></td>
+          <td>
+            ・業務委託契約書（ホスト個人との契約）<br>
+            ・テナント賃貸契約<br>
+            ・取引先との契約書<br>
+            ・社員雇用契約書
+          </td>
+          <td>法的効力のある書類。原本管理を徹底</td>
+        </tr>
+        <tr>
+          <td><strong>06_社内マニュアル</strong></td>
+          <td><span class="permission-edit">&#x1F535; 一般</span></td>
+          <td>
+            ・業務手順書（本ドキュメント含む）<br>
+            ・Google Workspace 操作マニュアル<br>
+            ・新人研修資料<br>
+            ・店舗運営マニュアル
+          </td>
+          <td>全従業員が閲覧可。更新は管理部門のみ</td>
+        </tr>
+        <tr>
+          <td><strong>07_議事録</strong></td>
+          <td><span class="permission-edit">&#x1F535; 一般</span></td>
+          <td>
+            ・定例会議の議事録<br>
+            ・プロジェクト打ち合わせメモ<br>
+            ・経営会議記録
+          </td>
+          <td>経営会議は役員以上のみ閲覧可のサブフォルダを設置</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="warn">
+      <strong>&#x26A0; ルール:</strong> 上記フォルダ以外にファイルを保存しないでください。新しいフォルダが必要な場合は管理者（南村さん）に申請してください。
+    </div>
+  </div>
+
+  <!-- ===== 権限マトリクス ===== -->
+  <div class="card" id="matrix">
+    <h2><span class="section-icon">&#x1F4CA;</span> 4. 役職別 権限マトリクス</h2>
+    <p>各役職がどのフォルダにどのレベルでアクセスできるかを一覧にしています。</p>
+
+    <div class="legend">
+      <div class="legend-item"><span class="permission-full">&#x1F7E2; 管理者</span> 全操作可能</div>
+      <div class="legend-item"><span class="permission-edit">&#x1F535; 編集者</span> 閲覧・編集</div>
+      <div class="legend-item"><span class="permission-view">&#x1F7E1; 閲覧者</span> 閲覧のみ</div>
+      <div class="legend-item"><span class="permission-none">&#x1F534; 不可</span> アクセス不可</div>
+    </div>
+
+    <div class="matrix-table">
+      <table>
+        <thead>
+          <tr>
+            <th>役職 / フォルダ</th>
+            <th>01_顧客<br>個人情報</th>
+            <th>02_売上<br>管理</th>
+            <th>03_給与<br>データ</th>
+            <th>04_税務<br>資料</th>
+            <th>05_契約<br>書類</th>
+            <th>06_社内<br>マニュアル</th>
+            <th>07_議事録</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>&#x1F451; 代表<br><small>（阿曽）</small></td>
+            <td><span class="permission-full">&#x1F7E2; 管理者</span></td>
+            <td><span class="permission-full">&#x1F7E2; 管理者</span></td>
+            <td><span class="permission-full">&#x1F7E2; 管理者</span></td>
+            <td><span class="permission-full">&#x1F7E2; 管理者</span></td>
+            <td><span class="permission-full">&#x1F7E2; 管理者</span></td>
+            <td><span class="permission-full">&#x1F7E2; 管理者</span></td>
+            <td><span class="permission-full">&#x1F7E2; 管理者</span></td>
+          </tr>
+          <tr>
+            <td>&#x1F4BC; 役員<br><small>（田中）</small></td>
+            <td><span class="permission-view">&#x1F7E1; 閲覧者</span></td>
+            <td><span class="permission-full">&#x1F7E2; 管理者</span></td>
+            <td><span class="permission-view">&#x1F7E1; 閲覧者</span></td>
+            <td><span class="permission-view">&#x1F7E1; 閲覧者</span></td>
+            <td><span class="permission-edit">&#x1F535; 編集者</span></td>
+            <td><span class="permission-edit">&#x1F535; 編集者</span></td>
+            <td><span class="permission-edit">&#x1F535; 編集者</span></td>
+          </tr>
+          <tr>
+            <td>&#x1F4B0; 給与計算統括<br><small>（南村）</small></td>
+            <td><span class="permission-view">&#x1F7E1; 閲覧者</span></td>
+            <td><span class="permission-edit">&#x1F535; 編集者</span></td>
+            <td><span class="permission-full">&#x1F7E2; 管理者</span></td>
+            <td><span class="permission-edit">&#x1F535; 編集者</span></td>
+            <td><span class="permission-view">&#x1F7E1; 閲覧者</span></td>
+            <td><span class="permission-full">&#x1F7E2; 管理者</span></td>
+            <td><span class="permission-edit">&#x1F535; 編集者</span></td>
+          </tr>
+          <tr>
+            <td>&#x1F4B0; 給与計算・税務<br><small>（丹下）</small></td>
+            <td><span class="permission-none">&#x1F534; 不可</span></td>
+            <td><span class="permission-edit">&#x1F535; 編集者</span></td>
+            <td><span class="permission-edit">&#x1F535; 編集者</span></td>
+            <td><span class="permission-edit">&#x1F535; 編集者</span></td>
+            <td><span class="permission-view">&#x1F7E1; 閲覧者</span></td>
+            <td><span class="permission-view">&#x1F7E1; 閲覧者</span></td>
+            <td><span class="permission-view">&#x1F7E1; 閲覧者</span></td>
+          </tr>
+          <tr>
+            <td>&#x1F3E6; 振込統括<br><small>（守屋）</small></td>
+            <td><span class="permission-none">&#x1F534; 不可</span></td>
+            <td><span class="permission-view">&#x1F7E1; 閲覧者</span></td>
+            <td><span class="permission-edit">&#x1F535; 編集者</span></td>
+            <td><span class="permission-none">&#x1F534; 不可</span></td>
+            <td><span class="permission-none">&#x1F534; 不可</span></td>
+            <td><span class="permission-view">&#x1F7E1; 閲覧者</span></td>
+            <td><span class="permission-view">&#x1F7E1; 閲覧者</span></td>
+          </tr>
+          <tr>
+            <td>&#x1F3AA; 店舗リーダー<br><small>（各店舗長）</small></td>
+            <td><span class="permission-none">&#x1F534; 不可</span></td>
+            <td><span class="permission-view">&#x1F7E1; 閲覧者</span></td>
+            <td><span class="permission-none">&#x1F534; 不可</span></td>
+            <td><span class="permission-none">&#x1F534; 不可</span></td>
+            <td><span class="permission-none">&#x1F534; 不可</span></td>
+            <td><span class="permission-view">&#x1F7E1; 閲覧者</span></td>
+            <td><span class="permission-view">&#x1F7E1; 閲覧者</span></td>
+          </tr>
+          <tr>
+            <td>&#x1F464; 一般従業員<br><small>（ホスト約300名）</small></td>
+            <td><span class="permission-none">&#x1F534; 不可</span></td>
+            <td><span class="permission-none">&#x1F534; 不可</span></td>
+            <td><span class="permission-none">&#x1F534; 不可</span></td>
+            <td><span class="permission-none">&#x1F534; 不可</span></td>
+            <td><span class="permission-none">&#x1F534; 不可</span></td>
+            <td><span class="permission-view">&#x1F7E1; 閲覧者</span></td>
+            <td><span class="permission-none">&#x1F534; 不可</span></td>
+          </tr>
+          <tr>
+            <td>&#x1F4DD; 外部税理士<br><small>（A-TAX）</small></td>
+            <td><span class="permission-none">&#x1F534; 不可</span></td>
+            <td><span class="permission-view">&#x1F7E1; 閲覧者</span></td>
+            <td><span class="permission-view">&#x1F7E1; 閲覧者</span></td>
+            <td><span class="permission-edit">&#x1F535; 編集者</span></td>
+            <td><span class="permission-view">&#x1F7E1; 閲覧者</span></td>
+            <td><span class="permission-none">&#x1F534; 不可</span></td>
+            <td><span class="permission-none">&#x1F534; 不可</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="info">
+      <strong>&#x1F4A1; 補足説明:</strong>
+      <ul style="margin-top: 8px;">
+        <li><strong>店舗リーダーの売上閲覧</strong>: 自店舗のサブフォルダのみ閲覧可。他店舗のデータは見えない設定とする</li>
+        <li><strong>守屋さん（振込統括）</strong>: 給与データの「振込」フォルダのみ編集可。個人別明細の閲覧は不可</li>
+        <li><strong>A-TAX（税理士）</strong>: 外部アカウントのため、必要最小限のフォルダのみ共有</li>
+        <li><strong>一般従業員（ホスト）</strong>: 業務委託の個人事業主が大半。社内マニュアルのみ閲覧可</li>
+      </ul>
+    </div>
+
+    <div class="alert">
+      <strong>&#x1F6A8; 職務分離の原則:</strong>
+      <ul style="margin-top: 8px;">
+        <li>給与を<strong>計算する人</strong>（南村・丹下）と<strong>振り込む人</strong>（守屋）は分離</li>
+        <li>振込の<strong>最終承認</strong>（田中）は計算・振込とは別の人物</li>
+        <li>この3段階チェックにより、不正や誤送金を防止します</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ===== 権限変更の申請フロー ===== -->
+  <div class="card" id="flow">
+    <h2><span class="section-icon">&#x1F4DD;</span> 5. 権限変更の申請フロー</h2>
+    <p>権限の追加・変更・削除が必要な場合は、以下のフローに従ってください。</p>
+
+    <h3>申請が必要なケース</h3>
+    <ul>
+      <li>新しいメンバーが入社した / 退職した</li>
+      <li>異動や役職変更があった</li>
+      <li>プロジェクトで一時的に追加のフォルダへのアクセスが必要</li>
+      <li>外部パートナーへの共有が必要</li>
+    </ul>
+
+    <h3>申請フロー</h3>
+
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <strong>申請者</strong>が Google Chat の「権限申請」スペースに以下を投稿:<br>
+        ・対象者の氏名・メールアドレス<br>
+        ・対象フォルダ名<br>
+        ・希望する権限レベル<br>
+        ・理由・期間（一時的な場合は終了日）
+      </div>
+    </div>
+    <div class="flow-arrow">&#x25BC;</div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">
+        <strong>管理部門（南村）</strong>が内容を確認し、本設計書の権限マトリクスに照らし合わせて妥当性を判断
+      </div>
+    </div>
+    <div class="flow-arrow">&#x25BC;</div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-content">
+        <strong>機密フォルダ（01, 03, 04）の場合:</strong> 代表（阿曽）または役員（田中）の承認が必要<br>
+        <strong>一般フォルダ（02, 05, 06, 07）の場合:</strong> 南村の判断で承認可
+      </div>
+    </div>
+    <div class="flow-arrow">&#x25BC;</div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-content">
+        <strong>管理者</strong>が Google Drive の共有設定を変更し、申請スペースに完了を報告
+      </div>
+    </div>
+    <div class="flow-arrow">&#x25BC;</div>
+    <div class="step">
+      <div class="step-num">5</div>
+      <div class="step-content">
+        <strong>権限変更ログ</strong>（変更日・対象者・変更内容・承認者）をスプレッドシートに記録
+      </div>
+    </div>
+
+    <div class="warn">
+      <strong>&#x26A0; 退職・離脱時の対応:</strong> メンバーが退職・契約終了した場合は、<strong>当日中</strong>に全フォルダのアクセス権限を削除してください。Google Workspace アカウント自体の停止も管理者が即日実施します。
+    </div>
+
+    <h3>一時的なアクセス権限</h3>
+    <p>プロジェクトなどで一時的に権限が必要な場合のルール:</p>
+    <ul>
+      <li>申請時に<strong>終了日を必ず明記</strong>する</li>
+      <li>最長<strong>90日間</strong>まで。それ以上は再申請が必要</li>
+      <li>終了日に管理者がアクセス権限を自動削除（Google カレンダーにリマインダー設定）</li>
+    </ul>
+  </div>
+
+  <!-- ===== 定期レビュー ===== -->
+  <div class="card" id="review">
+    <h2><span class="section-icon">&#x1F504;</span> 6. 定期レビュー・運用ルール</h2>
+    <p>権限設定は一度作って終わりではありません。定期的に見直しを行い、不要な権限を削除します。</p>
+
+    <h3>レビュースケジュール</h3>
+    <table>
+      <thead>
+        <tr><th>レビュー種別</th><th>頻度</th><th>実施者</th><th>内容</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>月次レビュー</strong></td>
+          <td>毎月1日</td>
+          <td>南村</td>
+          <td>
+            ・一時アクセス権限の期限チェック<br>
+            ・退職者のアカウント残存確認<br>
+            ・不審なアクセスログの確認
+          </td>
+        </tr>
+        <tr>
+          <td><strong>四半期レビュー</strong></td>
+          <td>1月/4月/7月/10月</td>
+          <td>南村 + 田中</td>
+          <td>
+            ・全メンバーの権限一覧の棚卸し<br>
+            ・権限マトリクスと実態の突合<br>
+            ・不要な共有設定の削除
+          </td>
+        </tr>
+        <tr>
+          <td><strong>年次レビュー</strong></td>
+          <td>毎年4月</td>
+          <td>代表 + 管理部門</td>
+          <td>
+            ・権限設計書自体の見直し<br>
+            ・フォルダ構成の妥当性確認<br>
+            ・セキュリティポリシーの更新
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>運用ルール一覧</h3>
+    <table>
+      <thead>
+        <tr><th>No.</th><th>ルール</th><th>対象者</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>共有ドライブのファイルを個人のマイドライブにコピーしない</td>
+          <td>全員</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>「リンクを知っている全員がアクセス可」の設定は禁止</td>
+          <td>全員</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>個人のGmail（@gmail.com）への共有は禁止。必ず会社アカウントを使用</td>
+          <td>全員</td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td>機密フォルダのファイルをダウンロードして外部に送信しない</td>
+          <td>全員</td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td>退職者のアカウント停止は退職当日中に実施</td>
+          <td>管理者</td>
+        </tr>
+        <tr>
+          <td>6</td>
+          <td>権限変更は必ずログに記録する（変更日・対象・理由・承認者）</td>
+          <td>管理者</td>
+        </tr>
+        <tr>
+          <td>7</td>
+          <td>外部パートナーへの共有は代表または役員の承認が必要</td>
+          <td>管理者</td>
+        </tr>
+        <tr>
+          <td>8</td>
+          <td>年1回、全員のパスワード変更を実施する</td>
+          <td>全員</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="info">
+      <strong>&#x1F4A1; 監査ログの確認方法:</strong> Google Workspace 管理コンソール（admin.google.com）→「レポート」→「監査と調査」→「ドライブのログイベント」から、誰がいつどのファイルにアクセスしたかを確認できます。
+    </div>
+
+    <h3>違反時の対応</h3>
+    <table>
+      <thead>
+        <tr><th>違反レベル</th><th>内容例</th><th>対応</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="permission-view">&#x1F7E1; 軽微</span></td>
+          <td>ファイルを誤ったフォルダに保存</td>
+          <td>口頭注意 + 正しい場所へ移動</td>
+        </tr>
+        <tr>
+          <td><span class="permission-edit">&#x1F535; 中程度</span></td>
+          <td>個人Gmailへの共有、無断ダウンロード</td>
+          <td>書面注意 + 該当データの削除確認</td>
+        </tr>
+        <tr>
+          <td><span class="permission-none">&#x1F534; 重大</span></td>
+          <td>顧客個人情報の外部漏洩、意図的な不正アクセス</td>
+          <td>アカウント即時停止 + 代表報告 + 法的対応検討</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+<div class="footer">
+  作成: RYOSEI / 2026-03-26 &nbsp;|&nbsp; 株式会社M&A バックオフィス改革プロジェクト &nbsp;|&nbsp; No.13 共有ドライブ アクセス権限設計書
+</div>
+
+</body>
+</html>

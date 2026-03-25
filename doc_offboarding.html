@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>退職時の情報管理手順書 | 株式会社M&A</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Segoe UI', 'Hiragino Kaku Gothic ProN', sans-serif; background: #f8fafc; color: #1f2937; line-height: 1.8; }
+.header { background: linear-gradient(135deg, #0f3a8e, #1a56db); color: white; padding: 36px 0 28px; text-align: center; }
+.header h1 { font-size: 1.5rem; font-weight: 700; }
+.header .sub { font-size: 0.9rem; opacity: 0.85; margin-top: 4px; }
+.header .badge { display: inline-block; margin-top: 10px; background: rgba(255,255,255,0.2); padding: 3px 14px; border-radius: 16px; font-size: 0.75rem; }
+.nav-back { max-width: 900px; margin: 16px auto 0; padding: 0 24px; }
+.nav-back a { color: #1a56db; text-decoration: none; font-size: 0.85rem; }
+.container { max-width: 900px; margin: 24px auto; padding: 0 24px; }
+.card { background: white; border-radius: 12px; box-shadow: 0 4px 14px rgba(0,0,0,0.08); padding: 32px; margin-bottom: 24px; }
+h2 { font-size: 1.2rem; color: #1a56db; margin-bottom: 16px; padding-left: 12px; border-left: 4px solid #1a56db; }
+h3 { font-size: 1rem; color: #374151; margin: 20px 0 8px; }
+p, .text { margin-bottom: 12px; font-size: 0.9rem; }
+ul, ol { margin: 8px 0 16px 24px; font-size: 0.9rem; }
+li { margin-bottom: 6px; }
+table { width: 100%; border-collapse: collapse; font-size: 0.85rem; margin: 12px 0 20px; }
+thead th { background: #e8eefb; color: #0f3a8e; font-weight: 600; text-align: left; padding: 10px 14px; border-bottom: 2px solid #1a56db; }
+tbody td { padding: 8px 14px; border-bottom: 1px solid #e5e7eb; vertical-align: top; }
+tbody tr:hover { background: #f9fafb; }
+.alert { background: #fee2e2; border-left: 4px solid #dc2626; border-radius: 6px; padding: 14px 18px; margin: 12px 0; font-size: 0.85rem; }
+.alert strong { color: #dc2626; }
+.info { background: #e8eefb; border-left: 4px solid #1a56db; border-radius: 6px; padding: 14px 18px; margin: 12px 0; font-size: 0.85rem; }
+.info strong { color: #1a56db; }
+.warn { background: #fef3c7; border-left: 4px solid #d97706; border-radius: 6px; padding: 14px 18px; margin: 12px 0; font-size: 0.85rem; }
+.warn strong { color: #d97706; }
+.checklist { list-style: none; margin-left: 0; }
+.checklist li { padding: 8px 12px; border: 1px solid #e5e7eb; border-radius: 6px; margin-bottom: 6px; display: flex; align-items: center; gap: 10px; }
+.checklist li::before { content: '\2610'; font-size: 1.1rem; color: #6b7280; }
+.step { display: flex; gap: 12px; align-items: flex-start; margin: 10px 0; padding: 12px 16px; background: #f9fafb; border-radius: 8px; border: 1px solid #e5e7eb; }
+.step-num { background: #1a56db; color: white; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem; flex-shrink: 0; }
+.step-content { flex: 1; }
+.footer { text-align: center; padding: 24px; color: #6b7280; font-size: 0.76rem; border-top: 1px solid #e5e7eb; margin-top: 32px; background: white; }
+@media print { body { background: white; } .card { box-shadow: none; border: 1px solid #ddd; } .nav-back { display: none; } .header { background: #1a56db; } }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>退職時の情報管理手順書</h1>
+  <div class="sub">Googleアカウント即時停止マニュアル統合版</div>
+  <div class="badge">No.16 + No.19 統合</div>
+</div>
+
+<div class="nav-back"><a href="index.html">&larr; トップに戻る</a></div>
+
+<div class="container">
+
+  <!-- 概要 -->
+  <div class="card">
+    <h2>本手順書について</h2>
+    <p>従業員・業務委託スタッフの退職時に、情報漏洩リスクを防止し、会社のデータ資産を確実に保全するための手順書です。退職連絡を受けた時点から、すべての処理が完了するまでの一連の流れをまとめています。</p>
+    <div class="alert">
+      <strong>重要:</strong> 退職連絡を受けたら、本手順書に沿って<strong>当日中</strong>にGoogleアカウントの停止処理を完了してください。特に円満退職でない場合は、連絡を受けた時点で即座に対応してください。
+    </div>
+  </div>
+
+  <!-- 退職連絡受領時チェックリスト -->
+  <div class="card">
+    <h2>1. 退職連絡受領時のチェックリスト</h2>
+    <p>退職の連絡を受けた際、以下の情報を確認・記録してください。</p>
+    <table>
+      <thead>
+        <tr><th>確認項目</th><th>記入欄</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>退職者氏名</td><td></td></tr>
+        <tr><td>所属店舗</td><td>ハーレム / セブンエイト / プリンス / オス / 福岡</td></tr>
+        <tr><td>雇用形態</td><td>社員 / 役員 / 業務委託</td></tr>
+        <tr><td>Googleアカウント</td><td>@m-and-a.co.jp 等</td></tr>
+        <tr><td>最終出勤日</td><td></td></tr>
+        <tr><td>退職事由</td><td>自己都合 / 会社都合 / 契約終了 / その他</td></tr>
+        <tr><td>退職連絡日</td><td></td></tr>
+        <tr><td>対応担当者</td><td></td></tr>
+      </tbody>
+    </table>
+    <div class="warn">
+      <strong>注意:</strong> 懲戒解雇・トラブルによる退職の場合、退職連絡と同時にステップ2のGoogleアカウント停止を即時実行してください。
+    </div>
+  </div>
+
+  <!-- 即時対応 -->
+  <div class="card">
+    <h2>2. 即時対応（当日中）: Googleアカウント停止手順</h2>
+    <div class="alert">
+      <strong>最優先対応:</strong> 退職日当日（または連絡受領当日）に必ず完了させてください。
+    </div>
+
+    <h3>2-1. Googleアカウントの一時停止</h3>
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <strong>Google管理コンソールにログイン</strong><br>
+        管理者アカウントで <code>admin.google.com</code> にアクセス
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">
+        <strong>ユーザー一覧を開く</strong><br>
+        左メニュー「ディレクトリ」→「ユーザー」をクリック
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-content">
+        <strong>退職者のアカウントを検索</strong><br>
+        検索バーに退職者の名前またはメールアドレスを入力
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-content">
+        <strong>アカウントを停止する</strong><br>
+        ユーザー詳細画面 →「その他のオプション」→「ユーザーを停止」をクリック →「停止」を確認
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">5</div>
+      <div class="step-content">
+        <strong>停止を確認</strong><br>
+        ユーザー一覧でステータスが「停止中」になっていることを確認
+      </div>
+    </div>
+
+    <h3>2-2. 共有ドライブのアクセス遮断</h3>
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <strong>共有ドライブを確認</strong><br>
+        Google管理コンソール →「アプリ」→「Google Workspace」→「ドライブとドキュメント」→「共有ドライブの管理」
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">
+        <strong>退職者のアクセス権を削除</strong><br>
+        各共有ドライブのメンバー一覧から退職者を削除。個人のGmailアカウントで共有されているファイルがないかも確認
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-content">
+        <strong>外部共有リンクの確認</strong><br>
+        退職者が作成した「リンクを知っている人全員」の共有設定があれば、適切なアクセス制限に変更
+      </div>
+    </div>
+
+    <div class="info">
+      <strong>補足:</strong> アカウントを「停止」にすると、そのユーザーはログインできなくなりますが、データは保持されます。データ移行が完了するまでアカウントを削除しないでください。
+    </div>
+  </div>
+
+  <!-- データ移行 -->
+  <div class="card">
+    <h2>3. データ所有権の移行手順</h2>
+    <p>退職者が作成・保有していたデータを会社の管理者に移行します。</p>
+
+    <h3>3-1. Googleドライブのデータ移行</h3>
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <strong>管理コンソールでデータ移行ツールを開く</strong><br>
+        admin.google.com →「ディレクトリ」→「ユーザー」→ 退職者を選択 →「その他のオプション」→「データ移行」
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">
+        <strong>移行先ユーザーを指定</strong><br>
+        「ドライブとドキュメント」を選択し、移行先の管理者アカウントを指定して「転送」をクリック
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-content">
+        <strong>移行完了を確認</strong><br>
+        移行先アカウントのマイドライブに退職者のフォルダが作成されていることを確認
+      </div>
+    </div>
+
+    <h3>3-2. Gmailのデータ移行</h3>
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <strong>メールデータの移行</strong><br>
+        必要に応じて、管理コンソールのデータ移行ツールで「メール」も移行先ユーザーに転送
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">
+        <strong>メール転送設定（必要な場合）</strong><br>
+        退職者宛のメールを後任者に転送する場合、管理コンソールからメール転送ルールを設定
+      </div>
+    </div>
+
+    <h3>3-3. Googleカレンダーの移行</h3>
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <strong>カレンダーの所有権移行</strong><br>
+        データ移行ツールで「カレンダー」を選択し、移行先ユーザーへ転送
+      </div>
+    </div>
+
+    <div class="warn">
+      <strong>注意:</strong> データ移行が完了するまでアカウントを削除しないでください。削除するとデータが復元できなくなります。
+    </div>
+  </div>
+
+  <!-- Google Chat -->
+  <div class="card">
+    <h2>4. Google Chat / スペースからの退出処理</h2>
+
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <strong>所属スペースの確認</strong><br>
+        退職者が参加している Google Chat スペース（グループチャット）を一覧で確認
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">
+        <strong>スペースからメンバーを削除</strong><br>
+        各スペースの設定 →「メンバーを管理」→ 退職者を選択して削除
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-content">
+        <strong>1対1チャットの確認</strong><br>
+        アカウント停止済みであれば、1対1チャットからの情報アクセスは自動的にブロックされます
+      </div>
+    </div>
+
+    <div class="info">
+      <strong>補足:</strong> アカウントが停止されていれば、退職者はスペースにアクセスできません。ただし、スペースのメンバー一覧を整理するために削除処理を行ってください。
+    </div>
+  </div>
+
+  <!-- 物理回収 -->
+  <div class="card">
+    <h2>5. 物理的な回収物リスト</h2>
+    <p>以下のアイテムを退職日までに回収してください。</p>
+    <ul class="checklist">
+      <li>店舗の鍵・カードキー</li>
+      <li>名刺（残りの在庫すべて）</li>
+      <li>制服・ユニフォーム</li>
+      <li>社用携帯電話（貸与している場合）</li>
+      <li>社用PC・タブレット（貸与している場合）</li>
+      <li>社員証・IDカード</li>
+      <li>会社支給の備品（充電器、ケーブル等）</li>
+      <li>顧客リスト・紙の名簿（保有している場合）</li>
+      <li>業務マニュアルの紙資料</li>
+      <li>ロッカーの鍵・私物の撤去確認</li>
+    </ul>
+  </div>
+
+  <!-- データ保管期間 -->
+  <div class="card">
+    <h2>6. 退職後のデータ保管期間</h2>
+    <table>
+      <thead>
+        <tr><th>データ種別</th><th>保管期間</th><th>備考</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Googleアカウント（停止状態）</td><td>退職後 90日間</td><td>データ移行完了後に削除</td></tr>
+        <tr><td>メールデータ</td><td>退職後 1年間</td><td>管理者アカウントに移行後保管</td></tr>
+        <tr><td>ドライブのファイル</td><td>退職後 1年間</td><td>管理者アカウントに移行後保管</td></tr>
+        <tr><td>チャット履歴</td><td>退職後 90日間</td><td>重要な内容は別途保存</td></tr>
+        <tr><td>雇用関連書類</td><td>退職後 3年間</td><td>労働基準法に基づく</td></tr>
+        <tr><td>給与関連書類</td><td>退職後 7年間</td><td>税法に基づく</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 最終チェックリスト -->
+  <div class="card">
+    <h2>7. 退職処理 最終チェックリスト</h2>
+    <p>すべての項目が完了したことを確認してください。印刷してご利用いただけます。</p>
+
+    <h3>退職者情報</h3>
+    <table>
+      <tbody>
+        <tr><td style="width:30%"><strong>氏名</strong></td><td></td></tr>
+        <tr><td><strong>所属店舗</strong></td><td></td></tr>
+        <tr><td><strong>退職日</strong></td><td></td></tr>
+        <tr><td><strong>対応担当者</strong></td><td></td></tr>
+      </tbody>
+    </table>
+
+    <h3>当日対応（即時）</h3>
+    <ul class="checklist">
+      <li>Googleアカウントを停止した</li>
+      <li>共有ドライブのアクセス権を削除した</li>
+      <li>外部共有リンクを確認・修正した</li>
+      <li>Google Chat / スペースから削除した</li>
+    </ul>
+
+    <h3>データ移行（1週間以内）</h3>
+    <ul class="checklist">
+      <li>Googleドライブのデータを移行した</li>
+      <li>Gmailのデータを移行した（必要な場合）</li>
+      <li>カレンダーのデータを移行した（必要な場合）</li>
+      <li>メール転送設定を行った（必要な場合）</li>
+    </ul>
+
+    <h3>物理的回収</h3>
+    <ul class="checklist">
+      <li>鍵・カードキーを回収した</li>
+      <li>名刺を回収した</li>
+      <li>制服を回収した</li>
+      <li>社用端末を回収した（該当する場合）</li>
+      <li>社員証を回収した</li>
+      <li>その他備品を回収した</li>
+      <li>ロッカーの私物撤去を確認した</li>
+    </ul>
+
+    <h3>退職後フォロー</h3>
+    <ul class="checklist">
+      <li>アカウント削除予定日を記録した（退職後90日目: ____年____月____日）</li>
+      <li>誓約書（個人情報保護）を受領した</li>
+      <li>退職処理記録を保管した</li>
+    </ul>
+
+    <div class="signature-area">
+      <p><strong>処理完了確認</strong></p>
+      <table style="border:none; margin:0;">
+        <tbody>
+          <tr><td style="border:none; width:50%;">対応担当者署名:</td><td style="border:none;">日付: ____年____月____日</td></tr>
+          <tr><td style="border:none;" colspan="2"><div class="signature-line"></div></td></tr>
+          <tr><td style="border:none;">管理者確認署名:</td><td style="border:none;">日付: ____年____月____日</td></tr>
+          <tr><td style="border:none;" colspan="2"><div class="signature-line"></div></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  株式会社M&A｜退職時の情報管理手順書（No.16 + No.19 統合）<br>
+  作成: RYOSEI / 2026-03-26
+</div>
+
+</body>
+</html>

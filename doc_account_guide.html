@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Googleアカウント配布ガイド（従業員向け）| M&A バックオフィス改革</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Segoe UI', 'Hiragino Kaku Gothic ProN', sans-serif; background: #f8fafc; color: #1f2937; line-height: 1.8; }
+.header { background: linear-gradient(135deg, #0f3a8e, #1a56db); color: white; padding: 36px 0 28px; text-align: center; }
+.header h1 { font-size: 1.5rem; font-weight: 700; }
+.header .sub { font-size: 0.9rem; opacity: 0.85; margin-top: 4px; }
+.header .badge { display: inline-block; margin-top: 10px; background: rgba(255,255,255,0.2); padding: 3px 14px; border-radius: 16px; font-size: 0.75rem; }
+.nav-back { max-width: 900px; margin: 16px auto 0; padding: 0 24px; }
+.nav-back a { color: #1a56db; text-decoration: none; font-size: 0.85rem; }
+.container { max-width: 900px; margin: 24px auto; padding: 0 24px; }
+.card { background: white; border-radius: 12px; box-shadow: 0 4px 14px rgba(0,0,0,0.08); padding: 32px; margin-bottom: 24px; }
+h2 { font-size: 1.2rem; color: #1a56db; margin-bottom: 16px; padding-left: 12px; border-left: 4px solid #1a56db; }
+h3 { font-size: 1rem; color: #374151; margin: 20px 0 8px; }
+p, .text { margin-bottom: 12px; font-size: 0.9rem; }
+ul, ol { margin: 8px 0 16px 24px; font-size: 0.9rem; }
+li { margin-bottom: 6px; }
+table { width: 100%; border-collapse: collapse; font-size: 0.85rem; margin: 12px 0 20px; }
+thead th { background: #e8eefb; color: #0f3a8e; font-weight: 600; text-align: left; padding: 10px 14px; border-bottom: 2px solid #1a56db; }
+tbody td { padding: 8px 14px; border-bottom: 1px solid #e5e7eb; vertical-align: top; }
+tbody tr:hover { background: #f9fafb; }
+.alert { background: #fee2e2; border-left: 4px solid #dc2626; border-radius: 6px; padding: 14px 18px; margin: 12px 0; font-size: 0.85rem; }
+.alert strong { color: #dc2626; }
+.info { background: #e8eefb; border-left: 4px solid #1a56db; border-radius: 6px; padding: 14px 18px; margin: 12px 0; font-size: 0.85rem; }
+.info strong { color: #1a56db; }
+.warn { background: #fef3c7; border-left: 4px solid #d97706; border-radius: 6px; padding: 14px 18px; margin: 12px 0; font-size: 0.85rem; }
+.warn strong { color: #d97706; }
+.tree { font-family: 'Consolas', 'Courier New', monospace; font-size: 0.85rem; line-height: 1.6; background: #f9fafb; padding: 16px 20px; border-radius: 8px; border: 1px solid #e5e7eb; margin: 12px 0; }
+.tree .folder { color: #1a56db; font-weight: 600; }
+.tree .file { color: #6b7280; }
+.step { display: flex; gap: 12px; align-items: flex-start; margin: 10px 0; padding: 12px 16px; background: #f9fafb; border-radius: 8px; border: 1px solid #e5e7eb; }
+.step-num { background: #1a56db; color: white; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem; flex-shrink: 0; }
+.step-content { flex: 1; }
+.footer { text-align: center; padding: 24px; color: #6b7280; font-size: 0.76rem; border-top: 1px solid #e5e7eb; margin-top: 32px; background: white; }
+@media print { body { background: white; } .card { box-shadow: none; border: 1px solid #ddd; } .nav-back { display: none; } }
+.greeting { background: linear-gradient(135deg, #e8eefb, #f0f4ff); border-radius: 12px; padding: 24px 28px; margin-bottom: 20px; border: 1px solid #c7d7f5; }
+.greeting p { margin-bottom: 8px; }
+.screenshot-placeholder { background: #f3f4f6; border: 2px dashed #d1d5db; border-radius: 8px; padding: 32px; text-align: center; color: #9ca3af; font-size: 0.85rem; margin: 12px 0; }
+.faq-item { border-bottom: 1px solid #e5e7eb; padding: 14px 0; }
+.faq-item:last-child { border-bottom: none; }
+.faq-q { font-weight: 600; color: #1a56db; margin-bottom: 4px; font-size: 0.9rem; }
+.faq-a { font-size: 0.85rem; color: #4b5563; padding-left: 16px; }
+.contact-box { background: #f0fdf4; border: 2px solid #86efac; border-radius: 12px; padding: 20px 24px; text-align: center; margin-top: 16px; }
+.contact-box .contact-title { font-size: 1rem; font-weight: 700; color: #065f46; margin-bottom: 8px; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Googleアカウント 初期設定ガイド</h1>
+  <div class="sub">株式会社M&A バックオフィス改革プロジェクト</div>
+  <div class="badge">No.9 アカウント配布・従業員向け</div>
+</div>
+
+<div class="nav-back"><a href="index.html">&larr; トップに戻る</a></div>
+
+<div class="container">
+
+  <!-- 案内文 -->
+  <div class="card">
+    <div class="greeting">
+      <p><strong>お疲れ様です！</strong></p>
+      <p>今回、業務連絡や資料の管理を便利にするために、会社専用の<strong>Googleアカウント</strong>をお渡しすることになりました。</p>
+      <p>普段使っている個人のGoogleアカウント（Gmail）とは別の、<strong>仕事専用のアカウント</strong>です。
+      このガイドを見ながら設定すれば、5〜10分で完了します。</p>
+      <p>わからないことがあれば、気軽に問い合わせてください！</p>
+    </div>
+
+    <h2>このアカウントでできること</h2>
+    <ul>
+      <li><strong>Google Chat</strong> — 業務連絡（LINEグループの代わり）</li>
+      <li><strong>Google Drive</strong> — 資料の共有・保存</li>
+      <li><strong>Gmail</strong> — 会社メールの送受信</li>
+      <li><strong>Google カレンダー</strong> — スケジュール管理</li>
+    </ul>
+    <div class="info">
+      <strong>安心ポイント:</strong> 個人のGoogleアカウントやLINEには一切影響しません。プライベートとは完全に分かれています。
+    </div>
+  </div>
+
+  <!-- あなたのアカウント情報 -->
+  <div class="card">
+    <h2>1. あなたのアカウント情報</h2>
+    <p>以下の情報が配布されます。大切に保管してください。</p>
+    <table>
+      <tbody>
+        <tr>
+          <td style="width: 30%; font-weight: 600; background: #f9fafb;">メールアドレス</td>
+          <td style="background: #fffde7; border: 1px dashed #d97706;">（配布時に記載）例: taro.yamada@ドメイン名</td>
+        </tr>
+        <tr>
+          <td style="font-weight: 600; background: #f9fafb;">初期パスワード</td>
+          <td style="background: #fffde7; border: 1px dashed #d97706;">（配布時に記載）※ログイン後すぐに変更してください</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="alert">
+      <strong>重要:</strong> 初期パスワードは必ず変更してください。変更しないままだと、他の人にログインされる可能性があります。
+    </div>
+  </div>
+
+  <!-- ログイン方法 -->
+  <div class="card">
+    <h2>2. ログイン方法（スマホ・PC共通）</h2>
+
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <strong>ブラウザで Google にアクセス</strong><br>
+        スマホまたはPCのブラウザ（Chrome推奨）で以下にアクセスします：<br>
+        <code style="background: #f3f4f6; padding: 2px 8px; border-radius: 4px;">https://accounts.google.com</code>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">
+        <strong>メールアドレスを入力</strong><br>
+        配布された会社用メールアドレスを入力して「次へ」をタップ。
+        <div class="screenshot-placeholder">[ スクリーンショット: Googleログイン画面 - メールアドレス入力 ]</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-content">
+        <strong>初期パスワードを入力</strong><br>
+        配布された初期パスワードを入力して「次へ」をタップ。
+        <div class="screenshot-placeholder">[ スクリーンショット: Googleログイン画面 - パスワード入力 ]</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-content">
+        <strong>利用規約に同意</strong><br>
+        Google Workspace の利用規約が表示されたら「同意する」をタップ。
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">5</div>
+      <div class="step-content">
+        <strong>ログイン完了！</strong><br>
+        Googleのトップ画面が表示されればOKです。続けてパスワード変更に進みましょう。
+      </div>
+    </div>
+
+    <div class="warn">
+      <strong>すでに個人のGoogleアカウントでログイン中の場合:</strong><br>
+      右上のアイコンをタップ →「別のアカウントを追加」→ 会社用アドレスでログインしてください。個人アカウントからログアウトする必要はありません。
+    </div>
+  </div>
+
+  <!-- パスワード変更 -->
+  <div class="card">
+    <h2>3. パスワード変更（必ず行ってください）</h2>
+
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <strong>Googleアカウント設定を開く</strong><br>
+        ログイン後、右上の自分のアイコンをタップ →「Googleアカウントを管理」をタップ。
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">
+        <strong>「セキュリティ」タブを選択</strong><br>
+        上部のタブから「セキュリティ」をタップ。
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-content">
+        <strong>「パスワード」をタップ</strong><br>
+        「Googleへのログイン」セクション内の「パスワード」をタップ。本人確認のため現在のパスワードを入力。
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-content">
+        <strong>新しいパスワードを設定</strong><br>
+        <ul style="margin-top: 4px;">
+          <li>8文字以上</li>
+          <li>英字（大文字・小文字）と数字を組み合わせる</li>
+          <li>自分の名前や誕生日は避ける</li>
+          <li>他のサービスと同じパスワードにしない</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">5</div>
+      <div class="step-content">
+        <strong>「パスワードを変更」をタップして完了</strong><br>
+        新しいパスワードはメモして安全な場所に保管してください。
+      </div>
+    </div>
+
+    <div class="info">
+      <strong>パスワードの良い例:</strong> <code>Harem2026!sun</code>（英大文字+英小文字+数字+記号の組み合わせ）<br>
+      <strong>ダメな例:</strong> <code>12345678</code>、<code>password</code>、<code>自分の名前</code>
+    </div>
+  </div>
+
+  <!-- 2段階認証 -->
+  <div class="card">
+    <h2>4. 2段階認証の設定（セキュリティ強化）</h2>
+    <p>2段階認証を設定すると、パスワードが漏れても他の人にログインされにくくなります。</p>
+
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <strong>セキュリティ設定を開く</strong><br>
+        Googleアカウント管理 →「セキュリティ」タブ →「2段階認証プロセス」をタップ。
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">
+        <strong>「開始」をタップ</strong><br>
+        パスワードを入力して本人確認を行います。
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-content">
+        <strong>電話番号を登録</strong><br>
+        自分のスマホの電話番号を入力 →「テキストメッセージ」を選択 →「次へ」。
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-content">
+        <strong>確認コードを入力</strong><br>
+        SMSで届いた6桁のコードを入力して「次へ」。
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">5</div>
+      <div class="step-content">
+        <strong>「有効にする」をタップして完了</strong><br>
+        これで、新しい端末からログインする際にSMSで確認コードが届くようになります。
+      </div>
+    </div>
+
+    <div class="warn">
+      <strong>電話番号を変更した場合:</strong> 2段階認証の電話番号も更新が必要です。変更前に管理者に連絡してください。
+    </div>
+  </div>
+
+  <!-- Google Chatアプリ -->
+  <div class="card">
+    <h2>5. Google Chat アプリのインストール</h2>
+    <p>業務連絡は Google Chat で行います。スマホにアプリを入れておくと通知が届いて便利です。</p>
+
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <strong>アプリをダウンロード</strong><br>
+        <ul>
+          <li><strong>iPhone</strong>: App Store で「Google Chat」と検索 → インストール</li>
+          <li><strong>Android</strong>: Google Play で「Google Chat」と検索 → インストール</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">
+        <strong>会社アカウントでログイン</strong><br>
+        アプリを開いて、配布された会社用メールアドレスでログインしてください。
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-content">
+        <strong>通知を許可する</strong><br>
+        「通知を許可しますか？」と聞かれたら「許可」を選んでください。業務連絡を見逃さないために必要です。
+      </div>
+    </div>
+
+    <div class="info">
+      <strong>PCからも使えます:</strong> ブラウザで <code>https://chat.google.com</code> にアクセスすると、PC版のGoogle Chatが使えます。
+    </div>
+  </div>
+
+  <!-- よくあるトラブル -->
+  <div class="card">
+    <h2>6. よくあるトラブルと対処法</h2>
+
+    <div class="faq-item">
+      <div class="faq-q">Q. パスワードを忘れてしまった</div>
+      <div class="faq-a">A. 自分ではリセットできません。下記の問い合わせ先に連絡してください。管理者がパスワードをリセットします。</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">Q. ログインしようとしたら「このアカウントは無効です」と出る</div>
+      <div class="faq-a">A. アカウントが一時停止されている可能性があります。管理者に連絡してください。</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">Q. 個人のGoogleアカウントと会社アカウント、どっちでログインしているかわからない</div>
+      <div class="faq-a">A. 右上のアイコンをタップすると、現在ログイン中のアカウントが表示されます。会社のドメイン名（@〇〇）が付いているのが会社アカウントです。</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">Q. Google Chat の通知が来ない</div>
+      <div class="faq-a">A. スマホの設定 →「通知」→「Google Chat」→ 通知をONにしてください。それでもダメな場合は、アプリ内の設定 →「通知」を確認してください。</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">Q. スマホの容量が足りなくてアプリが入らない</div>
+      <div class="faq-a">A. Google Chat はブラウザからも使えます。Chromeで <code>https://chat.google.com</code> にアクセスしてください。</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">Q. 2段階認証のSMSが届かない</div>
+      <div class="faq-a">A. 電波状況を確認してください。それでも届かない場合は「音声通話で受け取る」を選ぶか、管理者に連絡してください。</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">Q. 退職する場合、アカウントはどうなる？</div>
+      <div class="faq-a">A. 退職時にアカウントは無効化されます。個人のGoogleアカウントには影響ありません。必要なデータがあれば事前に相談してください。</div>
+    </div>
+  </div>
+
+  <!-- 問い合わせ先 -->
+  <div class="card">
+    <h2>7. 困ったときの問い合わせ先</h2>
+    <p>設定がうまくいかない場合や、わからないことがあれば気軽に聞いてください。</p>
+
+    <div class="contact-box">
+      <div class="contact-title">アカウント・IT関連の問い合わせ</div>
+      <p style="margin-bottom: 4px; font-size: 0.9rem;">担当: 管理部門</p>
+      <p style="font-size: 0.85rem; color: #4b5563;">Google Chat の「管理部門」スペース、またはLINEで連絡してください<br>（移行完了までは、LINEでの問い合わせもOKです）</p>
+    </div>
+
+    <div class="warn" style="margin-top: 16px;">
+      <strong>お願い:</strong> パスワードをLINEやチャットで他の人に教えないでください。パスワードを聞かれても、絶対に答えないでください。管理者がパスワードを聞くことはありません。
+    </div>
+  </div>
+
+  <!-- チェックリスト -->
+  <div class="card">
+    <h2>8. 設定完了チェックリスト</h2>
+    <p>以下がすべて完了していれば、準備OKです！</p>
+    <table>
+      <thead>
+        <tr>
+          <th style="width: 8%;">確認</th>
+          <th style="width: 42%;">項目</th>
+          <th style="width: 50%;">補足</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="text-align: center; font-size: 1.2rem;">&#9744;</td>
+          <td>会社用Googleアカウントでログインできた</td>
+          <td>メールアドレス・パスワードで正常にログイン</td>
+        </tr>
+        <tr>
+          <td style="text-align: center; font-size: 1.2rem;">&#9744;</td>
+          <td>パスワードを変更した</td>
+          <td>初期パスワードから自分で決めたパスワードに変更</td>
+        </tr>
+        <tr>
+          <td style="text-align: center; font-size: 1.2rem;">&#9744;</td>
+          <td>2段階認証を設定した</td>
+          <td>電話番号でSMS認証を設定</td>
+        </tr>
+        <tr>
+          <td style="text-align: center; font-size: 1.2rem;">&#9744;</td>
+          <td>Google Chat アプリをインストールした</td>
+          <td>iPhone: App Store / Android: Google Play</td>
+        </tr>
+        <tr>
+          <td style="text-align: center; font-size: 1.2rem;">&#9744;</td>
+          <td>Google Chat で通知が届くことを確認した</td>
+          <td>テストメッセージの通知が届けばOK</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+<div class="footer">
+  作成: RYOSEI / 2026-03-26｜株式会社M&A バックオフィス改革プロジェクト
+</div>
+
+</body>
+</html>

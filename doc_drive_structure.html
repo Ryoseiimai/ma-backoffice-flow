@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Google 共有ドライブ フォルダ構成設計書 | M&A バックオフィス改革</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Segoe UI', 'Hiragino Kaku Gothic ProN', sans-serif; background: #f8fafc; color: #1f2937; line-height: 1.8; }
+.header { background: linear-gradient(135deg, #0f3a8e, #1a56db); color: white; padding: 36px 0 28px; text-align: center; }
+.header h1 { font-size: 1.5rem; font-weight: 700; }
+.header .sub { font-size: 0.9rem; opacity: 0.85; margin-top: 4px; }
+.header .badge { display: inline-block; margin-top: 10px; background: rgba(255,255,255,0.2); padding: 3px 14px; border-radius: 16px; font-size: 0.75rem; }
+.nav-back { max-width: 900px; margin: 16px auto 0; padding: 0 24px; }
+.nav-back a { color: #1a56db; text-decoration: none; font-size: 0.85rem; }
+.container { max-width: 900px; margin: 24px auto; padding: 0 24px; }
+.card { background: white; border-radius: 12px; box-shadow: 0 4px 14px rgba(0,0,0,0.08); padding: 32px; margin-bottom: 24px; }
+h2 { font-size: 1.2rem; color: #1a56db; margin-bottom: 16px; padding-left: 12px; border-left: 4px solid #1a56db; }
+h3 { font-size: 1rem; color: #374151; margin: 20px 0 8px; }
+p, .text { margin-bottom: 12px; font-size: 0.9rem; }
+ul, ol { margin: 8px 0 16px 24px; font-size: 0.9rem; }
+li { margin-bottom: 6px; }
+table { width: 100%; border-collapse: collapse; font-size: 0.85rem; margin: 12px 0 20px; }
+thead th { background: #e8eefb; color: #0f3a8e; font-weight: 600; text-align: left; padding: 10px 14px; border-bottom: 2px solid #1a56db; }
+tbody td { padding: 8px 14px; border-bottom: 1px solid #e5e7eb; vertical-align: top; }
+tbody tr:hover { background: #f9fafb; }
+.alert { background: #fee2e2; border-left: 4px solid #dc2626; border-radius: 6px; padding: 14px 18px; margin: 12px 0; font-size: 0.85rem; }
+.alert strong { color: #dc2626; }
+.info { background: #e8eefb; border-left: 4px solid #1a56db; border-radius: 6px; padding: 14px 18px; margin: 12px 0; font-size: 0.85rem; }
+.info strong { color: #1a56db; }
+.warn { background: #fef3c7; border-left: 4px solid #d97706; border-radius: 6px; padding: 14px 18px; margin: 12px 0; font-size: 0.85rem; }
+.warn strong { color: #d97706; }
+.tree { font-family: 'Consolas', 'Courier New', monospace; font-size: 0.85rem; line-height: 1.6; background: #f9fafb; padding: 16px 20px; border-radius: 8px; border: 1px solid #e5e7eb; margin: 12px 0; overflow-x: auto; }
+.tree .folder { color: #1a56db; font-weight: 600; }
+.tree .file { color: #6b7280; }
+.tree .comment { color: #9ca3af; font-style: italic; }
+.step { display: flex; gap: 12px; align-items: flex-start; margin: 10px 0; padding: 12px 16px; background: #f9fafb; border-radius: 8px; border: 1px solid #e5e7eb; }
+.step-num { background: #1a56db; color: white; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem; flex-shrink: 0; }
+.step-content { flex: 1; }
+.footer { text-align: center; padding: 24px; color: #6b7280; font-size: 0.76rem; border-top: 1px solid #e5e7eb; margin-top: 32px; background: white; }
+@media print { body { background: white; } .card { box-shadow: none; border: 1px solid #ddd; } .nav-back { display: none; } }
+.access-tag { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.72rem; font-weight: 600; }
+.access-restricted { background: #fee2e2; color: #dc2626; }
+.access-manager { background: #fce7f3; color: #9d174d; }
+.access-all { background: #d1fae5; color: #065f46; }
+.access-team { background: #ede9fe; color: #5b21b6; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Google 共有ドライブ フォルダ構成設計書</h1>
+  <div class="sub">株式会社M&A バックオフィス改革プロジェクト</div>
+  <div class="badge">No.2 共有ドライブ設計</div>
+</div>
+
+<div class="nav-back"><a href="index.html">&larr; トップに戻る</a></div>
+
+<div class="container">
+
+  <!-- 概要 -->
+  <div class="card">
+    <h2>1. 本書の目的</h2>
+    <p>Google 共有ドライブ上に統一的なフォルダ構成を設計し、ファイルの散逸防止・検索性向上・アクセス権限の適切な管理を実現します。</p>
+    <div class="info">
+      <strong>共有ドライブのメリット:</strong> 個人のマイドライブと異なり、組織が所有するためメンバーの退職時もデータが残ります。アクセス権限をフォルダ単位で管理できます。
+    </div>
+  </div>
+
+  <!-- フォルダ構成 全体図 -->
+  <div class="card">
+    <h2>2. フォルダ構成 全体図</h2>
+    <p>共有ドライブ「M&A_業務管理」直下に、以下の8カテゴリのフォルダを配置します。</p>
+
+    <div class="tree">
+<span class="folder">M&A_業務管理（共有ドライブ）</span>
+├── <span class="folder">01_顧客個人情報/</span> <span class="comment">← 要厳重管理</span>
+│   ├── <span class="folder">ハーレム/</span>
+│   ├── <span class="folder">セブンエイト/</span>
+│   ├── <span class="folder">プリンス/</span>
+│   ├── <span class="folder">オス/</span>
+│   └── <span class="folder">福岡/</span>
+│
+├── <span class="folder">02_売上管理/</span>
+│   ├── <span class="folder">2026/</span>
+│   │   ├── <span class="folder">01月/</span>
+│   │   │   ├── <span class="folder">ハーレム/</span>
+│   │   │   ├── <span class="folder">セブンエイト/</span>
+│   │   │   ├── <span class="folder">プリンス/</span>
+│   │   │   ├── <span class="folder">オス/</span>
+│   │   │   └── <span class="folder">福岡/</span>
+│   │   ├── <span class="folder">02月/</span>
+│   │   └── <span class="file">...</span>
+│   └── <span class="folder">2025/</span>
+│
+├── <span class="folder">03_給与データ/</span>
+│   ├── <span class="folder">2026/</span>
+│   │   ├── <span class="folder">01月/</span>
+│   │   │   ├── <span class="folder">SPJ/</span>
+│   │   │   ├── <span class="folder">M&A/</span>
+│   │   │   ├── <span class="folder">ロカ/</span>
+│   │   │   ├── <span class="folder">ファム/</span>
+│   │   │   └── <span class="folder">ユニラボ/</span>
+│   │   ├── <span class="folder">02月/</span>
+│   │   └── <span class="file">...</span>
+│   └── <span class="folder">2025/</span>
+│
+├── <span class="folder">04_税務資料/</span>
+│   ├── <span class="folder">2026年度/</span>
+│   │   ├── <span class="folder">01月/</span>
+│   │   ├── <span class="folder">02月/</span>
+│   │   ├── <span class="folder">確定申告/</span>
+│   │   └── <span class="folder">年末調整/</span>
+│   └── <span class="folder">2025年度/</span>
+│
+├── <span class="folder">05_契約書類/</span>
+│   ├── <span class="folder">業務委託契約/</span>
+│   │   ├── <span class="folder">ハーレム/</span>
+│   │   ├── <span class="folder">セブンエイト/</span>
+│   │   ├── <span class="folder">プリンス/</span>
+│   │   ├── <span class="folder">オス/</span>
+│   │   └── <span class="folder">福岡/</span>
+│   └── <span class="folder">雇用契約/</span>
+│       └── <span class="folder">社員・役員/</span>
+│
+├── <span class="folder">06_社内マニュアル/</span>
+│   ├── <span class="folder">操作マニュアル/</span>
+│   │   ├── <span class="file">Google_Workspace_基本操作.pdf</span>
+│   │   ├── <span class="file">給与計算_手順書.pdf</span>
+│   │   └── <span class="file">振込_手順書.pdf</span>
+│   └── <span class="folder">規定類/</span>
+│       ├── <span class="file">就業規則.pdf</span>
+│       └── <span class="file">業務委託規定.pdf</span>
+│
+├── <span class="folder">07_議事録/</span>
+│   ├── <span class="file">20260326_幹部会議.pdf</span>
+│   ├── <span class="file">20260320_管理部門MTG.pdf</span>
+│   └── <span class="file">...</span>
+│
+└── <span class="folder">08_振込関連/</span>
+    ├── <span class="folder">振込データ/</span>
+    │   ├── <span class="folder">2026/</span>
+    │   │   ├── <span class="folder">01月/</span>
+    │   │   ├── <span class="folder">02月/</span>
+    │   │   └── <span class="file">...</span>
+    │   └── <span class="folder">2025/</span>
+    └── <span class="folder">通帳コピー/</span>
+        ├── <span class="folder">2026/</span>
+        └── <span class="folder">2025/</span>
+    </div>
+  </div>
+
+  <!-- 各フォルダの用途説明 -->
+  <div class="card">
+    <h2>3. 各フォルダの用途・アクセス権限</h2>
+
+    <table>
+      <thead>
+        <tr>
+          <th style="width:22%">フォルダ名</th>
+          <th style="width:35%">用途・格納するもの</th>
+          <th style="width:20%">アクセス権限</th>
+          <th style="width:23%">補足</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>01_顧客個人情報</strong></td>
+          <td>ホスト（個人事業主）の個人情報。マイナンバー、住所、口座情報、身分証コピー等</td>
+          <td><span class="access-tag access-restricted">制限付き</span><br>南村・丹下・守屋のみ</td>
+          <td>店舗別サブフォルダで管理。最も厳格なアクセス制御が必要</td>
+        </tr>
+        <tr>
+          <td><strong>02_売上管理</strong></td>
+          <td>各店舗の日次・月次売上データ、売上集計表</td>
+          <td><span class="access-tag access-manager">管理部門</span><br>管理部門 + 役員</td>
+          <td>年 → 月 → 店舗の3階層。集計用スプレッドシートも格納</td>
+        </tr>
+        <tr>
+          <td><strong>03_給与データ</strong></td>
+          <td>給与計算シート、報酬明細、支払調書の元データ</td>
+          <td><span class="access-tag access-restricted">制限付き</span><br>南村・丹下・守屋</td>
+          <td>法人別（SPJ/M&A/ロカ/ファム/ユニラボ）にサブフォルダを分割</td>
+        </tr>
+        <tr>
+          <td><strong>04_税務資料</strong></td>
+          <td>源泉徴収関連、年末調整、確定申告資料、A-TAXとのやり取り</td>
+          <td><span class="access-tag access-team">税務チーム</span><br>丹下・南村・守屋 + A-TAX</td>
+          <td>年度別管理。確定申告・年末調整は専用サブフォルダ</td>
+        </tr>
+        <tr>
+          <td><strong>05_契約書類</strong></td>
+          <td>業務委託契約書（ホスト向け）、雇用契約書（社員向け）</td>
+          <td><span class="access-tag access-manager">管理部門</span><br>管理部門 + 役員</td>
+          <td>業務委託は店舗別に格納。電子契約のPDFも同フォルダに保存</td>
+        </tr>
+        <tr>
+          <td><strong>06_社内マニュアル</strong></td>
+          <td>操作手順書、業務フロー図、社内規定</td>
+          <td><span class="access-tag access-all">全従業員</span><br>全従業員閲覧可</td>
+          <td>編集権限は管理部門のみ。閲覧は全員可能</td>
+        </tr>
+        <tr>
+          <td><strong>07_議事録</strong></td>
+          <td>会議議事録、打ち合わせメモ</td>
+          <td><span class="access-tag access-manager">管理部門</span><br>管理部門 + 役員</td>
+          <td>ファイル名に日付を含める（YYYYMMDD形式）</td>
+        </tr>
+        <tr>
+          <td><strong>08_振込関連</strong></td>
+          <td>振込データ（CSVまたはExcel）、通帳コピー（スキャン画像）</td>
+          <td><span class="access-tag access-restricted">制限付き</span><br>守屋・田山・田中</td>
+          <td>振込実行のエビデンスとして通帳コピーも保管</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="alert">
+      <strong>セキュリティ注意:</strong> 01_顧客個人情報・03_給与データ・08_振込関連は、特に厳格なアクセス制限を設定してください。共有ドライブのフォルダ単位でアクセス権を変更できます。
+    </div>
+  </div>
+
+  <!-- 命名規則 -->
+  <div class="card">
+    <h2>4. 命名規則</h2>
+
+    <h3>4-1. 日付フォーマット</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>用途</th>
+          <th>フォーマット</th>
+          <th>例</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>フォルダ名（年）</td><td>YYYY</td><td>2026</td></tr>
+        <tr><td>フォルダ名（月）</td><td>MM月</td><td>01月、02月</td></tr>
+        <tr><td>フォルダ名（年度）</td><td>YYYY年度</td><td>2026年度</td></tr>
+        <tr><td>ファイル名 接頭辞</td><td>YYYYMMDD</td><td>20260326</td></tr>
+      </tbody>
+    </table>
+
+    <h3>4-2. ファイル命名ルール</h3>
+    <div class="info">
+      <strong>基本形式:</strong> <code>YYYYMMDD_カテゴリ_内容_補足.拡張子</code>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>種類</th>
+          <th>命名例</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>売上データ</td><td><code>20260301_売上_ハーレム_日次.xlsx</code></td></tr>
+        <tr><td>給与計算シート</td><td><code>20260315_給与_SPJ_03月分.xlsx</code></td></tr>
+        <tr><td>振込データ</td><td><code>20260325_振込_M&A_03月分.csv</code></td></tr>
+        <tr><td>議事録</td><td><code>20260326_議事録_幹部会議.pdf</code></td></tr>
+        <tr><td>契約書</td><td><code>20260401_業務委託契約_山田太郎.pdf</code></td></tr>
+        <tr><td>通帳コピー</td><td><code>20260325_通帳_三菱UFJ_001.jpg</code></td></tr>
+        <tr><td>税務資料</td><td><code>20260315_源泉徴収_SPJ_03月分.xlsx</code></td></tr>
+        <tr><td>マニュアル</td><td><code>給与計算_手順書_v2.pdf</code>（日付不要）</td></tr>
+      </tbody>
+    </table>
+
+    <h3>4-3. 命名時の注意事項</h3>
+    <ul>
+      <li>半角スペースは使わない（アンダースコア <code>_</code> で区切る）</li>
+      <li>記号は <code>_</code>（アンダースコア）と <code>-</code>（ハイフン）のみ使用可</li>
+      <li>バージョン管理が必要なファイルは末尾に <code>_v1</code> <code>_v2</code> を付ける</li>
+      <li>「最終版」「完成版」「修正済み」などの曖昧な表現は使わない</li>
+      <li>マニュアル等の更新型ファイルは日付不要（バージョン番号で管理）</li>
+    </ul>
+
+    <div class="warn">
+      <strong>NGな命名例:</strong><br>
+      <code>売上 3月 最終版 (2).xlsx</code> → スペース・丸括弧・曖昧な「最終版」はNG<br>
+      <code>20260301_売上_ハーレム_03月分.xlsx</code> → これが正しい形式
+    </div>
+  </div>
+
+  <!-- フォルダ運用ルール -->
+  <div class="card">
+    <h2>5. フォルダ運用ルール</h2>
+
+    <h3>5-1. 新規フォルダの作成</h3>
+    <ul>
+      <li>月が変わったら、各カテゴリ内に新しい月フォルダを作成する</li>
+      <li>年度が変わったら、年度フォルダを作成する</li>
+      <li>上記以外のフォルダを新たに作成する場合は、管理部門で承認を得る</li>
+    </ul>
+
+    <h3>5-2. ファイルの移動・削除</h3>
+    <ul>
+      <li>共有ドライブ内のファイルは原則削除しない（ゴミ箱に入れると全員から消える）</li>
+      <li>不要なファイルは「_archive」サブフォルダに移動する</li>
+      <li>誤って削除した場合は25日以内であればゴミ箱から復元可能</li>
+    </ul>
+
+    <h3>5-3. Google スプレッドシートの活用</h3>
+    <ul>
+      <li>売上データ・給与データは可能な限り Google スプレッドシートで管理する</li>
+      <li>Excel ファイルは Google スプレッドシートに変換して保存することを推奨</li>
+      <li>スプレッドシートは共有ドライブ内に保存する（マイドライブに置かない）</li>
+    </ul>
+  </div>
+
+  <!-- 関連ドキュメント -->
+  <div class="card">
+    <h2>6. 関連ドキュメント</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>ドキュメント</th>
+          <th>内容</th>
+          <th>リンク</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>LINEグループ → Google Chat 移行設計書</td>
+          <td>チャット移行のスペース設計・スケジュール</td>
+          <td><a href="doc_chat_migration.html">No.1+11 設計書</a></td>
+        </tr>
+        <tr>
+          <td>Googleアカウント配布ガイド</td>
+          <td>従業員向けログイン・初期設定の案内</td>
+          <td><a href="doc_account_guide.html">No.9 ガイド</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+<div class="footer">
+  作成: RYOSEI / 2026-03-26｜株式会社M&A バックオフィス改革プロジェクト
+</div>
+
+</body>
+</html>
