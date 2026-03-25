@@ -378,13 +378,13 @@
             <div class="tl-item">
                 <div class="tl-date">〜12-13日</div>
                 <div class="tl-dot orange"></div>
-                <div class="tl-label">田中氏承認<br>フィードバック</div>
+                <div class="tl-label">承認フロー<br>南村→丹下→南村→田中氏</div>
                 <span class="tl-owner orange">田中氏</span>
             </div>
             <div class="tl-item">
                 <div class="tl-date">13日頃</div>
                 <div class="tl-dot green"></div>
-                <div class="tl-label">振込予約<br>ダブルチェック</div>
+                <div class="tl-label">ネットバンキング<br>振込予約・ダブルチェック</div>
                 <span class="tl-owner green">守屋/南村</span>
             </div>
             <div class="tl-item">
@@ -403,12 +403,12 @@
                 <div class="tl-date">〜月末</div>
                 <div class="tl-dot gray"></div>
                 <div class="tl-label">税理士から<br>計算結果受領</div>
-                <span class="tl-owner gray">Aタックス</span>
+                <span class="tl-owner gray">A-TAX総合事務所</span>
             </div>
             <div class="tl-item">
-                <div class="tl-date">翌月10日</div>
+                <div class="tl-date">給与支払月の翌月10日</div>
                 <div class="tl-dot gray"></div>
-                <div class="tl-label">源泉徴収<br>支払い</div>
+                <div class="tl-label">源泉徴収<br>支払い（ペイジー）</div>
                 <span class="tl-owner gray">守屋</span>
             </div>
         </div>
@@ -419,6 +419,48 @@
             <div class="legend-item"><div class="legend-color" style="background:var(--transfer-green)"></div>振込フェーズ</div>
             <div class="legend-item"><div class="legend-color" style="background:var(--tax-gray)"></div>税務処理フェーズ</div>
             <div class="legend-item"><div class="legend-color" style="background:var(--issue-red)"></div>課題・問題点</div>
+        </div>
+    </div>
+</div>
+
+<!-- ========== 店舗・人物情報 ========== -->
+<div class="section">
+    <div class="section-card">
+        <div class="section-header">
+            <div class="icon" style="background:var(--primary);">&#9432;</div>
+            <h2>店舗情報・人物所属</h2>
+            <span class="section-tag tag-blue">参考情報</span>
+        </div>
+        <div class="detail-area" style="padding-top:20px;">
+            <h3>店舗一覧</h3>
+            <table>
+                <thead><tr><th>エリア</th><th>店舗名</th><th>備考</th></tr></thead>
+                <tbody>
+                    <tr><td>名古屋（4店舗）</td><td>ハーレム / セブンエイト / プリンス / オス</td><td>各店舗は会社でもある</td></tr>
+                    <tr><td>福岡</td><td>1店舗（2店舗になる予定）</td><td>-</td></tr>
+                </tbody>
+            </table>
+
+            <h3>主要人物の所属</h3>
+            <table>
+                <thead><tr><th>人物</th><th>所属・兼任</th><th>主な担当</th></tr></thead>
+                <tbody>
+                    <tr><td><strong>南村</strong></td><td>M&A</td><td>給与計算（特殊・複雑）、最終確認、税理士からの質問対応、etax入力</td></tr>
+                    <tr><td><strong>丹下</strong></td><td>M&A</td><td>給与計算（レギュラー）、税務資料作成、銀行出納帳入力</td></tr>
+                    <tr><td><strong>守屋</strong></td><td>M&A</td><td>振込実行、ファム給与計算。田山さんに引き継ぎ可能（マニュアル整備済み）</td></tr>
+                    <tr><td><strong>田山</strong></td><td>UNプロジェクト社員 + ファム業務委託（兼任）</td><td>守屋からの引き継ぎ候補</td></tr>
+                    <tr><td><strong>宮下</strong></td><td>ファム所属（ユニラボの仕事を担当）</td><td>-</td></tr>
+                    <tr><td><strong>田中氏</strong></td><td>名古屋地区トップ</td><td>給与承認</td></tr>
+                </tbody>
+            </table>
+
+            <h3>LINEグループの口座管理</h3>
+            <table>
+                <thead><tr><th>項目</th><th>内容</th></tr></thead>
+                <tbody>
+                    <tr><td>管理方法</td><td>源氏名・本名・金額でExcel保管</td></tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
@@ -455,14 +497,15 @@ graph TD
     B3 --> B6[役職手当を<br/>手入力で追加]:::blueNode
     B4 --> B6
     B5 --> B6
-    B6 --> B7[控除計算<br/>源泉10.21%・寮費・罰金等]:::blueNode
+    B6 --> B7[控除計算<br/>源泉10.21%・寮費・罰金<br/>撮影キャンセル料・貸付返済<br/>つけ払い等]:::blueNode
     B7 --> B8[加算項目<br/>達成賞・経費]:::blueNode
     B8 --> B9{イレギュラー<br/>要望あり？}:::decision
     B9 -->|Yes| B10[店舗から後出し要望<br/>→再計算]:::issueNode
     B10 --> B7
     B9 -->|No| B11[南村が全体チェック]:::approvalNode
 
-    B11 --> C[STEP3: 承認]:::orangeStep --> C1[南村→田中氏<br/>名古屋地区トップ<br/>全従業員の給与明細送付]:::approvalNode
+    B11 --> C[STEP3: 承認]:::orangeStep --> C0[南村→丹下確認]:::approvalNode
+    C0 --> C1[南村→田中氏<br/>名古屋地区トップ<br/>全従業員の給与明細送付]:::approvalNode
     C1 --> C2{承認OK？<br/>1〜2日後に返却}:::decision
     C2 -->|No| C3[差し戻し<br/>控除追加・削除<br/>出勤日数間違い等]:::issueNode
     C3 --> B7
@@ -489,7 +532,7 @@ graph TD
             <table>
                 <thead><tr><th>項目</th><th>内容</th></tr></thead>
                 <tbody>
-                    <tr><td>対象者</td><td>名古屋4店舗 + 福岡1店舗 = 計5店舗の業務委託ホスト（約300名・個人事業主）</td></tr>
+                    <tr><td>対象者</td><td>名古屋4店舗（ハーレム・セブンエイト・プリンス・オス） + 福岡1店舗 = 計5店舗の業務委託ホスト（約300名・個人事業主）</td></tr>
                     <tr><td>給与体系</td><td>役職者（約2〜3割）= 個人システム / レギュラー（約7〜8割）= 統一システム</td></tr>
                     <tr><td>勤務形態</td><td>レギュラー（毎日出勤）/ シフト（週1〜2回）</td></tr>
                     <tr><td>報酬形態</td><td>時給制 / 日給制 / 売上バックのみ</td></tr>
@@ -500,9 +543,20 @@ graph TD
             <table>
                 <thead><tr><th>担当者</th><th>対象業務</th></tr></thead>
                 <tbody>
-                    <tr><td><strong>丹下</strong></td><td>300名全員分の計算表を一旦作成。レギュラーパターン+集計作業</td></tr>
-                    <tr><td><strong>南村</strong></td><td>役員報酬・入店3ヶ月以内のバック率など特殊・複雑な計算。丹下の計算の最終確認</td></tr>
+                    <tr><td><strong>丹下</strong></td><td>300名全員分の計算表を一旦作成。レギュラーパターン+集計作業。銀行出納帳入力</td></tr>
+                    <tr><td><strong>南村</strong></td><td>役員報酬・入店3ヶ月以内のバック率など特殊・複雑な計算。丹下の計算の最終確認。税理士からの質問対応（半年前の質問も来ることもある）。etax入力</td></tr>
                     <tr><td><strong>田中氏</strong></td><td>名古屋地区トップ。承認者。全従業員の給与明細を確認</td></tr>
+                </tbody>
+            </table>
+
+            <h3>承認フロー</h3>
+            <table>
+                <thead><tr><th>順番</th><th>担当</th><th>内容</th></tr></thead>
+                <tbody>
+                    <tr><td>1</td><td>南村</td><td>給与データの全体チェック</td></tr>
+                    <tr><td>2</td><td>丹下</td><td>確認</td></tr>
+                    <tr><td>3</td><td>南村</td><td>最終確認後、田中氏へ送付</td></tr>
+                    <tr><td>4</td><td>田中氏</td><td>承認（1〜2日後に返却）</td></tr>
                 </tbody>
             </table>
 
@@ -515,10 +569,11 @@ graph TD
                     <tr><td>光熱費</td><td>寮内で使用した分</td></tr>
                     <tr><td>名刺代</td><td>会社が立て替え→後から徴収</td></tr>
                     <tr><td>税理士費用</td><td>確定申告を税理士に依頼している従業員のみ</td></tr>
-                    <tr><td>罰金</td><td>遅刻・無断欠勤等</td></tr>
+                    <tr><td>罰金</td><td>遅刻・無断欠勤等（※病欠・冠婚葬祭は対象外）</td></tr>
                     <tr><td>ヘアメイク代</td><td>-</td></tr>
-                    <tr><td>前払い・貸付金（バンス）</td><td>給与から差し引き</td></tr>
-                    <tr><td>未収入金</td><td>客の未払い分→ホストの給与から差し引き。解消時に返金</td></tr>
+                    <tr><td>前払い・貸付金（バンス）</td><td>貸付返済として給与から差し引き</td></tr>
+                    <tr><td>未収入金（つけ払い）</td><td>客の未払い分→ホストの給与から差し引き。客からの入金確認後に従業員に返済</td></tr>
+                    <tr><td>撮影のキャンセル料</td><td>撮影キャンセル時に発生</td></tr>
                 </tbody>
             </table>
 
@@ -542,6 +597,7 @@ graph TD
                     <li>店舗から後出しの特別要望 → その都度再計算が発生</li>
                     <li>年に数回の「売上100%支給」適用タイミングが事前把握困難</li>
                     <li>通常の企業ではあり得ない二度手間（南村様証言）</li>
+                    <li>ホスト部門の給料計算を台帳から自動的にできるようにしたい（守屋様要望）</li>
                 </ul>
             </div>
 
@@ -553,6 +609,7 @@ graph TD
                     <li>福岡店舗のデータ提出状況（名古屋と同じフロー？）</li>
                     <li>個人システムのパターン数（何種類？）</li>
                     <li>もう1店舗増える場合の対応</li>
+                    <li>正社員について（※再度確認が必要）</li>
                 </ul>
             </div>
         </div>
@@ -578,29 +635,32 @@ graph TD
 
     A -->|ホスト部門| H1[南村から<br/>承認済みデータ受領]:::greenNode
     A -->|ロカ| R1[現場スタッフ→大橋<br/>→南村チェック→守屋]:::greenNode
-    A -->|ファム| F1[守屋が自分で計算<br/>宮下・田山・守屋の3名]:::greenNode
-    A -->|UN/ユニラボ/社員| T1[南村が勤怠管理<br/>→税理士Aタックスが明細作成<br/>→守屋に送付]:::greenNode
+    A -->|ファム| F1[守屋が自分で計算<br/>宮下・田山・守屋の3名<br/>全員手渡し]:::greenNode
+    A -->|UN/ユニラボ/社員| T1[南村が勤怠管理<br/>→税理士A-TAX総合事務所が明細作成<br/>→守屋に送付]:::greenNode
 
     H1 --> M[STEP5-A: データ集約<br/>守屋が一元管理]:::greenStep
     R1 --> M
     F1 --> M
     T1 --> M
 
-    M --> N[STEP5-B: 振込予約<br/>振込日2日前]:::greenStep
+    M --> N[STEP5-B: ネットバンキング振込予約<br/>振込日2日前]:::greenStep
     N --> N1{振込方法}:::decision
-    N1 -->|ホスト約90名| N2[PayPay銀行<br/>グループ分けリスト<br/>→金額入力→一括予約]:::greenNode
-    N1 -->|ユニラボ7名| N3[GMO]:::greenNode
+    N1 -->|SPJ ホスト約90名| N2[PayPay銀行<br/>店舗ごとに名前修正<br/>→各ホストへ振込]:::greenNode
+    N1 -->|ユニラボ7名| N3[GMO<br/>全員振込]:::greenNode
     N1 -->|M&A社員| N4[UFJ]:::greenNode
-    N1 -->|手渡し約200名| N5[銀行窓口で<br/>現金引き出し]:::issueNode
+    N1 -->|ロカ| N6[愛知銀行<br/>おおよそ15日振込]:::greenNode
+    N1 -->|ホスト手渡し約200名| N5[銀行窓口で<br/>現金引き出し]:::issueNode
+    N1 -->|ファム3名| F2[全員手渡し]:::greenNode
 
     N2 --> O[STEP5-C: ダブルチェック<br/>南村が確認]:::approvalNode
     N3 --> O
     N4 --> O
-
+    N6 --> O
     O --> P{チェックOK？}:::decision
     P -->|No| N
-    P -->|Yes| Q[STEP5-D: 振込実行<br/>毎月15日 / 守屋]:::greenStep
+    P -->|Yes| Q[STEP5-D: 振込実行<br/>毎月15日 / 守屋<br/>15日が祝日の場合:後ろ倒しor前倒し ルール未決定]:::greenStep
     N5 --> Q2[現金手渡し<br/>守屋]:::greenNode
+    F2 --> Q2
 
     Q --> R([完了]):::endNode
     Q2 --> R
@@ -617,27 +677,28 @@ graph TD
         </div>
 
         <div class="detail-area">
+            <h3>振込先テーブル</h3>
+            <table>
+                <thead><tr><th>#</th><th>会社</th><th>銀行</th><th>対象</th><th>支払方法</th><th>備考</th></tr></thead>
+                <tbody>
+                    <tr><td>①</td><td>SPJ（ホスト会社）</td><td>PayPay銀行</td><td>約300名</td><td>90名振込 / 約200名手渡し</td><td>ハーレム・セブンエイト・プリンス・オスの4店舗（会社でもある）ごとに名前を修正して各ホストへ振込。手渡し→振込に移行予定</td></tr>
+                    <tr><td>②</td><td>株式会社M&A</td><td>UFJ</td><td>社員・業務委託</td><td>振込</td><td>-</td></tr>
+                    <tr><td>③</td><td>ロカ</td><td>愛知銀行</td><td>-</td><td>振込</td><td>おおよそ15日振込</td></tr>
+                    <tr><td>④</td><td>ファム</td><td>PayPay銀行</td><td>3名（宮下・田山・守屋）</td><td>全員手渡し</td><td>-</td></tr>
+                    <tr><td>⑤</td><td>ユニラボ</td><td>GMO</td><td>7名</td><td>全員振込</td><td>-</td></tr>
+                </tbody>
+            </table>
+
             <h3>振込対象部門一覧</h3>
             <table>
                 <thead><tr><th>部門</th><th>会社</th><th>対象人数</th><th>振込日</th><th>給与計算担当</th><th>使用銀行</th></tr></thead>
                 <tbody>
-                    <tr><td>ホスト部門</td><td>M&A</td><td>約90名（振込）/ 約200名（手渡し）</td><td>毎月15日</td><td>南村+丹下</td><td>PayPay銀行（SPJ口座）</td></tr>
-                    <tr><td>サウナ「ロカ」</td><td>M&A</td><td>少人数</td><td>15日前後</td><td>現場→大橋→南村</td><td>-</td></tr>
-                    <tr><td>ファム</td><td>別会社</td><td>2〜3名</td><td>15日</td><td>守屋</td><td>-</td></tr>
-                    <tr><td>UNプロジェクト</td><td>別会社</td><td>2名</td><td>15日</td><td>Aタックス</td><td>-</td></tr>
-                    <tr><td>ユニラボ</td><td>別会社</td><td>7名</td><td>15日</td><td>Aタックス</td><td>GMO</td></tr>
-                    <tr><td>M&A社員（正社員）</td><td>M&A</td><td>-</td><td>-</td><td>Aタックス</td><td>UFJ</td></tr>
-                </tbody>
-            </table>
-
-            <h3>使用銀行・口座</h3>
-            <table>
-                <thead><tr><th>部門</th><th>銀行</th><th>備考</th></tr></thead>
-                <tbody>
-                    <tr><td>ホスト部門</td><td>PayPay銀行（SPJ口座）</td><td>元々UFJ→使えなくなりPayPayに移行（イレギュラー状態）</td></tr>
-                    <tr><td>ユニラボ</td><td>GMO</td><td>-</td></tr>
-                    <tr><td>M&A</td><td>UFJ</td><td>-</td></tr>
-                    <tr><td>グループ全体</td><td>愛知銀行</td><td>ホスト部門では未使用</td></tr>
+                    <tr><td>ホスト部門</td><td>SPJ</td><td>約90名（振込）/ 約200名（手渡し）</td><td>毎月15日</td><td>南村+丹下</td><td>PayPay銀行（SPJ口座）</td></tr>
+                    <tr><td>サウナ「ロカ」</td><td>ロカ</td><td>少人数</td><td>おおよそ15日</td><td>現場→大橋→南村</td><td>愛知銀行</td></tr>
+                    <tr><td>ファム</td><td>ファム</td><td>3名（宮下・田山・守屋）</td><td>15日</td><td>守屋</td><td>PayPay銀行（全員手渡し）</td></tr>
+                    <tr><td>UNプロジェクト</td><td>別会社</td><td>2名</td><td>15日</td><td>A-TAX総合事務所</td><td>-</td></tr>
+                    <tr><td>ユニラボ</td><td>ユニラボ</td><td>7名</td><td>15日</td><td>A-TAX総合事務所</td><td>GMO</td></tr>
+                    <tr><td>M&A社員（正社員）</td><td>M&A</td><td>-</td><td>-</td><td>A-TAX総合事務所</td><td>UFJ</td></tr>
                 </tbody>
             </table>
 
@@ -645,9 +706,16 @@ graph TD
             <table>
                 <thead><tr><th>対象</th><th>内容</th></tr></thead>
                 <tbody>
-                    <tr><td>ホスト部門（約200名）</td><td>現在手渡し → 2024年4月分給与（5月支給分）から全員振込に統一予定</td></tr>
-                    <tr><td>UNプロジェクト・田山氏</td><td>今後も手渡し継続</td></tr>
-                    <tr><td>ファム・守屋本人</td><td>今後も手渡し継続</td></tr>
+                    <tr><td>ホスト部門（約200名）</td><td>現在手渡し → 振込に移行予定</td></tr>
+                    <tr><td>ファム（宮下・田山・守屋の3名）</td><td>全員手渡し</td></tr>
+                </tbody>
+            </table>
+
+            <h3>15日が祝日の場合</h3>
+            <table>
+                <thead><tr><th>項目</th><th>内容</th></tr></thead>
+                <tbody>
+                    <tr><td>対応ルール</td><td>後ろ倒し or 前倒し（ルール未決定）</td></tr>
                 </tbody>
             </table>
 
@@ -666,8 +734,9 @@ graph TD
                 <ul>
                     <li>手渡し→全員振込の移行タイミング（実際の実施状況）</li>
                     <li>ホスト部門のUFJ口座が使えなくなった経緯</li>
-                    <li>守屋のExcelサンプル（明細作成用）</li>
+                    <li>守屋さんから明細作成時のExcelサンプルを提供してもらう予定</li>
                     <li>ロカの振込日が15日と異なるケースの頻度</li>
+                    <li>15日が祝日の場合の対応ルール（未決定）</li>
                 </ul>
             </div>
         </div>
@@ -682,7 +751,7 @@ graph TD
         <div class="section-header">
             <div class="icon icon-gray">3</div>
             <h2>税務処理フロー</h2>
-            <span class="section-tag tag-gray">STEP 6A〜6D / 担当: 丹下・守屋</span>
+            <span class="section-tag tag-gray">STEP 6A〜6D / 担当: 南村・丹下・守屋</span>
         </div>
         <div class="section-body">
             <div class="mermaid-wrap">
@@ -698,7 +767,7 @@ graph TD
     A --> A5[貸付金一覧]:::grayNode
     A --> A6[現金出納帳]:::grayNode
 
-    A1 --> B[STEP6-B: 税理士提出<br/>丹下→Aタックス<br/>翌月10日目標]:::grayStep
+    A1 --> B[STEP6-B: 税理士提出<br/>丹下→A-TAX総合事務所<br/>翌月10日目標]:::grayStep
     A2 --> B
     A3 --> B
     A4 --> B
@@ -706,15 +775,18 @@ graph TD
     A6 --> B
 
     B --> B1{税理士から質問？}:::decision
-    B1 -->|Yes| B2[丹下が対応<br/>過去分含む詳細質問]:::issueNode
+    B1 -->|Yes| B2[南村が対応<br/>半年前の質問も<br/>来ることがある]:::issueNode
     B2 --> B1
     B1 -->|No| C
 
     C[STEP6-C: 源泉徴収計算<br/>25日頃に計算表完成]:::grayStep --> C1[税理士が計算<br/>月末までに結果返却]:::grayNode
 
-    C1 --> D[STEP6-D: 源泉徴収支払い<br/>守屋 / 翌月10日まで<br/>ネットバンキング]:::grayStep
+    C1 --> D[STEP6-D: 源泉徴収支払い<br/>守屋 / 給与支払月の翌月10日まで<br/>税理士事務所がペイジーを発行]:::grayStep
 
-    D --> E([完了]):::endNode
+    D --> D1[南村: etax入力]:::grayNode
+    D --> D2[丹下: 銀行出納帳入力]:::grayNode
+    D1 --> E([完了]):::endNode
+    D2 --> E
 
     classDef startNode fill:#059669,stroke:#047857,color:#fff,font-weight:700,rx:20
     classDef endNode fill:#4b5563,stroke:#374151,color:#fff,font-weight:700,rx:20
@@ -740,14 +812,24 @@ graph TD
                 </tbody>
             </table>
 
+            <h3>担当分担</h3>
+            <table>
+                <thead><tr><th>担当者</th><th>業務</th></tr></thead>
+                <tbody>
+                    <tr><td><strong>南村</strong></td><td>etax入力、税理士からの質問対応（半年前の質問も来ることがある）</td></tr>
+                    <tr><td><strong>丹下</strong></td><td>税務資料作成、銀行出納帳入力</td></tr>
+                    <tr><td><strong>守屋</strong></td><td>源泉徴収の支払い（ネットバンキング）</td></tr>
+                </tbody>
+            </table>
+
             <h3>タイムスケジュール</h3>
             <table>
                 <thead><tr><th>時期</th><th>作業内容</th><th>担当</th></tr></thead>
                 <tbody>
                     <tr><td>15日〜月末</td><td>税務資料作成</td><td>丹下</td></tr>
                     <tr><td>〜25日</td><td>源泉徴収計算表完成 → 税理士提出</td><td>丹下</td></tr>
-                    <tr><td>〜月末</td><td>税理士から計算結果受領</td><td>Aタックス</td></tr>
-                    <tr><td>翌月10日まで</td><td>源泉徴収支払い（ネットバンキング）</td><td>守屋</td></tr>
+                    <tr><td>〜月末</td><td>税理士から計算結果受領</td><td>A-TAX総合事務所</td></tr>
+                    <tr><td>給与支払月の翌月10日まで</td><td>源泉徴収支払い（税理士事務所がペイジーを発行）</td><td>守屋</td></tr>
                 </tbody>
             </table>
 
@@ -757,8 +839,10 @@ graph TD
                 <tbody>
                     <tr><td>源泉徴収率</td><td>10.21%</td></tr>
                     <tr><td>対象</td><td>ホスト部門（業務委託・個人事業主 約300名）</td></tr>
-                    <tr><td>税理士事務所</td><td>Aタックス総合事務所</td></tr>
-                    <tr><td>最もタイトな工程</td><td>25日に計算表作成 → 月末に結果 → 翌月10日に支払い</td></tr>
+                    <tr><td>税理士事務所</td><td>A-TAX総合事務所</td></tr>
+                    <tr><td>納付期限</td><td>給与支払月の翌月10日（例：月末締め→翌月15日支払い→その翌月10日納付）</td></tr>
+                    <tr><td>納付方法</td><td>税理士事務所がペイジーを発行 → 守屋がネットバンキングで支払い</td></tr>
+                    <tr><td>最もタイトな工程</td><td>25日に計算表作成 → 月末に結果 → 給与支払月の翌月10日に支払い</td></tr>
                 </tbody>
             </table>
 
@@ -774,18 +858,56 @@ graph TD
             <div class="issue-box">
                 <strong>課題・問題点</strong>
                 <ul>
-                    <li>税理士から過去のことも含めた詳細な質問が多く寄せられる → 丹下が対応に追われる</li>
-                    <li>25日→月末→翌月10日の工程が最もタイト</li>
+                    <li>税理士から過去のことも含めた詳細な質問が多く寄せられる（半年前の質問も来ることがある） → 南村が対応に追われる</li>
+                    <li>25日→月末→給与支払月の翌月10日の工程が最もタイト</li>
                 </ul>
             </div>
 
             <div class="confirm-box">
                 <strong>未確認事項</strong>
                 <ul>
-                    <li>Aタックス総合事務所の担当者名</li>
+                    <li>A-TAX総合事務所の担当者名</li>
                     <li>税理士への提出資料のフォーマット</li>
                     <li>源泉徴収以外の税務処理（年次対応等）</li>
-                    <li>正社員の税務処理フロー（ホスト部門とは別）</li>
+                    <li>正社員の税務処理フロー（ホスト部門とは別）（※再度確認）</li>
+                    <li>税理士への明細提供（ファム・ロカ等）（※要確認）</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ========== 守屋さん引き継ぎ・課題セクション ========== -->
+<div class="section">
+    <div class="section-card">
+        <div class="section-header">
+            <div class="icon" style="background:var(--issue-red);">!</div>
+            <h2>守屋さん視点の課題・引き継ぎ情報</h2>
+            <span class="section-tag" style="background:var(--issue-red-light);color:var(--issue-red);">課題・依頼事項</span>
+        </div>
+        <div class="detail-area" style="padding-top:20px;">
+            <h3>引き継ぎ状況</h3>
+            <table>
+                <thead><tr><th>項目</th><th>内容</th></tr></thead>
+                <tbody>
+                    <tr><td>引き継ぎ先</td><td>田山さんにお願いできる状態（マニュアル整備済み）</td></tr>
+                    <tr><td>守屋さんの現担当</td><td>振込実行、ファム給与計算（3名分）、源泉徴収支払い</td></tr>
+                </tbody>
+            </table>
+
+            <div class="issue-box">
+                <strong>守屋さん視点の課題</strong>
+                <ul>
+                    <li>ホスト部門の給料計算を台帳から自動的にできるようにしたい</li>
+                    <li>売上計算システムの遅延により振込業務が直前になる</li>
+                    <li>残業が発生している</li>
+                </ul>
+            </div>
+
+            <div class="confirm-box">
+                <strong>依頼事項</strong>
+                <ul>
+                    <li>守屋さんから明細作成時のExcelサンプルを提供してもらう予定</li>
                 </ul>
             </div>
         </div>
