@@ -133,8 +133,8 @@
             width: 100%; height: 100%;
             pointer-events: none; z-index: 10;
         }
-        .arrow-svg .arrow-line { stroke-width: 2; fill: none; }
-        .arrow-svg .arrow-head { stroke-width: 1; }
+        .arrow-svg .arrow-line { stroke-width: 3; fill: none; }
+        .arrow-svg .arrow-head { stroke-width: 2; }
         .arrow-svg text { font-family: 'Segoe UI', sans-serif; }
 
         /* Arrow labels tooltip */
@@ -364,23 +364,23 @@
                 <!-- SVG arrow overlay -->
                 <svg class="arrow-svg" id="arrowSvg">
                     <defs>
-                        <marker id="ah-blue" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
-                            <polygon points="0 0, 8 3, 0 6" fill="#2563eb"/>
+                        <marker id="ah-blue" markerWidth="12" markerHeight="8" refX="10" refY="4" orient="auto">
+                            <polygon points="0 0, 12 4, 0 8" fill="#2563eb"/>
                         </marker>
-                        <marker id="ah-green" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
-                            <polygon points="0 0, 8 3, 0 6" fill="#059669"/>
+                        <marker id="ah-green" markerWidth="12" markerHeight="8" refX="10" refY="4" orient="auto">
+                            <polygon points="0 0, 12 4, 0 8" fill="#059669"/>
                         </marker>
-                        <marker id="ah-orange" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
-                            <polygon points="0 0, 8 3, 0 6" fill="#d97706"/>
+                        <marker id="ah-orange" markerWidth="12" markerHeight="8" refX="10" refY="4" orient="auto">
+                            <polygon points="0 0, 12 4, 0 8" fill="#d97706"/>
                         </marker>
-                        <marker id="ah-purple" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
-                            <polygon points="0 0, 8 3, 0 6" fill="#7c3aed"/>
+                        <marker id="ah-purple" markerWidth="12" markerHeight="8" refX="10" refY="4" orient="auto">
+                            <polygon points="0 0, 12 4, 0 8" fill="#7c3aed"/>
                         </marker>
-                        <marker id="ah-gray" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
-                            <polygon points="0 0, 8 3, 0 6" fill="#374151"/>
+                        <marker id="ah-gray" markerWidth="12" markerHeight="8" refX="10" refY="4" orient="auto">
+                            <polygon points="0 0, 12 4, 0 8" fill="#374151"/>
                         </marker>
-                        <marker id="ah-red" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
-                            <polygon points="0 0, 8 3, 0 6" fill="#dc2626"/>
+                        <marker id="ah-red" markerWidth="12" markerHeight="8" refX="10" refY="4" orient="auto">
+                            <polygon points="0 0, 12 4, 0 8" fill="#dc2626"/>
                         </marker>
                     </defs>
                 </svg>
@@ -736,7 +736,7 @@ function drawArrows() {
         const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
         g.classList.add('drawn-arrow');
         g.dataset.index = i;
-        g.style.opacity = '0.6';
+        g.style.opacity = '0.85';
         g.style.transition = 'opacity 0.2s';
 
         const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
@@ -745,16 +745,17 @@ function drawArrows() {
             d = `M ${fx} ${fy} L ${tx} ${ty}`;
         } else {
             // Curved path
-            const midX = (fx + tx) / 2;
-            const cpOffset = Math.abs(fy - ty) * 0.3;
+            const cpOffset = Math.abs(fy - ty) * 0.35 + 30;
             d = `M ${fx} ${fy} C ${fx + cpOffset} ${fy}, ${tx - cpOffset} ${ty}, ${tx} ${ty}`;
         }
         path.setAttribute('d', d);
         path.setAttribute('stroke', a.color);
-        path.setAttribute('stroke-width', '2.5');
+        path.setAttribute('stroke-width', '3.5');
         path.setAttribute('fill', 'none');
         path.setAttribute('marker-end', `url(#${a.marker})`);
-        path.setAttribute('stroke-dasharray', sameRow ? 'none' : '6 3');
+
+        // Drop shadow filter
+        path.setAttribute('filter', 'drop-shadow(0 1px 2px rgba(0,0,0,0.15))');
 
         g.appendChild(path);
 
@@ -762,23 +763,26 @@ function drawArrows() {
         const midPoint = getMidPoint(fx, fy, tx, ty);
         const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
         text.setAttribute('x', midPoint.x);
-        text.setAttribute('y', midPoint.y - 6);
+        text.setAttribute('y', midPoint.y - 8);
         text.setAttribute('fill', a.color);
-        text.setAttribute('font-size', '9');
-        text.setAttribute('font-weight', '600');
+        text.setAttribute('font-size', '11');
+        text.setAttribute('font-weight', '700');
         text.setAttribute('text-anchor', 'middle');
         text.textContent = a.label;
 
         // Background for text
-        const bbox_est_w = a.label.length * 7;
+        const bbox_est_w = a.label.length * 8.5;
         const bg = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-        bg.setAttribute('x', midPoint.x - bbox_est_w / 2 - 2);
-        bg.setAttribute('y', midPoint.y - 16);
-        bg.setAttribute('width', bbox_est_w + 4);
-        bg.setAttribute('height', 13);
+        bg.setAttribute('x', midPoint.x - bbox_est_w / 2 - 4);
+        bg.setAttribute('y', midPoint.y - 20);
+        bg.setAttribute('width', bbox_est_w + 8);
+        bg.setAttribute('height', 16);
         bg.setAttribute('fill', 'white');
-        bg.setAttribute('rx', '3');
-        bg.setAttribute('opacity', '0.9');
+        bg.setAttribute('rx', '4');
+        bg.setAttribute('opacity', '0.95');
+        bg.setAttribute('stroke', a.color);
+        bg.setAttribute('stroke-width', '0.5');
+        bg.setAttribute('stroke-opacity', '0.3');
 
         g.appendChild(bg);
         g.appendChild(text);
@@ -820,14 +824,16 @@ function highlightArrow(index, row) {
     // Toggle active
     const wasActive = row.classList.contains('active');
     document.querySelectorAll('.flow-row').forEach(r => r.classList.remove('active'));
-    document.querySelectorAll('.drawn-arrow').forEach(g => { g.style.opacity = '0.6'; g.querySelector('path').setAttribute('stroke-width', '2.5'); });
+    document.querySelectorAll('.drawn-arrow').forEach(g => { g.style.opacity = '0.85'; g.querySelector('path').setAttribute('stroke-width', '3.5'); });
 
     if (!wasActive) {
         row.classList.add('active');
+        // Dim others
+        document.querySelectorAll('.drawn-arrow').forEach(g => { g.style.opacity = '0.2'; });
         const g = document.querySelector(`.drawn-arrow[data-index="${index}"]`);
         if (g) {
             g.style.opacity = '1';
-            g.querySelector('path').setAttribute('stroke-width', '4');
+            g.querySelector('path').setAttribute('stroke-width', '5.5');
             // Scroll into view
             const scroll = document.querySelector('.swim-scroll');
             const path = g.querySelector('path');
@@ -842,12 +848,12 @@ function hoverArrow(index, isHover) {
     if (!g) return;
     if (isHover) {
         g.style.opacity = '1';
-        g.querySelector('path').setAttribute('stroke-width', '3.5');
+        g.querySelector('path').setAttribute('stroke-width', '5');
     } else {
         const active = document.querySelector('.flow-row.active');
         if (active && parseInt(active.dataset.index) === index) return;
-        g.style.opacity = '0.6';
-        g.querySelector('path').setAttribute('stroke-width', '2.5');
+        g.style.opacity = active ? '0.2' : '0.85';
+        g.querySelector('path').setAttribute('stroke-width', '3.5');
     }
 }
 
