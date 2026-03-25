@@ -8,30 +8,51 @@
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body { font-family: 'Segoe UI', 'Hiragino Sans', sans-serif; background: #f0f4f8; min-height: 100vh; display: flex; align-items: center; justify-content: center; }
-.container { max-width: 600px; width: 90%; }
-h1 { text-align: center; color: #1a365d; font-size: 1.6rem; margin-bottom: 2rem; }
-.card { background: white; border-radius: 12px; padding: 2rem; margin-bottom: 1.2rem; box-shadow: 0 2px 8px rgba(0,0,0,0.08); transition: transform 0.2s; }
+.container { max-width: 600px; width: 90%; padding: 2rem 0; }
+h1 { text-align: center; color: #1a365d; font-size: 1.6rem; margin-bottom: 0.5rem; }
+.subtitle { text-align: center; color: #718096; font-size: 0.85rem; margin-bottom: 2rem; }
+.section-label { color: #4a5568; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; margin: 1.5rem 0 0.8rem; padding-left: 0.5rem; border-left: 3px solid #2b6cb0; }
+.card { background: white; border-radius: 12px; padding: 1.5rem 2rem; margin-bottom: 1rem; box-shadow: 0 2px 8px rgba(0,0,0,0.08); transition: transform 0.2s; }
 .card:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,0.12); }
-.card a { display: block; text-decoration: none; color: #2b6cb0; font-size: 1.2rem; font-weight: 600; }
-.card p { color: #718096; font-size: 0.9rem; margin-top: 0.5rem; }
-.badge { display: inline-block; background: #ebf4ff; color: #2b6cb0; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; margin-top: 0.5rem; }
+.card a { display: block; text-decoration: none; color: #2b6cb0; font-size: 1.1rem; font-weight: 600; }
+.card p { color: #718096; font-size: 0.85rem; margin-top: 0.4rem; }
+.badge { display: inline-block; background: #ebf4ff; color: #2b6cb0; padding: 2px 8px; border-radius: 4px; font-size: 0.72rem; margin-top: 0.4rem; }
+.badge.new { background: #fef3c7; color: #d97706; }
 footer { text-align: center; color: #a0aec0; font-size: 0.8rem; margin-top: 2rem; }
 </style>
 </head>
 <body>
 <div class="container">
 <h1>M&A バックオフィス改革</h1>
+<p class="subtitle">業務フロー・ヒアリング議事録</p>
+
+<div class="section-label">業務フロー</div>
+
 <div class="card">
-<a href="flow.html">📊 業務フロー（As-Is）</a>
-<p>給与計算・振込・税務処理の3フローをMermaidフローチャートで可視化</p>
-<span class="badge">2026/03/25 更新</span>
+<a href="flow.html">📊 全体フロー（As-Is）</a>
+<p>給与計算〜振込〜税務処理の全工程をスイムレーン形式で可視化</p>
+<span class="badge">2026/03/26 更新</span>
 </div>
+<div class="card">
+<a href="flow_transfer.html">💳 振込処理フロー</a>
+<p>データ集約→振込予約→ダブルチェック→振込実行。5社の振込先詳細</p>
+<span class="badge new">NEW 2026/03/26</span>
+</div>
+<div class="card">
+<a href="flow_tax.html">📄 税務処理フロー</a>
+<p>税務資料作成→A-TAX提出→源泉徴収計算→ペイジー納付</p>
+<span class="badge new">NEW 2026/03/26</span>
+</div>
+
+<div class="section-label">議事録</div>
+
 <div class="card">
 <a href="minutes.html">📋 ヒアリング議事録集</a>
 <p>全12回のGemini議事メモを日付順に整理。Google Docsリンク付き</p>
 <span class="badge">2026/03/25 更新</span>
 </div>
-<footer>作成: RYOSEI / 2026-03-25</footer>
+
+<footer>作成: RYOSEI / 2026-03-26</footer>
 </div>
 </body>
 </html>
