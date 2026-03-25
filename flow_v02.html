@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>M&A株式会社 バックオフィス 業務フロー v02（As-Is）</title>
+    <style>
+        :root {
+            --primary: #1a56db;
+            --primary-light: #e8eefb;
+            --primary-dark: #0f3a8e;
+            --issue-red: #dc2626;
+            --issue-red-light: #fee2e2;
+            --approval-orange: #d97706;
+            --approval-orange-light: #fef3c7;
+            --bg: #f8fafc;
+            --text: #1f2937;
+            --text-light: #6b7280;
+            --border: #e5e7eb;
+            --shadow-lg: 0 4px 14px rgba(0,0,0,0.08);
+
+            --c-store: #6b7280;
+            --c-minamura: #2563eb;
+            --c-tange: #059669;
+            --c-tanaka: #d97706;
+            --c-moriya: #7c3aed;
+            --c-atax: #374151;
+
+            --bg-store: #f9fafb;
+            --bg-minamura: #eff6ff;
+            --bg-tange: #ecfdf5;
+            --bg-tanaka: #fffbeb;
+            --bg-moriya: #f5f3ff;
+            --bg-atax: #f3f4f6;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+
+        .header {
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+            color: white; padding: 36px 0 28px; text-align: center;
+        }
+        .header h1 { font-size: 1.7rem; font-weight: 700; letter-spacing: 0.04em; margin-bottom: 4px; }
+        .header .sub { font-size: 0.9rem; opacity: 0.85; }
+        .header .ver { display: inline-block; margin-top: 10px; background: rgba(255,255,255,0.2); padding: 3px 14px; border-radius: 16px; font-size: 0.75rem; }
+
+        .nav-back { max-width: 1400px; margin: 16px auto 0; padding: 0 24px; }
+        .nav-back a { color: var(--primary); text-decoration: none; font-size: 0.85rem; }
+        .nav-back a:hover { text-decoration: underline; }
+
+        /* ── SWIMLANE ── */
+        .swim-section { max-width: 1400px; margin: 20px auto 32px; padding: 0 24px; }
+        .swim-card { background: white; border-radius: 12px; box-shadow: var(--shadow-lg); overflow: hidden; }
+        .swim-card-header { padding: 16px 24px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 10px; }
+        .swim-card-header h2 { font-size: 1.1rem; color: var(--primary); }
+
+        .swim-scroll { overflow-x: auto; padding: 0 0 12px; }
+        .swim-wrapper { position: relative; min-width: 1600px; padding: 0 16px 16px; }
+
+        /* Grid */
+        .swim-grid {
+            display: grid;
+            grid-template-columns: 120px repeat(10, 1fr);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .sg-corner, .sg-col {
+            background: var(--primary); color: white;
+            font-size: 0.72rem; font-weight: 700;
+            padding: 10px 6px; text-align: center;
+            border-right: 1px solid rgba(255,255,255,0.2);
+            display: flex; align-items: center; justify-content: center;
+            line-height: 1.3;
+        }
+        .sg-corner { background: var(--primary-dark); font-size: 0.78rem; }
+
+        .sg-row-label {
+            padding: 10px 8px;
+            font-size: 0.78rem; font-weight: 700;
+            display: flex; align-items: center; gap: 6px;
+            border-bottom: 1px solid var(--border);
+            border-right: 2px solid var(--border);
+            min-height: 100px;
+        }
+        .sg-row-label .dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+        .sg-row-label small { font-weight: 400; color: var(--text-light); display: block; font-size: 0.68rem; }
+
+        .sg-cell {
+            padding: 8px 5px;
+            border-bottom: 1px solid var(--border);
+            border-right: 1px solid #f0f0f0;
+            min-height: 100px;
+            display: flex; flex-direction: column; gap: 5px;
+            position: relative;
+        }
+
+        /* Task cards */
+        .tc {
+            font-size: 0.7rem; line-height: 1.35;
+            padding: 6px 8px; border-radius: 6px;
+            border-left: 3px solid; background: white;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+            position: relative;
+            transition: box-shadow 0.2s, transform 0.15s;
+            cursor: default;
+        }
+        .tc:hover { box-shadow: 0 3px 10px rgba(0,0,0,0.15); transform: translateY(-1px); z-index: 20; }
+        .tc strong { font-size: 0.68rem; display: block; margin-bottom: 2px; }
+
+        .tc.store { border-left-color: var(--c-store); background: var(--bg-store); }
+        .tc.mina { border-left-color: var(--c-minamura); background: var(--bg-minamura); }
+        .tc.tang { border-left-color: var(--c-tange); background: var(--bg-tange); }
+        .tc.tana { border-left-color: var(--c-tanaka); background: var(--bg-tanaka); }
+        .tc.mori { border-left-color: var(--c-moriya); background: var(--bg-moriya); }
+        .tc.atax { border-left-color: var(--c-atax); background: var(--bg-atax); }
+        .tc.issue { border-left-color: var(--issue-red); background: var(--issue-red-light); }
+
+        /* Lane bgs */
+        .lane-s { background: var(--bg-store); }
+        .lane-m { background: var(--bg-minamura); }
+        .lane-g { background: var(--bg-tange); }
+        .lane-k { background: var(--bg-tanaka); }
+        .lane-y { background: var(--bg-moriya); }
+        .lane-a { background: var(--bg-atax); }
+
+        /* SVG overlay */
+        .arrow-svg {
+            position: absolute; top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none; z-index: 10;
+        }
+        .arrow-svg .arrow-line { stroke-width: 2; fill: none; }
+        .arrow-svg .arrow-head { stroke-width: 1; }
+        .arrow-svg text { font-family: 'Segoe UI', sans-serif; }
+
+        /* Arrow labels tooltip */
+        .arrow-label-box {
+            position: absolute; display: none;
+            background: white; border: 1px solid var(--border);
+            border-radius: 6px; padding: 6px 10px;
+            font-size: 0.72rem; box-shadow: var(--shadow-lg);
+            z-index: 30; white-space: nowrap;
+            pointer-events: none;
+        }
+
+        /* Legend */
+        .swim-legend {
+            display: flex; gap: 14px; flex-wrap: wrap;
+            padding: 12px 24px; border-top: 1px solid var(--border);
+            font-size: 0.73rem;
+        }
+        .swim-legend-item { display: flex; align-items: center; gap: 5px; }
+        .swim-legend-color { width: 12px; height: 12px; border-radius: 3px; }
+
+        /* Data flow section */
+        .flow-section { padding: 16px 24px; border-top: 1px solid var(--border); }
+        .flow-section h3 { font-size: 0.9rem; color: var(--text); margin-bottom: 10px; padding-left: 10px; border-left: 3px solid var(--primary); }
+        .flow-list { display: flex; flex-direction: column; gap: 6px; }
+        .flow-row {
+            display: flex; align-items: center; gap: 8px;
+            padding: 6px 12px; border-radius: 8px;
+            background: #f8fafc; border: 1px solid var(--border);
+            font-size: 0.78rem; transition: background 0.2s;
+            cursor: pointer;
+        }
+        .flow-row:hover { background: var(--primary-light); }
+        .flow-row.active { background: var(--primary-light); border-color: var(--primary); }
+        .fl-from, .fl-to {
+            font-weight: 700; padding: 2px 8px;
+            border-radius: 4px; font-size: 0.72rem;
+        }
+        .fl-arrow { color: var(--primary); font-weight: 700; font-size: 1rem; }
+        .fl-data { color: var(--text); font-weight: 600; }
+        .fl-note { color: var(--text-light); font-size: 0.7rem; margin-left: auto; }
+
+        /* Approval flow */
+        .approval-section { padding: 12px 24px 16px; border-top: 1px solid var(--border); }
+        .approval-section h3 { font-size: 0.9rem; margin-bottom: 8px; padding-left: 10px; border-left: 3px solid var(--approval-orange); }
+        .appr-flow { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+        .appr-step { display: inline-flex; align-items: center; padding: 4px 14px; border-radius: 20px; font-size: 0.76rem; font-weight: 600; color: white; }
+        .appr-arrow { font-size: 1.1rem; color: var(--text-light); }
+
+        /* Detail sections */
+        .detail-section { max-width: 1400px; margin: 0 auto 24px; padding: 0 24px; }
+        .detail-card { background: white; border-radius: 12px; box-shadow: var(--shadow-lg); overflow: hidden; }
+        .detail-header { padding: 16px 24px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid var(--border); cursor: pointer; }
+        .detail-header .icon { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; font-weight: 700; color: white; flex-shrink: 0; }
+        .detail-header h2 { font-size: 1.05rem; }
+        .detail-header .toggle { margin-left: auto; font-size: 1.2rem; color: var(--text-light); transition: transform 0.3s; }
+        .detail-header .toggle.open { transform: rotate(180deg); }
+        .detail-body { padding: 0 24px 20px; }
+        .detail-body.collapsed { display: none; }
+        .detail-body h3 { font-size: 0.9rem; margin: 16px 0 8px; padding-left: 10px; border-left: 3px solid var(--primary); }
+        table { width: 100%; border-collapse: collapse; font-size: 0.82rem; margin-bottom: 12px; }
+        thead th { background: var(--primary-light); color: var(--primary-dark); font-weight: 600; text-align: left; padding: 8px 12px; border-bottom: 2px solid var(--primary); white-space: nowrap; }
+        tbody td { padding: 7px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+        tbody tr:hover { background: #f9fafb; }
+
+        .issue-box { background: var(--issue-red-light); border-left: 4px solid var(--issue-red); border-radius: 6px; padding: 12px 16px; margin: 10px 0; font-size: 0.82rem; }
+        .issue-box strong { color: var(--issue-red); }
+        .issue-box ul { margin: 4px 0 0 16px; color: #7f1d1d; }
+        .issue-box li { margin-bottom: 3px; }
+        .confirm-box { background: var(--approval-orange-light); border-left: 4px solid var(--approval-orange); border-radius: 6px; padding: 12px 16px; margin: 10px 0; font-size: 0.82rem; }
+        .confirm-box strong { color: var(--approval-orange); }
+        .confirm-box ul { margin: 4px 0 0 16px; color: #78350f; }
+        .confirm-box li { margin-bottom: 3px; }
+
+        .footer { text-align: center; padding: 24px; color: var(--text-light); font-size: 0.76rem; border-top: 1px solid var(--border); margin-top: 32px; background: white; }
+
+        @media (max-width: 768px) {
+            .header h1 { font-size: 1.3rem; }
+        }
+        @media print {
+            body { background: white; }
+            .swim-card, .detail-card { box-shadow: none; border: 1px solid #ddd; }
+            .swim-scroll { overflow: visible; }
+            .swim-wrapper { min-width: 100%; }
+            .detail-body.collapsed { display: block !important; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <h1>M&A株式会社 バックオフィス 業務フロー（現状 As-Is）</h1>
+    <div class="sub">ホスト部門 給与計算 / 振込 / 税務処理 -- 全3フロー統合版</div>
+    <span class="ver">v02 -- 連携フロー可視化版 / 2026-03-26</span>
+</div>
+
+<div class="nav-back"><a href="index.html">&larr; トップに戻る</a> | <a href="flow.html">v01を見る</a></div>
+
+<!-- ======================================== -->
+<!-- SWIMLANE DIAGRAM                         -->
+<!-- ======================================== -->
+<div class="swim-section">
+    <div class="swim-card">
+        <div class="swim-card-header">
+            <h2>&#128197; 月次業務フロー（横軸=時系列 / 縦軸=担当者）</h2>
+            <span style="margin-left:auto;font-size:0.72rem;color:var(--text-light);">矢印 = データ連携の流れ</span>
+        </div>
+        <div class="swim-scroll">
+            <div class="swim-wrapper" id="swimWrapper">
+                <div class="swim-grid" id="swimGrid">
+
+                    <!-- COL HEADERS -->
+                    <div class="sg-corner">担当者 /<br>時期</div>
+                    <div class="sg-col">月末<br><small style="opacity:.7">締め</small></div>
+                    <div class="sg-col">1日<br><small style="opacity:.7">AM10:00<br>提出締切</small></div>
+                    <div class="sg-col">1日〜<br>10-11日<br><small style="opacity:.7">給与計算</small></div>
+                    <div class="sg-col">〜12-13日<br><small style="opacity:.7">承認</small></div>
+                    <div class="sg-col">13日<br><small style="opacity:.7">振込予約</small></div>
+                    <div class="sg-col">15日<br><small style="opacity:.7">振込実行</small></div>
+                    <div class="sg-col">15日〜25日<br><small style="opacity:.7">税務資料</small></div>
+                    <div class="sg-col">〜月末<br><small style="opacity:.7">税理士<br>結果返却</small></div>
+                    <div class="sg-col">月末<br><small style="opacity:.7">税理士<br>対応</small></div>
+                    <div class="sg-col">翌月10日<br><small style="opacity:.7">源泉徴収<br>納付</small></div>
+
+                    <!-- ROW 1: 店舗 -->
+                    <div class="sg-row-label lane-s"><div class="dot" style="background:var(--c-store)"></div><div>店舗<small>リーダー/幹部</small></div></div>
+                    <div class="sg-cell lane-s"><div class="tc store" id="t-s1"><strong>勤怠締め</strong>リーダーが勤怠表を最終チェック</div></div>
+                    <div class="sg-cell lane-s"><div class="tc store" id="t-s2"><strong>データ送付</strong>勤怠表+売上台帳<br>(Excel) を南村へ</div></div>
+                    <div class="sg-cell lane-s"></div>
+                    <div class="sg-cell lane-s"><div class="tc store" id="t-s3"><strong>FB受領</strong>田中承認後のフィードバック</div></div>
+                    <div class="sg-cell lane-s"></div>
+                    <div class="sg-cell lane-s"></div>
+                    <div class="sg-cell lane-s"></div>
+                    <div class="sg-cell lane-s"></div>
+                    <div class="sg-cell lane-s"></div>
+                    <div class="sg-cell lane-s"></div>
+
+                    <!-- ROW 2: 南村 -->
+                    <div class="sg-row-label lane-m"><div class="dot" style="background:var(--c-minamura)"></div><div>南村<small>給与計算統括</small></div></div>
+                    <div class="sg-cell lane-m"></div>
+                    <div class="sg-cell lane-m"><div class="tc mina" id="t-m1"><strong>データ受領</strong>店舗から受領<br>→ 丹下に渡す</div></div>
+                    <div class="sg-cell lane-m">
+                        <div class="tc mina" id="t-m2"><strong>特殊計算</strong>役職者・入店3ヶ月以内等</div>
+                        <div class="tc mina" id="t-m3"><strong>丹下チェック</strong>丹下の計算結果を確認</div>
+                    </div>
+                    <div class="sg-cell lane-m">
+                        <div class="tc mina" id="t-m4"><strong>田中へ送付</strong>チェック済みデータ送付</div>
+                        <div class="tc mina" id="t-m5"><strong>FB対応</strong>田中からのFB対応</div>
+                    </div>
+                    <div class="sg-cell lane-m"><div class="tc mina" id="t-m6"><strong>ダブルチェック</strong>守屋の振込予約を確認</div></div>
+                    <div class="sg-cell lane-m"></div>
+                    <div class="sg-cell lane-m">
+                        <div class="tc mina" id="t-m7"><strong>etax入力</strong>etaxへのデータ入力</div>
+                    </div>
+                    <div class="sg-cell lane-m"></div>
+                    <div class="sg-cell lane-m"><div class="tc mina issue" id="t-m8"><strong>質疑応答</strong>税理士からの質問対応<br>(半年前の質問も来る)</div></div>
+                    <div class="sg-cell lane-m"></div>
+
+                    <!-- ROW 3: 丹下 -->
+                    <div class="sg-row-label lane-g"><div class="dot" style="background:var(--c-tange)"></div><div>丹下<small>給与計算・税務</small></div></div>
+                    <div class="sg-cell lane-g"></div>
+                    <div class="sg-cell lane-g"></div>
+                    <div class="sg-cell lane-g">
+                        <div class="tc tang" id="t-g1"><strong>計算表作成</strong>300名全員分<br>(Excel自動計算)</div>
+                        <div class="tc tang" id="t-g2"><strong>手入力</strong>役職手当を手入力追加</div>
+                    </div>
+                    <div class="sg-cell lane-g"></div>
+                    <div class="sg-cell lane-g"></div>
+                    <div class="sg-cell lane-g"></div>
+                    <div class="sg-cell lane-g">
+                        <div class="tc tang" id="t-g3"><strong>税務資料作成</strong>通帳コピー/出納帳/貸付金/経費一覧</div>
+                        <div class="tc tang" id="t-g4"><strong>銀行出納帳</strong>銀行出納帳入力</div>
+                    </div>
+                    <div class="sg-cell lane-g"><div class="tc tang" id="t-g5"><strong>源泉集計表</strong>25日完成→A-TAXに提出</div></div>
+                    <div class="sg-cell lane-g"></div>
+                    <div class="sg-cell lane-g"></div>
+
+                    <!-- ROW 4: 田中 -->
+                    <div class="sg-row-label lane-k"><div class="dot" style="background:var(--c-tanaka)"></div><div>田中<small>承認者<br>名古屋地区トップ</small></div></div>
+                    <div class="sg-cell lane-k"></div>
+                    <div class="sg-cell lane-k"></div>
+                    <div class="sg-cell lane-k"></div>
+                    <div class="sg-cell lane-k">
+                        <div class="tc tana" id="t-k1"><strong>給与明細チェック</strong>全従業員の給与明細を確認</div>
+                        <div class="tc tana" id="t-k2"><strong>承認 or 差し戻し</strong>1〜2日でFB返却</div>
+                    </div>
+                    <div class="sg-cell lane-k"></div>
+                    <div class="sg-cell lane-k"></div>
+                    <div class="sg-cell lane-k"></div>
+                    <div class="sg-cell lane-k"></div>
+                    <div class="sg-cell lane-k"></div>
+                    <div class="sg-cell lane-k"></div>
+
+                    <!-- ROW 5: 守屋 -->
+                    <div class="sg-row-label lane-y"><div class="dot" style="background:var(--c-moriya)"></div><div>守屋<small>振込統括</small></div></div>
+                    <div class="sg-cell lane-y"></div>
+                    <div class="sg-cell lane-y"></div>
+                    <div class="sg-cell lane-y"></div>
+                    <div class="sg-cell lane-y"></div>
+                    <div class="sg-cell lane-y"><div class="tc mori" id="t-y1"><strong>振込予約（全5社）</strong><small>SPJ(PayPay) / M&A(UFJ)<br>ロカ(愛知銀行) / ユニラボ(GMO)</small></div></div>
+                    <div class="sg-cell lane-y">
+                        <div class="tc mori" id="t-y2"><strong>振込実行</strong>ネットバンキング振込</div>
+                        <div class="tc mori" id="t-y3"><strong>現金手渡し</strong>ファム3名+ホスト約200名</div>
+                    </div>
+                    <div class="sg-cell lane-y"><div class="tc mori" id="t-y4"><strong>明細作成</strong>ファム・UNプロジェクトの明細</div></div>
+                    <div class="sg-cell lane-y"></div>
+                    <div class="sg-cell lane-y"></div>
+                    <div class="sg-cell lane-y"><div class="tc mori" id="t-y5"><strong>源泉徴収支払い</strong>ペイジーでネットバンキング</div></div>
+
+                    <!-- ROW 6: A-TAX -->
+                    <div class="sg-row-label lane-a"><div class="dot" style="background:var(--c-atax)"></div><div>A-TAX<small>総合事務所<br>(税理士)</small></div></div>
+                    <div class="sg-cell lane-a"></div>
+                    <div class="sg-cell lane-a"></div>
+                    <div class="sg-cell lane-a"></div>
+                    <div class="sg-cell lane-a"></div>
+                    <div class="sg-cell lane-a"></div>
+                    <div class="sg-cell lane-a"></div>
+                    <div class="sg-cell lane-a"><div class="tc atax" id="t-a1"><strong>給与明細作成</strong>ユニラボ・M&A社員の明細</div></div>
+                    <div class="sg-cell lane-a">
+                        <div class="tc atax" id="t-a2"><strong>源泉徴収計算</strong>計算結果を返却</div>
+                        <div class="tc atax" id="t-a3"><strong>ペイジー発行</strong>納付用ペイジーを発行</div>
+                    </div>
+                    <div class="sg-cell lane-a"></div>
+                    <div class="sg-cell lane-a"></div>
+                </div>
+
+                <!-- SVG arrow overlay -->
+                <svg class="arrow-svg" id="arrowSvg">
+                    <defs>
+                        <marker id="ah-blue" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+                            <polygon points="0 0, 8 3, 0 6" fill="#2563eb"/>
+                        </marker>
+                        <marker id="ah-green" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+                            <polygon points="0 0, 8 3, 0 6" fill="#059669"/>
+                        </marker>
+                        <marker id="ah-orange" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+                            <polygon points="0 0, 8 3, 0 6" fill="#d97706"/>
+                        </marker>
+                        <marker id="ah-purple" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+                            <polygon points="0 0, 8 3, 0 6" fill="#7c3aed"/>
+                        </marker>
+                        <marker id="ah-gray" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+                            <polygon points="0 0, 8 3, 0 6" fill="#374151"/>
+                        </marker>
+                        <marker id="ah-red" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+                            <polygon points="0 0, 8 3, 0 6" fill="#dc2626"/>
+                        </marker>
+                    </defs>
+                </svg>
+
+                <!-- Arrow tooltip -->
+                <div class="arrow-label-box" id="arrowTooltip"></div>
+            </div>
+        </div>
+
+        <!-- Data Flow List (interactive) -->
+        <div class="flow-section">
+            <h3>&#128260; データ連携フロー（クリックで矢印をハイライト）</h3>
+            <div class="flow-list" id="flowList">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+
+        <!-- Approval -->
+        <div class="approval-section">
+            <h3>承認フロー</h3>
+            <div class="appr-flow">
+                <span class="appr-step" style="background:var(--c-minamura)">南村 (全体チェック)</span>
+                <span class="appr-arrow">&rarr;</span>
+                <span class="appr-step" style="background:var(--c-tange)">丹下 (確認)</span>
+                <span class="appr-arrow">&rarr;</span>
+                <span class="appr-step" style="background:var(--c-minamura)">南村 (最終確認)</span>
+                <span class="appr-arrow">&rarr;</span>
+                <span class="appr-step" style="background:var(--c-tanaka)">田中 (承認)</span>
+            </div>
+        </div>
+
+        <!-- Legend -->
+        <div class="swim-legend">
+            <div class="swim-legend-item"><div class="swim-legend-color" style="background:var(--c-store)"></div>店舗</div>
+            <div class="swim-legend-item"><div class="swim-legend-color" style="background:var(--c-minamura)"></div>南村</div>
+            <div class="swim-legend-item"><div class="swim-legend-color" style="background:var(--c-tange)"></div>丹下</div>
+            <div class="swim-legend-item"><div class="swim-legend-color" style="background:var(--c-tanaka)"></div>田中</div>
+            <div class="swim-legend-item"><div class="swim-legend-color" style="background:var(--c-moriya)"></div>守屋</div>
+            <div class="swim-legend-item"><div class="swim-legend-color" style="background:var(--c-atax)"></div>A-TAX</div>
+            <div class="swim-legend-item" style="margin-left:16px;"><svg width="30" height="10"><line x1="0" y1="5" x2="25" y2="5" stroke="var(--c-minamura)" stroke-width="2" marker-end="url(#ah-blue)"/></svg>データの流れ</div>
+        </div>
+    </div>
+</div>
+
+<!-- ======================================== -->
+<!-- DETAIL SECTIONS (collapsible)            -->
+<!-- ======================================== -->
+<div class="detail-section">
+    <div class="detail-card">
+        <div class="detail-header" onclick="toggleDetail(this)">
+            <div class="icon" style="background:#2563eb">1</div>
+            <h2>フロー1: 給与計算の詳細</h2>
+            <span class="toggle open">&#9660;</span>
+        </div>
+        <div class="detail-body">
+            <h3>対象者・給与体系</h3>
+            <table>
+                <thead><tr><th>項目</th><th>内容</th></tr></thead>
+                <tbody>
+                    <tr><td>対象者</td><td>名古屋4店舗 + 福岡1店舗 = 計5店舗の業務委託ホスト（約300名・個人事業主）</td></tr>
+                    <tr><td>給与体系</td><td>役職者（約2〜3割）= 個人システム / レギュラー（約7〜8割）= 統一システム</td></tr>
+                    <tr><td>勤務形態</td><td>レギュラー（毎日出勤）/ シフト（週1〜2回）</td></tr>
+                    <tr><td>報酬形態</td><td>時給制 / 日給制 / 売上バックのみ</td></tr>
+                </tbody>
+            </table>
+
+            <h3>担当者・作業分担</h3>
+            <table>
+                <thead><tr><th>担当者</th><th>対象業務</th></tr></thead>
+                <tbody>
+                    <tr><td><strong>丹下</strong></td><td>300名全員分の計算表を作成。レギュラーパターン+集計。銀行出納帳入力</td></tr>
+                    <tr><td><strong>南村</strong></td><td>役員報酬・入店3ヶ月以内等の特殊計算。丹下の計算の最終確認。税理士質問対応。etax入力</td></tr>
+                    <tr><td><strong>田中氏</strong></td><td>名古屋地区トップ。承認者。全従業員の給与明細を確認</td></tr>
+                </tbody>
+            </table>
+
+            <h3>控除項目一覧</h3>
+            <table>
+                <thead><tr><th>控除項目</th><th>備考</th></tr></thead>
+                <tbody>
+                    <tr><td>源泉徴収</td><td>10.21%</td></tr>
+                    <tr><td>寮費</td><td>寮に住んでいる従業員</td></tr>
+                    <tr><td>光熱費</td><td>寮内で使用した分</td></tr>
+                    <tr><td>名刺代</td><td>会社が立て替え→後から徴収</td></tr>
+                    <tr><td>税理士費用</td><td>確定申告を税理士に依頼している従業員のみ</td></tr>
+                    <tr><td>罰金</td><td>遅刻・無断欠勤等（※病欠・冠婚葬祭は対象外）</td></tr>
+                    <tr><td>ヘアメイク代 / 撮影キャンセル料</td><td>-</td></tr>
+                    <tr><td>前払い・貸付金（バンス）</td><td>貸付返済として給与から差し引き</td></tr>
+                    <tr><td>未収入金（つけ払い）</td><td>客の未払い分→ホストから差引。入金確認後に返済</td></tr>
+                </tbody>
+            </table>
+
+            <h3>加算項目</h3>
+            <table>
+                <thead><tr><th>加算項目</th><th>備考</th></tr></thead>
+                <tbody>
+                    <tr><td>達成賞等の賞金</td><td>店舗から毎月一覧が送られる</td></tr>
+                    <tr><td>経費（役職者のみ）</td><td>一部幹部に月額経費枠あり</td></tr>
+                </tbody>
+            </table>
+
+            <div class="issue-box">
+                <strong>課題・問題点</strong>
+                <ul>
+                    <li>データ提出遅延が頻発</li>
+                    <li>月末締め→翌月1日提出→15日振込のスケジュールがタイト</li>
+                    <li>差し戻しが頻繁に発生</li>
+                    <li>修正依頼が個別LINEでバラバラ来る</li>
+                    <li>店舗から後出しの特別要望 → その都度再計算が発生</li>
+                    <li>年に数回の「売上100%支給」適用タイミングが事前把握困難</li>
+                    <li>ホスト部門の給料計算を台帳から自動化したい（守屋様要望）</li>
+                </ul>
+            </div>
+
+            <div class="confirm-box">
+                <strong>未確認事項</strong>
+                <ul>
+                    <li>レギュラーシステム・シフトシステムのサンプル（南村 PDF提供予定）</li>
+                    <li>計算に使用しているExcelの抜粋（南村 提供予定）</li>
+                    <li>福岡店舗のデータ提出状況</li>
+                    <li>個人システムのパターン数</li>
+                    <li>正社員について（※再度確認が必要）</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="detail-section">
+    <div class="detail-card">
+        <div class="detail-header" onclick="toggleDetail(this)">
+            <div class="icon" style="background:#059669">2</div>
+            <h2>フロー2: 振込の詳細</h2>
+            <span class="toggle open">&#9660;</span>
+        </div>
+        <div class="detail-body">
+            <h3>振込先テーブル</h3>
+            <table>
+                <thead><tr><th>#</th><th>会社</th><th>銀行</th><th>対象</th><th>支払方法</th><th>備考</th></tr></thead>
+                <tbody>
+                    <tr><td>1</td><td>SPJ</td><td>PayPay銀行</td><td>約300名</td><td>90名振込 / 約200名手渡し</td><td>4店舗ごとに名前修正</td></tr>
+                    <tr><td>2</td><td>M&A</td><td>UFJ</td><td>社員・業務委託</td><td>振込</td><td>-</td></tr>
+                    <tr><td>3</td><td>ロカ</td><td>愛知銀行</td><td>-</td><td>振込</td><td>おおよそ15日</td></tr>
+                    <tr><td>4</td><td>ファム</td><td>PayPay銀行</td><td>3名</td><td>全員手渡し</td><td>-</td></tr>
+                    <tr><td>5</td><td>ユニラボ</td><td>GMO</td><td>7名</td><td>全員振込</td><td>-</td></tr>
+                </tbody>
+            </table>
+
+            <div class="issue-box">
+                <strong>課題・問題点</strong>
+                <ul>
+                    <li>売上計算システムの遅延で振込業務が直前になる</li>
+                    <li>役職者の報酬訂正が頻発し修正のたびにやり直し</li>
+                    <li>残業が発生（守屋様証言）</li>
+                    <li>振込後の追加・減額対応</li>
+                </ul>
+            </div>
+
+            <div class="confirm-box">
+                <strong>未確認事項</strong>
+                <ul>
+                    <li>手渡し→全員振込の移行タイミング</li>
+                    <li>ホスト部門のUFJ口座が使えなくなった経緯</li>
+                    <li>守屋さんからExcelサンプル提供予定</li>
+                    <li>15日が祝日の場合の対応ルール（未決定）</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="detail-section">
+    <div class="detail-card">
+        <div class="detail-header" onclick="toggleDetail(this)">
+            <div class="icon" style="background:#4b5563">3</div>
+            <h2>フロー3: 税務処理の詳細</h2>
+            <span class="toggle open">&#9660;</span>
+        </div>
+        <div class="detail-body">
+            <h3>作成資料一覧</h3>
+            <table>
+                <thead><tr><th>資料名</th><th>内容</th></tr></thead>
+                <tbody>
+                    <tr><td>通帳コピー</td><td>店舗・本社の銀行通帳</td></tr>
+                    <tr><td>通帳データのExcel化</td><td>通帳の動きをまとめた一覧表</td></tr>
+                    <tr><td>源泉徴収の集計表</td><td>計算元となる数字の集計</td></tr>
+                    <tr><td>経費一覧表</td><td>経費をまとめたもの</td></tr>
+                    <tr><td>従業員への貸付金一覧</td><td>前払い・バンスの記録</td></tr>
+                    <tr><td>現金出納帳</td><td>店舗の現金出入りの記録</td></tr>
+                </tbody>
+            </table>
+
+            <h3>源泉徴収</h3>
+            <table>
+                <thead><tr><th>項目</th><th>内容</th></tr></thead>
+                <tbody>
+                    <tr><td>源泉徴収率</td><td>10.21%</td></tr>
+                    <tr><td>対象</td><td>ホスト部門 約300名</td></tr>
+                    <tr><td>税理士事務所</td><td>A-TAX総合事務所</td></tr>
+                    <tr><td>納付期限</td><td>給与支払月の翌月10日</td></tr>
+                    <tr><td>納付方法</td><td>税理士がペイジー発行→守屋がネットバンキングで支払い</td></tr>
+                </tbody>
+            </table>
+
+            <div class="issue-box">
+                <strong>課題・問題点</strong>
+                <ul>
+                    <li>税理士から過去の質問が多く南村が対応に追われる</li>
+                    <li>25日→月末→翌月10日の工程が最もタイト</li>
+                </ul>
+            </div>
+
+            <div class="confirm-box">
+                <strong>未確認事項</strong>
+                <ul>
+                    <li>A-TAX総合事務所の担当者名</li>
+                    <li>税理士への提出資料のフォーマット</li>
+                    <li>源泉徴収以外の税務処理（年次対応等）</li>
+                    <li>正社員の税務処理フロー</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- People -->
+<div class="detail-section">
+    <div class="detail-card">
+        <div class="detail-header" onclick="toggleDetail(this)">
+            <div class="icon" style="background:var(--primary)">&#9432;</div>
+            <h2>人物所属・担当整理</h2>
+            <span class="toggle">&#9660;</span>
+        </div>
+        <div class="detail-body collapsed">
+            <h3>主要人物の所属</h3>
+            <table>
+                <thead><tr><th>人物</th><th>所属</th><th>主な担当</th></tr></thead>
+                <tbody>
+                    <tr><td><strong>南村</strong></td><td>M&A</td><td>給与計算（特殊）、最終確認、税理士質問対応、etax入力</td></tr>
+                    <tr><td><strong>丹下</strong></td><td>M&A</td><td>給与計算（レギュラー）、税務資料作成、銀行出納帳入力</td></tr>
+                    <tr><td><strong>守屋</strong></td><td>M&A</td><td>振込実行、ファム給与計算。田山さんに引き継ぎ可能</td></tr>
+                    <tr><td><strong>田山</strong></td><td>UNプロジェクト+ファム（兼任）</td><td>守屋からの引き継ぎ候補</td></tr>
+                    <tr><td><strong>宮下</strong></td><td>ファム</td><td>ユニラボの仕事を担当</td></tr>
+                    <tr><td><strong>田中氏</strong></td><td>名古屋地区トップ</td><td>給与承認</td></tr>
+                </tbody>
+            </table>
+
+            <h3>店舗一覧</h3>
+            <table>
+                <thead><tr><th>エリア</th><th>店舗名</th><th>備考</th></tr></thead>
+                <tbody>
+                    <tr><td>名古屋（4店舗）</td><td>ハーレム / セブンエイト / プリンス / オス</td><td>各店舗は会社でもある</td></tr>
+                    <tr><td>福岡</td><td>1店舗（2店舗になる予定）</td><td>-</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Issues summary -->
+<div class="detail-section">
+    <div class="detail-card">
+        <div class="detail-header" onclick="toggleDetail(this)">
+            <div class="icon" style="background:var(--issue-red)">!</div>
+            <h2>課題・未確認事項まとめ</h2>
+            <span class="toggle">&#9660;</span>
+        </div>
+        <div class="detail-body collapsed">
+            <div class="issue-box">
+                <strong>給与計算</strong>
+                <ul>
+                    <li>台帳から自動化したい（守屋様要望）</li>
+                    <li>データ提出遅延・差し戻し頻繁・後出し特別要望</li>
+                    <li>修正依頼が個別LINEでバラバラ</li>
+                </ul>
+            </div>
+            <div class="issue-box">
+                <strong>振込</strong>
+                <ul>
+                    <li>計算遅延で振込が直前に / 残業発生</li>
+                    <li>役職者報酬訂正が頻発</li>
+                </ul>
+            </div>
+            <div class="issue-box">
+                <strong>税務</strong>
+                <ul>
+                    <li>税理士から過去の質問多数 → 南村が対応</li>
+                    <li>25日→月末→翌月10日が最タイト</li>
+                </ul>
+            </div>
+            <div class="confirm-box">
+                <strong>未確認事項</strong>
+                <ul>
+                    <li>正社員の給与フロー / 守屋のExcelサンプル / 南村のシステムサンプル</li>
+                    <li>ファム・ロカの明細提出担当 / 福岡2店舗化時期</li>
+                    <li>15日祝日の対応ルール / UFJ口座の経緯</li>
+                    <li>A-TAX担当者名 / 税理士提出フォーマット</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="footer">
+    <p><strong>v02 2026/03/26</strong> / 情報ソース: 南村様・丹下様・守屋様ヒアリング（2026/03/25）</p>
+    <p style="margin-top:4px;">M&A株式会社 バックオフィス業務フロー（As-Is）-- 連携フロー可視化版</p>
+</div>
+
+<script>
+// ── Arrow definitions ──
+const arrows = [
+    { from: 't-s1', to: 't-s2', color: '#6b7280', label: '勤怠データ', marker: 'ah-gray', fromName: '店舗', toName: '店舗', note: '勤怠締め → データ送付' },
+    { from: 't-s2', to: 't-m1', color: '#2563eb', label: '勤怠表+売上台帳 (Excel)', marker: 'ah-blue', fromName: '店舗', toName: '南村', note: '毎月1日 AM10:00' },
+    { from: 't-m1', to: 't-g1', color: '#059669', label: 'データ渡し', marker: 'ah-green', fromName: '南村', toName: '丹下', note: '受領データを丹下に渡す' },
+    { from: 't-g1', to: 't-m3', color: '#2563eb', label: '計算結果', marker: 'ah-blue', fromName: '丹下', toName: '南村', note: '300名分の計算完了' },
+    { from: 't-m3', to: 't-m4', color: '#2563eb', label: 'チェック済み', marker: 'ah-blue', fromName: '南村', toName: '南村', note: 'チェック後 → 田中へ' },
+    { from: 't-m4', to: 't-k1', color: '#d97706', label: '給与明細データ', marker: 'ah-orange', fromName: '南村', toName: '田中', note: '全従業員の明細送付' },
+    { from: 't-k2', to: 't-m5', color: '#d97706', label: 'フィードバック', marker: 'ah-orange', fromName: '田中', toName: '南村', note: '承認 or 差し戻し（1-2日）' },
+    { from: 't-m5', to: 't-y1', color: '#7c3aed', label: '承認済み給与データ', marker: 'ah-purple', fromName: '南村', toName: '守屋', note: '承認完了 → 振込へ' },
+    { from: 't-y1', to: 't-m6', color: '#2563eb', label: '振込予約内容', marker: 'ah-blue', fromName: '守屋', toName: '南村', note: 'ダブルチェック依頼' },
+    { from: 't-y1', to: 't-y2', color: '#7c3aed', label: '振込実行', marker: 'ah-purple', fromName: '守屋', toName: '守屋', note: '予約 → 実行' },
+    { from: 't-g5', to: 't-a2', color: '#374151', label: '源泉徴収集計表', marker: 'ah-gray', fromName: '丹下', toName: 'A-TAX', note: '25日完成 → 税理士提出' },
+    { from: 't-a2', to: 't-y5', color: '#7c3aed', label: 'ペイジー+計算額', marker: 'ah-purple', fromName: 'A-TAX', toName: '守屋', note: 'ペイジー発行 → 守屋支払い' },
+    { from: 't-a2', to: 't-m8', color: '#dc2626', label: '質問（過去分含む）', marker: 'ah-red', fromName: 'A-TAX', toName: '南村', note: '半年前の質問も来る（課題）' },
+];
+
+// ── Draw arrows ──
+function drawArrows() {
+    const svg = document.getElementById('arrowSvg');
+    const wrapper = document.getElementById('swimWrapper');
+    const wrapperRect = wrapper.getBoundingClientRect();
+
+    // Clear old arrows
+    svg.querySelectorAll('.drawn-arrow').forEach(el => el.remove());
+
+    arrows.forEach((a, i) => {
+        const fromEl = document.getElementById(a.from);
+        const toEl = document.getElementById(a.to);
+        if (!fromEl || !toEl) return;
+
+        const fr = fromEl.getBoundingClientRect();
+        const tr = toEl.getBoundingClientRect();
+
+        // Calculate positions relative to wrapper
+        const fx = fr.left + fr.width - wrapperRect.left;
+        const fy = fr.top + fr.height / 2 - wrapperRect.top;
+        const tx = tr.left - wrapperRect.left;
+        const ty = tr.top + tr.height / 2 - wrapperRect.top;
+
+        // Determine if same row (horizontal) or cross-row (curved)
+        const sameRow = Math.abs(fy - ty) < 30;
+
+        const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+        g.classList.add('drawn-arrow');
+        g.dataset.index = i;
+        g.style.opacity = '0.6';
+        g.style.transition = 'opacity 0.2s';
+
+        const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        let d;
+        if (sameRow) {
+            d = `M ${fx} ${fy} L ${tx} ${ty}`;
+        } else {
+            // Curved path
+            const midX = (fx + tx) / 2;
+            const cpOffset = Math.abs(fy - ty) * 0.3;
+            d = `M ${fx} ${fy} C ${fx + cpOffset} ${fy}, ${tx - cpOffset} ${ty}, ${tx} ${ty}`;
+        }
+        path.setAttribute('d', d);
+        path.setAttribute('stroke', a.color);
+        path.setAttribute('stroke-width', '2.5');
+        path.setAttribute('fill', 'none');
+        path.setAttribute('marker-end', `url(#${a.marker})`);
+        path.setAttribute('stroke-dasharray', sameRow ? 'none' : '6 3');
+
+        g.appendChild(path);
+
+        // Label on the line
+        const midPoint = getMidPoint(fx, fy, tx, ty);
+        const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        text.setAttribute('x', midPoint.x);
+        text.setAttribute('y', midPoint.y - 6);
+        text.setAttribute('fill', a.color);
+        text.setAttribute('font-size', '9');
+        text.setAttribute('font-weight', '600');
+        text.setAttribute('text-anchor', 'middle');
+        text.textContent = a.label;
+
+        // Background for text
+        const bbox_est_w = a.label.length * 7;
+        const bg = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+        bg.setAttribute('x', midPoint.x - bbox_est_w / 2 - 2);
+        bg.setAttribute('y', midPoint.y - 16);
+        bg.setAttribute('width', bbox_est_w + 4);
+        bg.setAttribute('height', 13);
+        bg.setAttribute('fill', 'white');
+        bg.setAttribute('rx', '3');
+        bg.setAttribute('opacity', '0.9');
+
+        g.appendChild(bg);
+        g.appendChild(text);
+
+        svg.appendChild(g);
+    });
+}
+
+function getMidPoint(x1, y1, x2, y2) {
+    return { x: (x1 + x2) / 2, y: (y1 + y2) / 2 };
+}
+
+// ── Build flow list ──
+function buildFlowList() {
+    const list = document.getElementById('flowList');
+    arrows.forEach((a, i) => {
+        const row = document.createElement('div');
+        row.className = 'flow-row';
+        row.dataset.index = i;
+
+        const fromColor = a.color;
+        row.innerHTML = `
+            <span class="fl-from" style="background:${a.color}15;color:${a.color};">${a.fromName}</span>
+            <span class="fl-arrow">&rarr;</span>
+            <span class="fl-to" style="background:${a.color}15;color:${a.color};">${a.toName}</span>
+            <span class="fl-data">${a.label}</span>
+            <span class="fl-note">${a.note}</span>
+        `;
+
+        row.addEventListener('click', () => highlightArrow(i, row));
+        row.addEventListener('mouseenter', () => hoverArrow(i, true));
+        row.addEventListener('mouseleave', () => hoverArrow(i, false));
+
+        list.appendChild(row);
+    });
+}
+
+function highlightArrow(index, row) {
+    // Toggle active
+    const wasActive = row.classList.contains('active');
+    document.querySelectorAll('.flow-row').forEach(r => r.classList.remove('active'));
+    document.querySelectorAll('.drawn-arrow').forEach(g => { g.style.opacity = '0.6'; g.querySelector('path').setAttribute('stroke-width', '2.5'); });
+
+    if (!wasActive) {
+        row.classList.add('active');
+        const g = document.querySelector(`.drawn-arrow[data-index="${index}"]`);
+        if (g) {
+            g.style.opacity = '1';
+            g.querySelector('path').setAttribute('stroke-width', '4');
+            // Scroll into view
+            const scroll = document.querySelector('.swim-scroll');
+            const path = g.querySelector('path');
+            const bbox = path.getBBox();
+            scroll.scrollLeft = bbox.x - 200;
+        }
+    }
+}
+
+function hoverArrow(index, isHover) {
+    const g = document.querySelector(`.drawn-arrow[data-index="${index}"]`);
+    if (!g) return;
+    if (isHover) {
+        g.style.opacity = '1';
+        g.querySelector('path').setAttribute('stroke-width', '3.5');
+    } else {
+        const active = document.querySelector('.flow-row.active');
+        if (active && parseInt(active.dataset.index) === index) return;
+        g.style.opacity = '0.6';
+        g.querySelector('path').setAttribute('stroke-width', '2.5');
+    }
+}
+
+// ── Toggle detail sections ──
+function toggleDetail(header) {
+    const body = header.nextElementSibling;
+    const toggle = header.querySelector('.toggle');
+    body.classList.toggle('collapsed');
+    toggle.classList.toggle('open');
+}
+
+// ── Init ──
+window.addEventListener('load', () => {
+    drawArrows();
+    buildFlowList();
+});
+window.addEventListener('resize', drawArrows);
+
+// Redraw on scroll (because positions change)
+const scrollEl = document.querySelector('.swim-scroll');
+if (scrollEl) {
+    scrollEl.addEventListener('scroll', () => {
+        // Debounce
+        clearTimeout(window._arrowTimer);
+        window._arrowTimer = setTimeout(drawArrows, 50);
+    });
+}
+</script>
+
+</body>
+</html>
