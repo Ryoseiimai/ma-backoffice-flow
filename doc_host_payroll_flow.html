@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>ホスト事業 給与業務フロー（現状）</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Segoe UI', 'Hiragino Sans', sans-serif;
+    background: #fff;
+    color: #1f2937;
+    line-height: 1.7;
+    font-size: 14px;
+  }
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px 32px;
+  }
+  /* Header */
+  .header {
+    border-bottom: 3px solid #1a2a4a;
+    padding-bottom: 20px;
+    margin-bottom: 36px;
+  }
+  .header h1 {
+    font-size: 24px;
+    color: #1a2a4a;
+    margin-bottom: 8px;
+  }
+  .header .subtitle {
+    font-size: 14px;
+    color: #4b5563;
+    margin-bottom: 4px;
+  }
+  .header .meta {
+    font-size: 12px;
+    color: #6b7280;
+  }
+  /* Section */
+  section {
+    margin-bottom: 36px;
+  }
+  section h2 {
+    font-size: 18px;
+    color: #1a2a4a;
+    border-left: 4px solid #1a2a4a;
+    padding-left: 12px;
+    margin-bottom: 16px;
+  }
+  section h3 {
+    font-size: 15px;
+    color: #1a2a4a;
+    margin: 16px 0 8px;
+    font-weight: 600;
+  }
+  /* Table */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 16px;
+    font-size: 13px;
+  }
+  table thead th {
+    background: #1a2a4a;
+    color: #fff;
+    font-weight: 600;
+    text-align: left;
+    padding: 8px 12px;
+    border: 1px solid #1a2a4a;
+  }
+  table tbody td {
+    padding: 8px 12px;
+    border: 1px solid #d1d5db;
+    vertical-align: top;
+  }
+  table tbody tr:nth-child(even) {
+    background: #f9fafb;
+  }
+  /* List */
+  ul.issues {
+    padding-left: 20px;
+    margin-top: 8px;
+  }
+  ul.issues li {
+    margin-bottom: 6px;
+  }
+  /* Footer */
+  .footer {
+    border-top: 1px solid #d1d5db;
+    padding-top: 16px;
+    margin-top: 40px;
+    font-size: 12px;
+    color: #6b7280;
+  }
+  .footer p { margin-bottom: 4px; }
+  /* Print */
+  @media print {
+    body { font-size: 12px; }
+    .container { padding: 0; max-width: 100%; }
+    .header, .footer { break-inside: avoid; }
+    section { break-inside: avoid; }
+    @page { margin: 15mm; }
+  }
+.mermaid-section {
+  margin-bottom: 36px;
+  padding: 20px;
+  background: #f8fafc;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+}
+.mermaid-section h2 {
+  font-size: 18px;
+  color: #1a2a4a;
+  border-left: 4px solid #1a2a4a;
+  padding-left: 12px;
+  margin-bottom: 16px;
+}
+.mermaid { text-align: center; }
+details {
+  margin-bottom: 24px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  overflow: hidden;
+}
+details summary {
+  font-size: 18px;
+  color: #1a2a4a;
+  font-weight: 700;
+  padding: 14px 16px;
+  cursor: pointer;
+  background: #f8fafc;
+  border-left: 4px solid #1a2a4a;
+  user-select: none;
+  list-style: none;
+}
+details summary::-webkit-details-marker { display: none; }
+details summary::before {
+  content: '\25B6  ';
+  font-size: 12px;
+  margin-right: 8px;
+  display: inline-block;
+  transition: transform 0.2s;
+}
+details[open] summary::before {
+  transform: rotate(90deg);
+}
+details[open] summary {
+  border-bottom: 1px solid #e5e7eb;
+}
+.detail-content {
+  padding: 16px;
+}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script>mermaid.initialize({ startOnLoad: true, theme: 'base', themeVariables: { primaryColor: '#e8eefb', primaryTextColor: '#1a2a4a', primaryBorderColor: '#1a2a4a', lineColor: '#4b5563', fontSize: '13px' } });</script>
+</head>
+<body>
+<div class="container">
+
+  <!-- Header -->
+  <div class="header">
+    <h1>ホスト事業 給与業務フロー（現状）</h1>
+    <p class="subtitle">対象: 名古屋4店舗（ハーレム / セブンエイト / プリンス / オス）+福岡の店舗 / 約300名（業務委託・個人事業主）</p>
+    <p class="meta">情報ソース: 南村様・丹下様・守屋様ヒアリング（2026/03/25）</p>
+    <p class="meta">作成日: 2026年3月26日</p>
+  </div>
+
+  <div class="mermaid-section">
+    <h2>業務フロー全体像</h2>
+    <pre class="mermaid">
+graph TD
+    A["① 店舗リーダー\n勤怠表を締める（月末）\n名古屋4店舗（ハーレム/セブンエイト\n/プリンス/オス）＋福岡の店舗"] --> B["② 店舗\n勤怠表＋売上台帳を\n南村様へ提出\n（翌月1日 AM10:00）"]
+    B --> C["③ 南村様\nデータ受領\n→ 丹下様に渡す"]
+    C --> D["④ 丹下様\n300名全員分の\n計算表作成\n（Excel自動計算＋役職手当の手入力）"]
+    D --> E["⑤ 南村様\n計算結果をレビュー\n＋ 特殊計算\n（役職者・入店3ヶ月以内等）"]
+    E --> F["⑥ 南村様\nチェック済みデータを\n田中様へ送付"]
+    F --> G{"⑦ 田中様\n給与明細を確認"}
+    G -->|承認| H["⑧ 南村様\n承認済みデータを\n守屋様に送付"]
+    G -->|差し戻し| E
+    H --> I["⑨ 守屋様\n振込予約作成\n（全5社分）"]
+    I --> J["⑩ 南村様\n振込予約を\nダブルチェック"]
+    J --> K["⑪ 守屋様\n振込実行\n（15日・ネットバンキング）"]
+
+    K --> S1["ハーレム"]
+    K --> S2["セブンエイト"]
+    K --> S3["プリンス"]
+    K --> S4["オス"]
+    K --> S5["福岡の店舗"]
+
+    style A fill:#f9fafb,stroke:#6b7280
+    style B fill:#f9fafb,stroke:#6b7280
+    style C fill:#eff6ff,stroke:#2563eb
+    style D fill:#ecfdf5,stroke:#059669
+    style E fill:#eff6ff,stroke:#2563eb
+    style F fill:#eff6ff,stroke:#2563eb
+    style G fill:#fffbeb,stroke:#d97706
+    style H fill:#eff6ff,stroke:#2563eb
+    style I fill:#f5f3ff,stroke:#7c3aed
+    style J fill:#eff6ff,stroke:#2563eb
+    style K fill:#f5f3ff,stroke:#7c3aed
+    style S1 fill:#fff,stroke:#6b7280
+    style S2 fill:#fff,stroke:#6b7280
+    style S3 fill:#fff,stroke:#6b7280
+    style S4 fill:#fff,stroke:#6b7280
+    style S5 fill:#fff,stroke:#6b7280
+    </pre>
+  </div>
+
+  <!-- 1. 担当者と役割 -->
+  <details>
+    <summary>1. 担当者と役割</summary>
+    <div class="detail-content">
+    <table>
+      <thead><tr><th>担当者</th><th>役割</th></tr></thead>
+      <tbody>
+        <tr><td>店舗リーダー/幹部<br><small style="color:#6b7280">ハーレム / セブンエイト / プリンス / オス / 福岡</small></td><td>毎月の勤怠表・売上台帳を締めて提出</td></tr>
+        <tr><td>南村様</td><td>給与計算統括。丹下様の計算結果をレビュー＋特殊計算（役職者・入店3ヶ月以内等）</td></tr>
+        <tr><td>丹下様</td><td>300名全員分の計算表作成（Excel自動計算）＋役職手当の手入力。税務資料も担当</td></tr>
+        <tr><td>田中様</td><td>役員。全従業員の給与明細を確認し、承認または差し戻し</td></tr>
+        <tr><td>守屋様</td><td>振込統括。5社分の振込予約・実行。ダブルチェックは南村様に依頼</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </details>
+
+  <!-- 2. 毎月のスケジュール -->
+  <details>
+    <summary>2. 毎月のスケジュール</summary>
+    <div class="detail-content">
+    <table>
+      <thead><tr><th>時期</th><th>内容</th></tr></thead>
+      <tbody>
+        <tr><td>月末</td><td>店舗リーダーが勤怠表を最終チェック（締め）</td></tr>
+        <tr><td>翌月1日 AM10:00</td><td>店舗が勤怠表＋売上台帳（Excel）を南村様へ提出</td></tr>
+        <tr><td>1日〜10-11日</td><td>丹下様が300名全員分の計算表作成 → 南村様がレビュー＋特殊計算</td></tr>
+        <tr><td>〜12-13日</td><td>南村様が田中様へ給与明細データ送付 → 田中様が承認 or 差し戻し（1-2日）</td></tr>
+        <tr><td>13日</td><td>守屋様が振込予約（全5社） → 南村様がダブルチェック</td></tr>
+        <tr><td>15日</td><td>守屋様が振込実行（ネットバンキング）<br><small>※現状は約90名が振込、約150名が手渡し。4月分（5月支給）から全員振込に移行確定</small></td></tr>
+      </tbody>
+    </table>
+    </div>
+  </details>
+
+  <!-- 3. 給与計算の流れ -->
+  <details>
+    <summary>3. 給与計算の流れ</summary>
+    <div class="detail-content">
+    <table>
+      <thead><tr><th style="width:60px;">Step</th><th style="width:140px;">担当者</th><th>作業内容</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>店舗リーダー</td><td>勤怠表を締める（月末）</td></tr>
+        <tr><td>2</td><td>店舗</td><td>勤怠表＋売上台帳（Excel）を南村様へ送付（翌月1日 AM10:00締切）</td></tr>
+        <tr><td>3</td><td>南村様</td><td>データを受領し、丹下様に渡す</td></tr>
+        <tr><td>4</td><td>丹下様</td><td>300名全員分の計算表を作成（Excel自動計算）</td></tr>
+        <tr><td>5</td><td>丹下様</td><td>役職手当を手入力で追加</td></tr>
+        <tr><td>6</td><td>丹下様</td><td>計算結果を南村様に返す</td></tr>
+        <tr><td>7</td><td>南村様</td><td>計算結果をレビュー＋役職者・入店3ヶ月以内等の複雑な計算を実施</td></tr>
+        <tr><td>8</td><td>南村様</td><td>チェック済みの給与明細データを田中様に送付</td></tr>
+        <tr><td>9</td><td>田中様</td><td>全従業員の給与明細を確認</td></tr>
+        <tr><td>10</td><td>田中様</td><td>承認 or 差し戻し（差し戻しの場合、南村様が修正→再送付）</td></tr>
+        <tr><td>11</td><td>南村様</td><td>承認済みの給与データを守屋様に送付</td></tr>
+        <tr><td>12</td><td>守屋様</td><td>振込予約を作成（全5社分）</td></tr>
+        <tr><td>13</td><td>南村様</td><td>守屋様の振込予約内容をダブルチェック</td></tr>
+        <tr><td>14</td><td>守屋様</td><td>15日に振込実行（ネットバンキング）</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </details>
+
+  <!-- 4. 給与の構成 -->
+  <details>
+    <summary>4. 給与の構成（控除・加算）</summary>
+    <div class="detail-content">
+    <h3>控除項目</h3>
+    <table>
+      <thead><tr><th>項目</th><th>備考</th></tr></thead>
+      <tbody>
+        <tr><td>源泉徴収</td><td>10.21%</td></tr>
+        <tr><td>寮費</td><td>寮に住んでいる従業員</td></tr>
+        <tr><td>光熱費</td><td>寮内の使用分</td></tr>
+        <tr><td>名刺代</td><td>会社立替→後から徴収</td></tr>
+        <tr><td>税理士費用</td><td>確定申告を税理士に依頼している従業員のみ</td></tr>
+        <tr><td>罰金</td><td>遅刻・無断欠勤等（病欠・冠婚葬祭は対象外）</td></tr>
+        <tr><td>ヘアメイク代 / 撮影キャンセル料</td><td>-</td></tr>
+        <tr><td>前払い・貸付金（バンス）</td><td>貸付返済として給与から差引</td></tr>
+        <tr><td>未収入金（つけ払い）</td><td>客の未払い分→ホストから差引。入金確認後に返済</td></tr>
+      </tbody>
+    </table>
+
+    <h3>加算項目</h3>
+    <table>
+      <thead><tr><th>項目</th><th>備考</th></tr></thead>
+      <tbody>
+        <tr><td>達成賞等の賞金</td><td>店舗から毎月一覧が送られる</td></tr>
+        <tr><td>経費（役職者のみ）</td><td>一部幹部に月額経費枠あり</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </details>
+
+  <!-- 5. 給与体系 -->
+  <details>
+    <summary>5. 給与体系</summary>
+    <div class="detail-content">
+    <table>
+      <thead><tr><th>区分</th><th>割合</th><th>システム</th><th>備考</th></tr></thead>
+      <tbody>
+        <tr><td>役職者</td><td>約2-3割</td><td>個人システム（人ごとに異なる）</td><td>南村様が担当</td></tr>
+        <tr><td>レギュラー</td><td>約7-8割</td><td>統一システム</td><td>丹下様が一括計算</td></tr>
+      </tbody>
+    </table>
+
+    <h3>勤務形態</h3>
+    <table>
+      <thead><tr><th>形態</th><th>内容</th></tr></thead>
+      <tbody>
+        <tr><td>レギュラー</td><td>毎日出勤</td></tr>
+        <tr><td>シフト</td><td>週1〜2回</td></tr>
+      </tbody>
+    </table>
+
+    <h3>報酬形態</h3>
+    <p>時給制 / 日給制 / 売上バックのみ（人によって異なる）</p>
+
+    <h3>補足</h3>
+    <ul class="issues">
+      <li>レギュラーの報酬: 売上に応じてバック率が変動する仕組み。欠勤日数分がマイナスされる</li>
+      <li>個人システム（役職者）: 人ごとに異なり、毎月変更される従業員もいる。PDFベースのシステム表を紙に印刷して参照しながら計算（デジタル化されていない）</li>
+      <li>シフト勤務者: 時給制が基本</li>
+    </ul>
+    </div>
+  </details>
+
+  <!-- 6. 現在の課題 -->
+  <details>
+    <summary>6. 現在の課題</summary>
+    <div class="detail-content">
+    <ul class="issues">
+      <li>データ提出遅延が頻発（1日AM10:00の締切に間に合わない店舗がある）</li>
+      <li>月末締め→翌月1日提出→15日振込のスケジュールがタイト</li>
+      <li>田中様への差し戻しが頻繁に発生</li>
+      <li>修正依頼が個別LINEでバラバラに来る</li>
+      <li>店舗から後出しの特別要望が来て、その都度再計算が発生</li>
+      <li>年に数回の「売上100%支給」の適用タイミングが事前に把握困難</li>
+      <li>ホスト部門の給料計算を台帳から自動化したい（守屋様要望）</li>
+      <li>振込後に給与間違いが判明した場合、不足分は追加振込、過払い分は従業員から返金してもらう対応が発生（レアケース）</li>
+      <li>個人システムの参照資料がPDF・紙ベースのため、計算時に手間がかかる</li>
+    </ul>
+    </div>
+  </details>
+
+  <!-- 7. 未確認事項 -->
+  <details>
+    <summary>7. 未確認事項</summary>
+    <div class="detail-content">
+    <ul class="issues">
+      <li>レギュラーシステム・シフトシステムのサンプル（南村様から提供予定）</li>
+      <li>計算に使用しているExcelの抜粋（南村様から提供予定）</li>
+      <li>福岡店舗のデータ提出状況</li>
+      <li>個人システムのパターン数</li>
+      <li>正社員について（再確認が必要）</li>
+    </ul>
+    </div>
+  </details>
+
+  <!-- Footer -->
+  <div class="footer">
+    <p>情報ソース: 南村様・丹下様・守屋様ヒアリング（2026/03/25）</p>
+    <p>本資料はTeam RYU内部共有用です</p>
+  </div>
+
+</div>
+</body>
+</html>

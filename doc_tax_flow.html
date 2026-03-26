@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>税務処理フロー（現状）</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Segoe UI', 'Hiragino Sans', sans-serif;
+    background: #fff;
+    color: #1f2937;
+    line-height: 1.7;
+    font-size: 14px;
+  }
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px 32px;
+  }
+  /* Header */
+  .header {
+    border-bottom: 3px solid #1a2a4a;
+    padding-bottom: 20px;
+    margin-bottom: 36px;
+  }
+  .header h1 {
+    font-size: 24px;
+    color: #1a2a4a;
+    margin-bottom: 8px;
+  }
+  .header .subtitle {
+    font-size: 14px;
+    color: #4b5563;
+    margin-bottom: 4px;
+  }
+  .header .meta {
+    font-size: 12px;
+    color: #6b7280;
+  }
+  /* Section */
+  section {
+    margin-bottom: 36px;
+  }
+  section h2 {
+    font-size: 18px;
+    color: #1a2a4a;
+    border-left: 4px solid #1a2a4a;
+    padding-left: 12px;
+    margin-bottom: 16px;
+  }
+  section h3 {
+    font-size: 15px;
+    color: #1a2a4a;
+    margin: 16px 0 8px;
+    font-weight: 600;
+  }
+  /* Table */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 16px;
+    font-size: 13px;
+  }
+  table thead th {
+    background: #1a2a4a;
+    color: #fff;
+    font-weight: 600;
+    text-align: left;
+    padding: 8px 12px;
+    border: 1px solid #1a2a4a;
+  }
+  table tbody td {
+    padding: 8px 12px;
+    border: 1px solid #d1d5db;
+    vertical-align: top;
+  }
+  table tbody tr:nth-child(even) {
+    background: #f9fafb;
+  }
+  /* List */
+  ul.items {
+    padding-left: 20px;
+    margin-top: 8px;
+  }
+  ul.items li {
+    margin-bottom: 6px;
+  }
+  /* Footer */
+  .footer {
+    border-top: 1px solid #d1d5db;
+    padding-top: 16px;
+    margin-top: 40px;
+    font-size: 12px;
+    color: #6b7280;
+  }
+  .footer p { margin-bottom: 4px; }
+  /* Print */
+  @media print {
+    body { font-size: 12px; }
+    .container { padding: 0; max-width: 100%; }
+    .header, .footer { break-inside: avoid; }
+    section { break-inside: avoid; }
+    @page { margin: 15mm; }
+  }
+.mermaid-section {
+  margin-bottom: 36px;
+  padding: 20px;
+  background: #f8fafc;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+}
+.mermaid-section h2 {
+  font-size: 18px;
+  color: #1a2a4a;
+  border-left: 4px solid #1a2a4a;
+  padding-left: 12px;
+  margin-bottom: 16px;
+}
+.mermaid { text-align: center; }
+details {
+  margin-bottom: 24px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  overflow: hidden;
+}
+details summary {
+  font-size: 18px;
+  color: #1a2a4a;
+  font-weight: 700;
+  padding: 14px 16px;
+  cursor: pointer;
+  background: #f8fafc;
+  border-left: 4px solid #1a2a4a;
+  user-select: none;
+  list-style: none;
+}
+details summary::-webkit-details-marker { display: none; }
+details summary::before {
+  content: '\25B6  ';
+  font-size: 12px;
+  margin-right: 8px;
+  display: inline-block;
+  transition: transform 0.2s;
+}
+details[open] summary::before {
+  transform: rotate(90deg);
+}
+details[open] summary {
+  border-bottom: 1px solid #e5e7eb;
+}
+.detail-content {
+  padding: 16px;
+}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script>mermaid.initialize({ startOnLoad: true, theme: 'base', themeVariables: { primaryColor: '#e8eefb', primaryTextColor: '#1a2a4a', primaryBorderColor: '#1a2a4a', lineColor: '#4b5563', fontSize: '13px' } });</script>
+</head>
+<body>
+<div class="container">
+
+  <!-- Header -->
+  <div class="header">
+    <h1>税務処理フロー（現状）</h1>
+    <p class="subtitle">源泉徴収の計算・納付 / 税務資料の作成・提出</p>
+    <p class="meta">情報ソース: 南村様・丹下様・守屋様ヒアリング（2026/03/25）</p>
+    <p class="meta">作成日: 2026年3月26日</p>
+  </div>
+
+  <div class="mermaid-section">
+    <h2>業務フロー全体像</h2>
+    <pre class="mermaid">
+graph TD
+    A["① 南村様＋丹下様\n税務資料作成開始\n（15日〜）"] --> B["② 南村様＋丹下様\n6種の資料を作成\n通帳コピー / 出納帳\n経費一覧 / 貸付金一覧 等"]
+    N["③ 南村様 → A-TAX\nユニラボ・M&A社員の\n勤怠データ送付\n請求書等の取りまとめ"] --> F
+    B --> C["④ 南村様＋丹下様\n銀行出納帳入力"]
+    C --> D["⑤ 南村様＋丹下様\n源泉徴収集計表を完成\n（25日ごろ）"]
+    D --> E["⑥ 南村様 → A-TAX\n集計表を税理士に提出"]
+    E --> F["⑦ A-TAX\n源泉徴収の計算"]
+    F --> G["⑧ A-TAX\n計算結果返却\n＋ ペイジー発行\n（〜月末）"]
+    G --> H["⑨ 守屋様\nペイジーで\nネットバンキング支払い\n（翌月10日期限）"]
+
+    F -.->|質問| I["南村様 / 守屋様\n質問対応\n（過去分含む）"]
+    Z["※ 報酬訂正\n（15〜20件/月）\n給与フローから引き継ぎ"] -.->|訂正反映| A
+
+    style A fill:#ecfdf5,stroke:#059669
+    style B fill:#ecfdf5,stroke:#059669
+    style N fill:#eff6ff,stroke:#2563eb
+    style C fill:#ecfdf5,stroke:#059669
+    style D fill:#ecfdf5,stroke:#059669
+    style E fill:#ecfdf5,stroke:#059669
+    style F fill:#f3f4f6,stroke:#374151
+    style G fill:#f3f4f6,stroke:#374151
+    style H fill:#f5f3ff,stroke:#7c3aed
+    style I fill:#fee2e2,stroke:#dc2626
+    style Z fill:#fff,stroke:#9ca3af,stroke-dasharray: 5 5
+    </pre>
+  </div>
+
+  <!-- 1. 担当者と役割 -->
+  <details>
+    <summary>1. 担当者と役割</summary>
+    <div class="detail-content">
+    <table>
+      <thead><tr><th>担当者</th><th>税務における役割</th></tr></thead>
+      <tbody>
+        <tr><td>丹下様</td><td>税務資料の作成（通帳コピー・出納帳・経費一覧等）。銀行出納帳入力。源泉徴収集計表の作成→A-TAXに提出</td></tr>
+        <tr><td>守屋様</td><td>源泉徴収のペイジー支払い（ネットバンキング）。税理士からの質問対応（南村様と分担）</td></tr>
+        <tr><td>南村様</td><td>税理士窓口。ユニラボ・M&amp;A社員の勤怠データをA-TAXに送付。請求書等の提出物を取りまとめ。報酬訂正（15〜20件/月）を丹下様と実施し税理士に提出。税理士からの質問対応（守屋様と分担、過去分含む）</td></tr>
+        <tr><td>A-TAX総合事務所</td><td>外部税理士。源泉徴収の計算。ペイジー発行。ユニラボ・M&amp;A社員の給与明細作成</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </details>
+
+  <!-- 2. 毎月のスケジュール -->
+  <details>
+    <summary>2. 毎月のスケジュール</summary>
+    <div class="detail-content">
+    <table>
+      <thead><tr><th>時期</th><th>担当</th><th>作業内容</th></tr></thead>
+      <tbody>
+        <tr><td>15日〜25日</td><td>南村様＋丹下様</td><td>税務資料作成（下記6種）＋銀行出納帳入力</td></tr>
+        <tr><td>随時</td><td>南村様→A-TAX</td><td>ユニラボ・M&amp;A社員の勤怠データを送付。請求書等の提出物を取りまとめ</td></tr>
+        <tr><td>25日ごろ</td><td>丹下様→A-TAX</td><td>源泉徴収集計表を完成させ、A-TAXに提出</td></tr>
+        <tr><td>〜月末</td><td>A-TAX</td><td>源泉徴収の計算結果を返却＋ペイジーを発行</td></tr>
+        <tr><td>〜月末</td><td>A-TAX→南村様/守屋様</td><td>質問があれば南村様・守屋様に問い合わせ（半年前の質問も来る）</td></tr>
+        <tr><td>翌月10日（期限）</td><td>守屋様</td><td>ペイジーでネットバンキングにて源泉徴収を納付</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </details>
+
+  <!-- 3. 丹下様が作成する税務資料 -->
+  <details>
+    <summary>3. 丹下様が作成する税務資料（6種）</summary>
+    <div class="detail-content">
+    <table>
+      <thead><tr><th>#</th><th>資料名</th><th>内容</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>通帳コピー</td><td>店舗・本社の銀行通帳</td></tr>
+        <tr><td>2</td><td>通帳データのExcel化</td><td>通帳の動きをまとめた一覧表</td></tr>
+        <tr><td>3</td><td>源泉徴収の集計表</td><td>計算元となる数字の集計</td></tr>
+        <tr><td>4</td><td>経費一覧表</td><td>経費をまとめたもの</td></tr>
+        <tr><td>5</td><td>従業員への貸付金一覧</td><td>前払い・バンスの記録</td></tr>
+        <tr><td>6</td><td>現金出納帳</td><td>店舗の現金出入りの記録</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </details>
+
+  <!-- 4. 源泉徴収の概要 -->
+  <details>
+    <summary>4. 源泉徴収の概要</summary>
+    <div class="detail-content">
+    <table>
+      <thead><tr><th>項目</th><th>内容</th></tr></thead>
+      <tbody>
+        <tr><td>源泉徴収率</td><td>10.21%</td></tr>
+        <tr><td>対象</td><td>ホスト部門 約300名（個人事業主）</td></tr>
+        <tr><td>税理士事務所</td><td>A-TAX総合事務所</td></tr>
+        <tr><td>納付期限</td><td>給与支払月の翌月10日</td></tr>
+        <tr><td>納付方法</td><td>税理士がペイジー発行 → 守屋様がネットバンキングで支払い</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </details>
+
+  <!-- 5. A-TAXが担当する業務 -->
+  <details>
+    <summary>5. A-TAXが担当する業務</summary>
+    <div class="detail-content">
+    <ul class="items">
+      <li>源泉徴収の計算</li>
+      <li>ペイジーの発行（納付用）</li>
+      <li>ユニラボ・M&amp;A社員の給与明細作成</li>
+      <li>質問対応（不明点があれば南村様・守屋様に問い合わせ）</li>
+    </ul>
+    </div>
+  </details>
+
+  <!-- 6. 税務処理の流れ -->
+  <details>
+    <summary>6. 税務処理の流れ（ステップ形式）</summary>
+    <div class="detail-content">
+    <table>
+      <thead><tr><th>Step</th><th>時期</th><th>担当</th><th>作業内容</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>15日〜</td><td>南村様＋丹下様</td><td>通帳コピー・Excel化を開始</td></tr>
+        <tr><td>2</td><td>随時</td><td>南村様→A-TAX</td><td>ユニラボ・M&amp;A社員の勤怠データ送付、請求書等を取りまとめて提出</td></tr>
+        <tr><td>3</td><td>〜25日</td><td>南村様＋丹下様</td><td>経費一覧・貸付金一覧・現金出納帳を作成</td></tr>
+        <tr><td>4</td><td>〜25日</td><td>南村様＋丹下様</td><td>銀行出納帳入力</td></tr>
+        <tr><td>5</td><td>25日</td><td>南村様＋丹下様</td><td>源泉徴収集計表を完成</td></tr>
+        <tr><td>6</td><td>25日</td><td>南村様→A-TAX</td><td>集計表を税理士に提出</td></tr>
+        <tr><td>7</td><td>〜月末</td><td>A-TAX</td><td>源泉徴収の計算を実施</td></tr>
+        <tr><td>8</td><td>〜月末</td><td>A-TAX</td><td>計算結果を返却＋ペイジーを発行</td></tr>
+        <tr><td>9</td><td>随時</td><td>A-TAX→南村様/守屋様</td><td>質問があれば問い合わせ（過去分含む）</td></tr>
+        <tr><td>10</td><td>翌月10日</td><td>守屋様</td><td>ペイジーでネットバンキング支払い</td></tr>
+      </tbody>
+    </table>
+    <p style="margin-top:12px;font-size:13px;color:#6b7280;">※ 報酬訂正（毎月15〜20件）は給与振込フローから引き継ぎで並行して実施。給与フロー側のStep 11を参照。</p>
+      </tbody>
+    </table>
+    </div>
+  </details>
+
+  <!-- 7. 現在の課題 -->
+  <details>
+    <summary>7. 現在の課題</summary>
+    <div class="detail-content">
+    <ul class="items">
+      <li>税理士から過去（半年前等）の質問が多く、南村様が対応に追われる</li>
+      <li>25日→月末→翌月10日の工程が最もタイトなスケジュール</li>
+      <li>質問対応の南村様・守屋様の分担が明確でない部分がある</li>
+      <li>報酬訂正（毎月15〜20件）の発生原因と根拠資料の管理が不明確</li>
+      <li>A-TAXからの質問に対する回答期限が明確でなく、対応が長引くことがある</li>
+    </ul>
+    </div>
+  </details>
+
+  <!-- 8. 未確認事項 -->
+  <details>
+    <summary>8. 未確認事項</summary>
+    <div class="detail-content">
+    <ul class="items">
+      <li>A-TAX総合事務所の担当者名</li>
+      <li>税理士への提出資料のフォーマット</li>
+      <li>源泉徴収以外の税務処理（年次対応等）</li>
+      <li>正社員の税務処理フロー</li>
+      <li>5社（SPJ/M&amp;A/ロカ/ファム/ユニラボ）ごとに税務処理が異なるかどうか</li>
+      <li>年末調整・法定調書作成のフロー（年次対応の詳細）</li>
+      <li>e-Tax（電子申告・納税）の利用状況</li>
+    </ul>
+    </div>
+  </details>
+
+  <!-- Footer -->
+  <div class="footer">
+    <p>情報ソース: 南村様・丹下様・守屋様ヒアリング（2026/03/25）</p>
+    <p>Team RYU 内部共有用資料 — 外部配布禁止</p>
+  </div>
+
+</div>
+</body>
+</html>

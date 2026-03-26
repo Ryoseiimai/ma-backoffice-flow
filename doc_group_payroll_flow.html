@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>M&Aグループ全体 給与業務フロー（現状）</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Segoe UI', 'Hiragino Sans', sans-serif;
+    background: #fff;
+    color: #1f2937;
+    line-height: 1.7;
+    font-size: 14px;
+  }
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px 32px;
+  }
+  /* Header */
+  .header {
+    border-bottom: 3px solid #1a2a4a;
+    padding-bottom: 20px;
+    margin-bottom: 36px;
+  }
+  .header h1 {
+    font-size: 24px;
+    color: #1a2a4a;
+    margin-bottom: 8px;
+  }
+  .header .subtitle {
+    font-size: 14px;
+    color: #4b5563;
+    margin-bottom: 4px;
+  }
+  .header .meta {
+    font-size: 12px;
+    color: #6b7280;
+  }
+  /* Section */
+  section {
+    margin-bottom: 36px;
+  }
+  section h2 {
+    font-size: 18px;
+    color: #1a2a4a;
+    border-left: 4px solid #1a2a4a;
+    padding-left: 12px;
+    margin-bottom: 16px;
+  }
+  section h3 {
+    font-size: 15px;
+    color: #1a2a4a;
+    margin: 16px 0 8px;
+    font-weight: 600;
+  }
+  /* Table */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 16px;
+    font-size: 13px;
+  }
+  table thead th {
+    background: #1a2a4a;
+    color: #fff;
+    font-weight: 600;
+    text-align: left;
+    padding: 8px 12px;
+    border: 1px solid #1a2a4a;
+  }
+  table tbody td {
+    padding: 8px 12px;
+    border: 1px solid #d1d5db;
+    vertical-align: top;
+  }
+  table tbody tr:nth-child(even) {
+    background: #f9fafb;
+  }
+  /* Note */
+  .note {
+    font-size: 12px;
+    color: #6b7280;
+    margin-top: 8px;
+    margin-bottom: 16px;
+    padding-left: 4px;
+  }
+  /* List */
+  ul.issues {
+    padding-left: 20px;
+    margin-top: 8px;
+  }
+  ul.issues li {
+    margin-bottom: 6px;
+  }
+  /* Footer */
+  .footer {
+    border-top: 1px solid #d1d5db;
+    padding-top: 16px;
+    margin-top: 40px;
+    font-size: 12px;
+    color: #6b7280;
+  }
+  .footer p { margin-bottom: 4px; }
+  /* Print */
+  @media print {
+    body { font-size: 12px; }
+    .container { padding: 0; max-width: 100%; }
+    .header, .footer { break-inside: avoid; }
+    section { break-inside: avoid; }
+    @page { margin: 15mm; }
+  }
+.mermaid-section {
+  margin-bottom: 36px;
+  padding: 20px;
+  background: #f8fafc;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+}
+.mermaid-section h2 {
+  font-size: 18px;
+  color: #1a2a4a;
+  border-left: 4px solid #1a2a4a;
+  padding-left: 12px;
+  margin-bottom: 16px;
+}
+.mermaid { text-align: center; }
+details {
+  margin-bottom: 24px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  overflow: hidden;
+}
+details summary {
+  font-size: 18px;
+  color: #1a2a4a;
+  font-weight: 700;
+  padding: 14px 16px;
+  cursor: pointer;
+  background: #f8fafc;
+  border-left: 4px solid #1a2a4a;
+  user-select: none;
+  list-style: none;
+}
+details summary::-webkit-details-marker { display: none; }
+details summary::before {
+  content: '\25B6  ';
+  font-size: 12px;
+  margin-right: 8px;
+  display: inline-block;
+  transition: transform 0.2s;
+}
+details[open] summary::before {
+  transform: rotate(90deg);
+}
+details[open] summary {
+  border-bottom: 1px solid #e5e7eb;
+}
+.detail-content {
+  padding: 16px;
+}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script>mermaid.initialize({ startOnLoad: true, theme: 'base', themeVariables: { primaryColor: '#e8eefb', primaryTextColor: '#1a2a4a', primaryBorderColor: '#1a2a4a', lineColor: '#4b5563', fontSize: '13px' } });</script>
+</head>
+<body>
+<div class="container">
+
+  <!-- Header -->
+  <div class="header">
+    <h1>M&Aグループ全体 給与業務フロー（現状）</h1>
+    <p class="subtitle">5社の給与処理を3名で運用</p>
+    <p class="meta">情報ソース: 南村様・丹下様・守屋様ヒアリング（2026/03/25）</p>
+    <p class="meta">作成日: 2026年3月26日</p>
+  </div>
+
+  <div class="mermaid-section">
+    <h2>業務フロー全体像</h2>
+    <pre class="mermaid">
+graph TD
+    A["① 各店舗\n勤怠締め（月末）"] --> B["② 各店舗 → 南村様\n勤怠表＋売上台帳を提出\n（翌月1日）"]
+    B --> C["③ 南村様 → 丹下様\nデータ引き渡し"]
+    C --> D["④ 丹下様\n300名全員分の計算表作成\n（〜10-11日）"]
+    D --> E["⑤ 南村様\nレビュー＋特殊計算"]
+    E --> F["⑥ 南村様 → 田中様\n給与明細データ送付"]
+    F --> G{"⑦ 田中様\n承認"}
+    G -->|承認| H["⑧ 守屋様\n全5社分の振込予約\n（13日）"]
+    G -->|差し戻し| E
+    H --> I["⑨ 南村様\nダブルチェック"]
+    I --> I2["⑩ 守屋様\nファム・UNプロジェクトの\n給与明細を作成"]
+    I2 --> J["⑪ 守屋様\n振込実行（15日）"]
+    J --> J2["⑫ 守屋様\n現金手渡し\nファム3名＋ホスト約150名"]
+
+    J --> K["SPJ\nPayPay銀行 / 約300名\nハーレム / セブンエイト\nプリンス / オス / 福岡の店舗"]
+    J --> L["M&A\nUFJ"]
+    J --> M["ロカ\n愛知銀行"]
+    J --> N["ファム\nPayPay銀行\n3名"]
+    J --> O["ユニラボ\nGMO\n7名"]
+
+    style A fill:#f9fafb,stroke:#6b7280
+    style B fill:#f9fafb,stroke:#6b7280
+    style C fill:#eff6ff,stroke:#2563eb
+    style D fill:#ecfdf5,stroke:#059669
+    style E fill:#eff6ff,stroke:#2563eb
+    style F fill:#eff6ff,stroke:#2563eb
+    style G fill:#fffbeb,stroke:#d97706
+    style H fill:#f5f3ff,stroke:#7c3aed
+    style I2 fill:#f5f3ff,stroke:#7c3aed
+    style J2 fill:#f5f3ff,stroke:#7c3aed
+    style I fill:#eff6ff,stroke:#2563eb
+    style J fill:#f5f3ff,stroke:#7c3aed
+    style K fill:#fff,stroke:#6b7280
+    style L fill:#fff,stroke:#6b7280
+    style M fill:#fff,stroke:#6b7280
+    style N fill:#fff,stroke:#6b7280
+    style O fill:#fff,stroke:#6b7280
+    </pre>
+  </div>
+
+  <!-- 1. M&Aグループの構成 -->
+  <details>
+    <summary>1. M&Aグループの構成</summary>
+    <div class="detail-content">
+    <table>
+      <thead>
+        <tr><th>#</th><th>会社名</th><th>銀行</th><th>対象</th><th>支払方法</th><th>備考</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1</td><td>SPJ<br><small style="color:#6b7280">ハーレム / セブンエイト / プリンス / オス / 福岡の店舗</small></td><td>PayPay銀行</td><td>約300名（ホスト部門）</td><td>90名振込 / 約150名手渡し</td><td>4店舗ごとに名前修正が必要。※4月分(5月支給)から全員振込に移行確定</td></tr>
+        <tr><td>2</td><td>M&A</td><td>UFJ</td><td>社員・業務委託</td><td>振込</td><td>-</td></tr>
+        <tr><td>3</td><td>ロカ</td><td>愛知銀行</td><td>-</td><td>振込</td><td>おおよそ15日</td></tr>
+        <tr><td>4</td><td>ファム</td><td>PayPay銀行</td><td>3名</td><td>全員手渡し</td><td>-</td></tr>
+        <tr><td>5</td><td>ユニラボ</td><td>GMO</td><td>7名</td><td>全員振込</td><td>-</td></tr>
+      </tbody>
+    </table>
+    <p class="note">※店舗一覧:<br>名古屋4店舗: ハーレム / セブンエイト / プリンス / オス（各店舗は法人でもある）<br>福岡: 1店舗（2店舗になる予定）</p>
+    </div>
+  </details>
+
+  <!-- 2. 3名の担当者と役割 -->
+  <details>
+    <summary>2. 3名の担当者と役割</summary>
+    <div class="detail-content">
+    <table>
+      <thead>
+        <tr><th>担当者</th><th>所属</th><th>主な役割</th><th>具体的な作業</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>南村様</td>
+          <td>M&A</td>
+          <td>給与計算統括</td>
+          <td>
+            ・店舗からデータ受領→丹下様に渡す<br>
+            ・丹下様の計算結果をレビュー<br>
+            ・役職者・入店3ヶ月以内等の特殊計算<br>
+            ・田中様へ給与明細送付<br>
+            ・田中様からのFB対応<br>
+            ・守屋様の振込予約をダブルチェック<br>
+            ・税理士からの質問対応（守屋様と分担）<br>
+            ・ロカの給与計算を最終チェック（現場→大橋様→南村様の流れ）<br>
+            ・ユニラボ・M&A社員の勤怠データをA-TAXに送付
+          </td>
+        </tr>
+        <tr>
+          <td>丹下様</td>
+          <td>M&A</td>
+          <td>給与計算・税務</td>
+          <td>
+            ・300名全員分の計算表作成（Excel自動計算）<br>
+            ・役職手当の手入力追加<br>
+            ・税務資料作成（通帳コピー/出納帳/貸付金/経費一覧）<br>
+            ・銀行出納帳入力<br>
+            ・源泉徴収集計表の作成→A-TAXに提出
+          </td>
+        </tr>
+        <tr>
+          <td>守屋様</td>
+          <td>M&A</td>
+          <td>振込統括</td>
+          <td>
+            ・全5社分の振込予約作成<br>
+            ・振込実行（ネットバンキング）<br>
+            ・ファム・UNプロジェクトの明細作成<br>
+            ・源泉徴収のペイジー支払い<br>
+            ・税理士からの質問対応（南村様と分担）<br>
+            ・給与訂正対応（レアケース）<br>
+            ・ファムの給与を自分で計算（前任者作成のExcel使用）<br>
+            ・M&A正社員の振込（税理士から受領したデータで実行）
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </details>
+
+  <!-- 3. 全体の流れ -->
+  <details>
+    <summary>3. 全体の流れ（会社横断）</summary>
+    <div class="detail-content">
+    <p class="note">※以下はホスト部門（SPJ）を中心としたフローです。M&A正社員・ユニラボは税理士（A-TAX）が給与計算を行うため、別フローとなります（セクション4参照）</p>
+    <table>
+      <thead>
+        <tr><th>Step</th><th>時期</th><th>担当者</th><th>作業内容</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1</td><td>月末</td><td>各店舗</td><td>勤怠締め</td></tr>
+        <tr><td>2</td><td>翌月1日</td><td>各店舗→南村様</td><td>勤怠表＋売上台帳を提出</td></tr>
+        <tr><td>3</td><td>1日〜</td><td>南村様→丹下様</td><td>データ受領→丹下様に渡す</td></tr>
+        <tr><td>4</td><td>〜10-11日</td><td>丹下様</td><td>300名全員分の計算表作成</td></tr>
+        <tr><td>5</td><td>〜10-11日</td><td>南村様</td><td>計算結果レビュー＋特殊計算</td></tr>
+        <tr><td>6</td><td>〜12-13日</td><td>南村様→田中様</td><td>給与明細データ送付→承認</td></tr>
+        <tr><td>7</td><td>13日</td><td>守屋様</td><td>全5社分の振込予約作成</td></tr>
+        <tr><td>8</td><td>13日</td><td>南村様</td><td>振込予約のダブルチェック</td></tr>
+        <tr><td>9</td><td>〜15日</td><td>守屋様</td><td>ファム・UNプロジェクトの給与明細を作成</td></tr>
+        <tr><td>10</td><td>15日</td><td>守屋様</td><td>振込実行（ネットバンキング）</td></tr>
+        <tr><td>11</td><td>15日以降</td><td>南村様＋丹下様</td><td>給与間違い判明時の報酬訂正（毎月15〜20件）→ 不足分は追加振込 / 過払い分は従業員から返金</td></tr>
+        <tr><td>12</td><td>15日</td><td>守屋様</td><td>現金手渡し（ファム3名＋ホスト約150名） ※4月分(5月支給)から全員振込に移行確定</td></tr>
+        <tr><td>13</td><td>15日〜25日</td><td>丹下様</td><td>税務資料作成＋銀行出納帳入力</td></tr>
+        <tr><td>14</td><td>〜月末</td><td>丹下様→A-TAX</td><td>源泉徴収集計表を税理士に提出</td></tr>
+        <tr><td>15</td><td>翌月10日</td><td>守屋様</td><td>源泉徴収をペイジーで支払い</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </details>
+
+  <!-- 4. 会社別の違い -->
+  <details>
+    <summary>4. 会社別の違い</summary>
+    <div class="detail-content">
+    <table>
+      <thead>
+        <tr><th>会社</th><th>給与計算</th><th>明細作成</th><th>振込</th><th>備考</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>SPJ（ホスト部門）<br><small style="color:#6b7280">ハーレム / セブンエイト / プリンス / オス / 福岡の店舗</small></td><td>丹下様（全員分）＋南村様（特殊）</td><td>南村様</td><td>守屋様（PayPay銀行）</td><td>約300名。約90名振込/約150名手渡し。4月分から全員振込に移行確定</td></tr>
+        <tr><td>M&A（正社員）</td><td>A-TAX（税理士が計算）</td><td>A-TAX</td><td>守屋様（UFJ）</td><td>税理士が計算→守屋様1人で振込</td></tr>
+        <tr><td>ロカ</td><td>現場スタッフ→大橋様チェック→南村様チェック</td><td>-</td><td>守屋様（愛知銀行）</td><td>おおよそ15日振込</td></tr>
+        <tr><td>ファム</td><td>守屋様（自分で計算。前任者作成のExcel使用）</td><td>守屋様</td><td>手渡し→振込移行予定</td><td>3名のみ</td></tr>
+        <tr><td>ユニラボ</td><td>南村様（勤怠管理）→A-TAX（計算）</td><td>A-TAX</td><td>守屋様（GMO）</td><td>7名。南村様が勤怠データをA-TAXに送付→明細作成→守屋様に送付</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </details>
+
+  <!-- 5. 関係者一覧 -->
+  <details>
+    <summary>5. 関係者一覧（承認・税務含む）</summary>
+    <div class="detail-content">
+    <table>
+      <thead>
+        <tr><th>人物</th><th>所属</th><th>役割</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>南村様</td><td>M&A</td><td>給与計算統括</td></tr>
+        <tr><td>丹下様</td><td>M&A</td><td>給与計算（レギュラー）・税務資料作成</td></tr>
+        <tr><td>守屋様</td><td>M&A</td><td>振込統括。田山様に引き継ぎ可能</td></tr>
+        <tr><td>田中様</td><td>役員</td><td>給与の最終承認者</td></tr>
+        <tr><td>田山様</td><td>UNプロジェクト（社員）＋ファム（業務委託兼任）</td><td>守屋様からの引き継ぎ候補。給与引き出し＋外注費の引き出しの2つの支払いがある</td></tr>
+        <tr><td>宮下様</td><td>ファム</td><td>ユニラボの仕事を担当</td></tr>
+        <tr><td>A-TAX総合事務所</td><td>外部税理士</td><td>ユニラボ・M&A社員の明細作成、源泉徴収計算、ペイジー発行</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </details>
+
+  <!-- 6. 現在の課題 -->
+  <details>
+    <summary>6. 現在の課題</summary>
+    <div class="detail-content">
+    <ul class="issues">
+      <li>売上計算システムの遅延で振込業務が直前になる</li>
+      <li>役職者の報酬訂正が頻発し、修正のたびにやり直し</li>
+      <li>残業が発生（守屋様証言）</li>
+      <li>振込後に給与間違い判明→不足分は追加振込 / 過払い分は従業員から返金（レアケース）</li>
+      <li>現金引き出し手続きは銀行営業日3日前に銀行へ出金予定を連絡する必要がある</li>
+    </ul>
+    </div>
+  </details>
+
+  <!-- 7. 未確認事項 -->
+  <details>
+    <summary>7. 未確認事項</summary>
+    <div class="detail-content">
+    <ul class="issues">
+      <li>ホスト部門のUFJ口座が使えなくなった経緯</li>
+      <li>守屋様からExcelサンプル提供予定</li>
+      <li>15日が祝日の場合の対応ルール（未決定）</li>
+      <li>4月分(5月支給)以降の全員振込移行の具体的な手順</li>
+      <li>各店舗（SPJ傘下）が法人として独立している構造の詳細（名ばかり社長、役員報酬＋通常報酬の二重支払いの有無）</li>
+      <li>ロカの正確な振込日ルール（「おおよそ15日」の詳細）</li>
+      <li>M&A正社員の給与計算の詳細フロー（税理士側の工程）</li>
+    </ul>
+    </div>
+  </details>
+
+  <!-- Footer -->
+  <div class="footer">
+    <p>情報ソース: 南村様・丹下様・守屋様ヒアリング（2026/03/25）</p>
+    <p>Team RYU 内部共有用資料 - 外部公開禁止</p>
+  </div>
+
+</div>
+</body>
+</html>
